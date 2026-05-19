@@ -1,0 +1,86 @@
+body {
+    font-family: Inter, Arial, sans-serif;
+}
+
+.landing-bg {
+    background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.18), transparent 22%),
+                radial-gradient(circle at bottom right, rgba(99, 102, 241, 0.18), transparent 18%),
+                linear-gradient(135deg, #020617 0%, #02071c 50%, #08112c 100%);
+}
+
+.landing-shell {
+    background: rgba(15, 23, 42, 0.92);
+}
+
+.digital-card {
+    border: 1px solid rgba(6, 182, 212, 0.25);
+    box-shadow: 0 24px 70px rgba(56, 189, 248, 0.12);
+}
+
+.panel-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.panel-row:last-child {
+    border-bottom: none;
+}
+
+.feature-chip {
+    background: rgba(255,255,255,0.05);
+    padding: 12px 14px;
+    border-radius: 18px;
+    text-align: center;
+}
+
+.cta-btn {
+    box-shadow: 0 18px 45px rgba(6, 182, 212, 0.28);
+}
+
+.feature-card {
+    background: rgba(15, 23, 42, 0.85);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 24px;
+    padding: 24px;
+    transition: transform 0.25s ease, background 0.25s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-6px);
+    background: rgba(15, 23, 42, 0.95);
+}
+
+#landingShell {
+    transition: transform 0.9s ease-in-out, opacity 0.9s ease-in-out;
+}
+
+.slide-up {
+    transform: translateY(-120vh);
+    opacity: 0;
+}
+
+.glass {
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+}
+
+.input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    background: rgba(0,0,0,0.5);
+    color: white;
+}
+
+.btn {
+    width: 100%;
+    padding: 10px;
+    background: green;
+    border-radius: 10px;
+    margin-top: 10px;
+}

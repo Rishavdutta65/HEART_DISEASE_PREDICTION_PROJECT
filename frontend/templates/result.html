@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Heart Disease Prediction System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        background: '#090e17',
+                        surface: '#0f172a',
+                        surfaceBorder: '#1e293b',
+                        primary: '#1d4ed8',
+                        textSecondary: '#94a3b8',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0a0f1f, #111c3a);
+            color: white;
+        }
+
+        .sidebar-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 8px; color: #cbd5e1; cursor: pointer; transition: all 0.2s; }
+        .sidebar-item:hover { background-color: rgba(255,255,255,0.05); color: white; }
+        .sidebar-item.active { background-color: #1e3a8a; color: white; border-left: 3px solid #3b82f6; }
+
+        /* Main */
+        .main {
+            margin-left: 240px;
+            padding: 20px;
+        }
+
+        /* Cards */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            padding: 20px;
+            border-radius: 15px;
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+
+        .high {
+            color: #ff4d4d;
+        }
+
+        .normal {
+            color: #00ff9d;
+        }
+
+        /* Sections */
+        .section {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Grid Layout */
+        .grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+        }
+
+        /* Chart Size */
+        .chart-container {
+            width: 100%;
+            max-width: 600px;
+            height: 280px;
+            margin: auto;
+        }
+
+        /* Button */
+        button {
+            padding: 12px 20px;
+            background: linear-gradient(45deg, #00d4ff, #007bff);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+        }
+
+        /* Progress Bar */
+        .progress {
+            height: 10px;
+            background: #222;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .progress div {
+            height: 100%;
+            background: linear-gradient(to right, green, yellow, red);
+        }
+    </style>
+
+</head>
+
+<body class="flex h-screen overflow-hidden">
+    <!-- Sidebar -->
+    <aside class="w-64 border-r border-surfaceBorder bg-surface flex flex-col shrink-0">
+        <div class="h-20 flex items-center px-6 border-b border-surfaceBorder">
+            <div class="w-10 h-10 bg-red-600 rounded-lg flex items-center justify-center mr-3 text-white shadow-[0_0_15px_rgba(220,38,38,0.4)]">
+                <i data-lucide="heart-pulse" class="w-7 h-7 fill-white"></i>
+            </div>
+            <div>
+                <h1 class="text-sm font-bold leading-tight">Heart Disease <br> Prediction System</h1>
+                <p class="text-[9px] text-textSecondary uppercase tracking-tighter">AI-Powered Health Analysis</p>
+            </div>
+        </div>
+        
+        <div class="flex-1 overflow-y-auto py-6 px-4 space-y-1">
+            <div class="sidebar-item" onclick="window.location.href='/dashboard'">
+                <i data-lucide="layout-dashboard" class="w-5 h-5"></i> Dashboard
+            </div>
+            <div class="sidebar-item" onclick="window.location.href='/dashboard'">
+                <i data-lucide="user-plus" class="w-5 h-5"></i> Patient Input
+            </div>
+            <div class="sidebar-item active">
+                <i data-lucide="bar-chart-2" class="w-5 h-5"></i> Prediction
+            </div>
+            <div class="sidebar-item" onclick="window.location.href='/reports'">
+                <i data-lucide="file-text" class="w-5 h-5"></i> Reports
+            </div>
+            <div class="sidebar-item">
+                <i data-lucide="help-circle" class="w-5 h-5"></i> Help & Support
+            </div>
+        </div>
+
+        <div class="p-4 border-t border-surfaceBorder">
+            <div class="flex items-center gap-3 p-3 bg-background/50 rounded-xl border border-surfaceBorder/50">
+                <div class="w-10 h-10 bg-blue-600/20 rounded-full flex items-center justify-center border border-blue-500/30">
+                    <i data-lucide="user" class="w-6 h-6 text-blue-400"></i>
+                </div>
+                <div>
+                    <p class="text-sm font-bold text-white">Admin User</p>
+                    <p class="text-[10px] text-textSecondary uppercase tracking-widest">ID: HDP001</p>
+                    <div class="flex items-center gap-1.5 mt-1">
+                        <div class="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
+                        <span class="text-[9px] text-green-500 font-bold uppercase tracking-tighter">Online</span>
+                    </div>
+                </div>
+            </div>
+            <p class="text-[9px] text-textSecondary text-center mt-3 opacity-50 tracking-tighter">v1.0.0</p>
+        </div>
+    </aside>
+
+    <!-- Main -->
+    <div class="main flex-1 overflow-y-auto" style="margin-left: 0;">
+        <h1>🚀 Heart Disease Prediction System</h1>
+
+        <!-- Top Cards -->
+        <div class="cards">
+            <div class="card">
+                <h3>Prediction</h3>
+                <p class="{% if prediction == 1 %}high{% else %}normal{% endif %}">{{ 'HIGH RISK' if prediction == 1 else 'LOW RISK' }}</p>
+            </div>
+
+            <div class="card">
+                <h3>Risk Score</h3>
+                <p>{{ (probability * 100)|round(0) }}%</p>
+                <div class="progress">
+                    <div id="risk-progress-bar"></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Heart Rate</h3>
+                <p class="normal">{{ input_data.thalach }} bpm</p>
+            </div>
+
+            <div class="card">
+                <h3>Blood Pressure</h3>
+                <p class="normal">{{ input_data.trestbps }} / 80</p>
+            </div>
+        </div>
+
+        <!-- Grid -->
+        <div class="grid">
+            <!-- LEFT SIDE -->
+            <div>
+                <!-- Risk Trend -->
+                <div class="section">
+                    <h2>📈 Risk Trend</h2>
+                    <div class="chart-container">
+                        <canvas id="lineChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Probability -->
+                <div class="section">
+                    <h2>🥧 Disease Probability</h2>
+                    <div class="chart-container">
+                        <canvas id="pieChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Multi Graph -->
+                <div class="section">
+                    <h2>📉 Health Metrics</h2>
+                    <div class="chart-container">
+                        <canvas id="multiChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT SIDE -->
+            <div>
+                <div class="section">
+                    <h2>🧾 Patient Data</h2>
+                    <ul>
+                        <li>Age: {{ input_data.age }}</li>
+                        <li>Cholesterol: {{ input_data.chol }} ({{ 'High' if input_data.chol|float > 200 else 'Normal' }})</li>
+                        <li>Chest Pain: {{ 'Typical Angina' if input_data.cp|int == 0 else 'Atypical Angina' if input_data.cp|int == 1 else 'Non-anginal Pain' if input_data.cp|int == 2 else 'Asymptomatic' }}</li>
+                        <li>Max HR: {{ input_data.thalach }}</li>
+                    </ul>
+                </div>
+
+                <div class="section">
+                    <h2>💡 Recommendations</h2>
+                    <ul>
+                        {% if prediction == 1 %}
+                        <li>Consult doctor immediately</li>
+                        {% endif %}
+                        <li>Improve diet</li>
+                        <li>Regular exercise</li>
+                    </ul>
+                    <button onclick="downloadReport()" class="w-full mt-6 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-xl shadow-lg shadow-blue-900/20 flex items-center justify-center gap-3 transition-all transform hover:scale-[1.02] active:scale-[0.98]">
+                        <i data-lucide="download-cloud" class="w-5 h-5"></i>
+                        <span>Download Health Report</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script id="heart-data" type="application/json">
+        {{ {
+            "prediction": prediction,
+            "probability": probability,
+            "accuracy": accuracy,
+            "input_data": input_data
+        } | tojson }}
+    </script>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        const heartData = JSON.parse(document.getElementById("heart-data").textContent);
+        const prediction = heartData.prediction;
+        const probability = heartData.probability;
+        const accuracy = heartData.accuracy;
+        const inputData = heartData.input_data;
+
+        // Set progress bar width
+        document.getElementById("risk-progress-bar").style.width = Math.round(probability * 100) + "%";
+
+        async function downloadReport() {
+            const response = await fetch('/download', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    prediction: prediction === 1 ? 'High Risk' : 'Low Risk',
+                    accuracy: accuracy + "%",
+                    score: Math.round(probability * 100) + "%",
+                    suggestion: prediction === 1 ? 'Consult doctor immediately, improve diet, and exercise.' : 'Maintain a healthy diet and regular exercise.'
+                })
+            });
+
+            if (response.ok) {
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'Heart_Disease_Report.pdf';
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                document.body.removeChild(a);
+            } else {
+                const errorData = await response.json();
+                alert('Failed to generate report: ' + (errorData.error || 'Unknown error'));
+            }
+        }
+
+        // LINE CHART
+        const ctx1 = document.getElementById("lineChart").getContext("2d");
+        const riskColor = prediction === 0 ? "#00ff9d" : "#ff4d4d";
+        const gradient = ctx1.createLinearGradient(0, 0, 0, 300);
+        if (prediction === 0) {
+            gradient.addColorStop(0, "rgba(0,255,157,0.6)");
+            gradient.addColorStop(1, "rgba(0,255,157,0)");
+        } else {
+            gradient.addColorStop(0, "rgba(255,77,77,0.6)");
+            gradient.addColorStop(1, "rgba(255,77,77,0)");
+        }
+
+        const trendData = [];
+        for (let i = 0; i < 9; i++) {
+            trendData.push(Math.max(0, Math.min(1, probability + (Math.random() * 0.2 - 0.1))));
+        }
+        trendData.push(probability);
+
+        new Chart(ctx1, {
+            type: "line",
+            data: {
+                labels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
+                datasets: [{
+                    label: "Risk Score",
+                    data: trendData,
+                    borderColor: riskColor,
+                    backgroundColor: gradient,
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                plugins: { legend: { labels: { color: "white" } } },
+                scales: {
+                    x: { ticks: { color: "white" } },
+                    y: { ticks: { color: "white" }, min: 0, max: 1 }
+                }
+            }
+        });
+
+        // PIE
+        new Chart(document.getElementById("pieChart"), {
+            type: "doughnut",
+            data: {
+                labels: ["Disease", "No Disease"],
+                datasets: [{
+                    data: [Math.round(probability * 100), Math.round((1 - probability) * 100)],
+                    backgroundColor: ["#ff4d4d", "#00ff9d"]
+                }]
+            },
+            options: {
+                cutout: "65%",
+                plugins: { legend: { labels: { color: "white" } } }
+            }
+        });
+
+        // MULTI
+        new Chart(document.getElementById("multiChart"), {
+            type: "line",
+            data: {
+                labels: ["1", "2", "3", "4", "5", "6", "7"],
+                datasets: [
+                    {
+                        label: "Heart Rate",
+                        data: [70, 72, 75, 73, 74, 76, inputData.thalach],
+                        borderColor: "#00ff9d",
+                        tension: 0.4
+                    },
+                    {
+                        label: "BP",
+                        data: [120, 122, 125, 123, 121, 124, inputData.trestbps],
+                        borderColor: "#00d4ff",
+                        tension: 0.4
+                    }
+                ]
+            },
+            options: {
+                plugins: { legend: { labels: { color: "white" } } },
+                scales: {
+                    x: { ticks: { color: "white" } },
+                    y: { ticks: { color: "white" } }
+                }
+            }
+        });
+    </script>
+    <!-- Chat Widget -->
+    <div id="chat-widget" class="fixed bottom-6 right-6 z-50 flex flex-col items-end">
+        <!-- Chat Window -->
+        <div id="chat-window" class="hidden w-80 sm:w-96 bg-surface border border-surfaceBorder rounded-2xl shadow-2xl overflow-hidden flex flex-col mb-4 transition-all transform origin-bottom-right">
+            <!-- Header -->
+            <div class="bg-primary p-4 flex justify-between items-center text-white">
+                <div class="flex items-center gap-2">
+                    <i data-lucide="bot" class="w-5 h-5"></i>
+                    <span class="font-bold">Heart AI Assistant</span>
+                </div>
+                <button onclick="toggleChat()" class="text-white hover:text-gray-200 transition">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            <!-- Messages Area -->
+            <div id="chat-messages" class="h-80 p-4 overflow-y-auto flex flex-col gap-3 bg-surface text-sm scroll-smooth">
+                <!-- Welcome Message -->
+                <div class="flex gap-2 w-full">
+                    <div class="w-8 h-8 rounded-full bg-primary/20 border border-primary/30 flex items-center justify-center shrink-0">
+                        <i data-lucide="bot" class="w-4 h-4 text-primary"></i>
+                    </div>
+                    <div class="bg-surfaceBorder text-white p-3 rounded-2xl rounded-tl-none max-w-[80%] leading-relaxed">
+                        Hello! I'm your Heart AI Assistant powered by Google Gemini. I can answer questions about heart disease or this application. How can I help you today?
+                    </div>
+                </div>
+            </div>
+            <!-- Input Area -->
+            <div class="p-3 border-t border-surfaceBorder bg-surface flex gap-2">
+                <input id="chat-input" type="text" placeholder="Type your message..." class="flex-1 bg-background border border-surfaceBorder rounded-xl px-4 py-2 text-white focus:outline-none focus:border-primary transition" onkeypress="handleChatKeyPress(event)">
+                <button onclick="sendChatMessage()" class="bg-primary hover:bg-primaryHover text-white p-2 rounded-xl transition flex items-center justify-center w-10 shrink-0">
+                    <i data-lucide="send" class="w-4 h-4"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Toggle Button -->
+        <button id="chat-toggle" onclick="toggleChat()" class="w-14 h-14 bg-primary hover:bg-primaryHover rounded-full shadow-[0_0_20px_rgba(29,78,216,0.4)] text-white transition-transform hover:scale-110 relative p-0 block">
+            <i data-lucide="bot" class="w-7 h-7 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></i>
+            <span class="absolute top-0 right-0 w-3 h-3 bg-red-500 border-2 border-surface rounded-full animate-pulse"></span>
+        </button>
+    </div>
+
+    <script>
+        // Chatbot logic
+        function toggleChat() {
+            const chatWindow = document.getElementById('chat-window');
+            if (chatWindow.classList.contains('hidden')) {
+                chatWindow.classList.remove('hidden');
+                document.getElementById('chat-input').focus();
+            } else {
+                chatWindow.classList.add('hidden');
+            }
+        }
+
+        function handleChatKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendChatMessage();
+            }
+        }
+
+        function appendMessage(sender, text) {
+            const messagesDiv = document.getElementById('chat-messages');
+            const messageEl = document.createElement('div');
+            messageEl.className = 'flex gap-2 w-full ' + (sender === 'user' ? 'justify-end' : '');
+            
+            let content = '';
+            
+            // Format text basic markdown (bold)
+            const formattedText = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
+
+            if (sender === 'user') {
+                content = `
+                    <div class="bg-primary text-white p-3 rounded-2xl rounded-tr-none max-w-[80%] break-words leading-relaxed">
+                        ${formattedText}
+                    </div>
+                `;
+            } else {
+                content = `
+                    <div class="w-8 h-8 rounded-full bg-primary/20 border border-primary/30 flex items-center justify-center shrink-0">
+                        <i data-lucide="bot" class="w-4 h-4 text-primary"></i>
+                    </div>
+                    <div class="bg-surfaceBorder text-white p-3 rounded-2xl rounded-tl-none max-w-[80%] break-words leading-relaxed">
+                        ${formattedText}
+                    </div>
+                `;
+            }
+            
+            messageEl.innerHTML = content;
+            messagesDiv.appendChild(messageEl);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            lucide.createIcons();
+        }
+
+        async function sendChatMessage() {
+            const inputEl = document.getElementById('chat-input');
+            const message = inputEl.value.trim();
+            
+            if (!message) return;
+            
+            // Add user message to UI
+            appendMessage('user', message);
+            inputEl.value = '';
+            
+            // Add loading indicator
+            const messagesDiv = document.getElementById('chat-messages');
+            const loadingId = 'loading-' + Date.now();
+            const loadingEl = document.createElement('div');
+            loadingEl.id = loadingId;
+            loadingEl.className = 'flex gap-2 w-full';
+            loadingEl.innerHTML = `
+                <div class="w-8 h-8 rounded-full bg-primary/20 border border-primary/30 flex items-center justify-center shrink-0">
+                    <i data-lucide="bot" class="w-4 h-4 text-primary"></i>
+                </div>
+                <div class="bg-surfaceBorder text-white p-3 rounded-2xl rounded-tl-none flex items-center gap-1 h-[44px]">
+                    <div class="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce"></div>
+                    <div class="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+                    <div class="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.4s"></div>
+                </div>
+            `;
+            messagesDiv.appendChild(loadingEl);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            lucide.createIcons();
+
+            try {
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: message })
+                });
+                
+                const data = await response.json();
+                
+                // Remove loading
+                const loader = document.getElementById(loadingId);
+                if(loader) loader.remove();
+                
+                // Add bot response
+                if (data.response) {
+                    appendMessage('bot', data.response);
+                } else {
+                    appendMessage('bot', "Sorry, I encountered an error. Please try again.");
+                }
+            } catch (error) {
+                const loader = document.getElementById(loadingId);
+                if(loader) loader.remove();
+                appendMessage('bot', "Network error. Please make sure the server is running.");
+            }
+        }
+
+        // Initialize icons rapidly for newly added widget DOM
+        lucide.createIcons();
+    </script>
+</body>
+</html>

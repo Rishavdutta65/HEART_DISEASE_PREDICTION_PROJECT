@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Prediction History - Heart AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        background: '#090e17',
+                        surface: '#0f172a',
+                        surfaceBorder: '#1e293b',
+                        primary: '#1d4ed8',
+                        textSecondary: '#94a3b8',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0a0f1f, #111c3a);
+            color: white;
+        }
+
+        .sidebar-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 8px; color: #cbd5e1; cursor: pointer; transition: all 0.2s; }
+        .sidebar-item:hover { background-color: rgba(255,255,255,0.05); color: white; }
+        .sidebar-item.active { background-color: #1e3a8a; color: white; border-left: 3px solid #3b82f6; }
+
+        /* Main */
+        .main {
+            padding: 20px;
+        }
+
+        /* Table */
+        .section {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        th { color: #00d4ff; }
+
+        .high { color: #ff4d4d; font-weight: bold; }
+        .normal { color: #00ff9d; font-weight: bold; }
+
+        button {
+            padding: 8px 15px;
+            background: linear-gradient(45deg, #00d4ff, #007bff);
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        button:hover { opacity: 0.8; }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden">
+    <!-- Sidebar -->
+    <aside class="w-64 border-r border-surfaceBorder bg-surface flex flex-col shrink-0">
+        <div class="h-20 flex items-center px-6 border-b border-surfaceBorder">
+            <div class="w-10 h-10 bg-red-600 rounded-lg flex items-center justify-center mr-3 text-white shadow-[0_0_15px_rgba(220,38,38,0.4)]">
+                <i data-lucide="heart-pulse" class="w-7 h-7 fill-white"></i>
+            </div>
+            <div>
+                <h1 class="text-sm font-bold leading-tight">Heart Disease <br> Prediction System</h1>
+                <p class="text-[9px] text-textSecondary uppercase tracking-tighter">AI-Powered Health Analysis</p>
+            </div>
+        </div>
+        
+        <div class="flex-1 overflow-y-auto py-6 px-4 space-y-1">
+            <div class="sidebar-item" onclick="window.location.href='/dashboard'">
+                <i data-lucide="layout-dashboard" class="w-5 h-5"></i> Dashboard
+            </div>
+            <div class="sidebar-item" onclick="window.location.href='/dashboard'">
+                <i data-lucide="user-plus" class="w-5 h-5"></i> Patient Input
+            </div>
+            <div class="sidebar-item" onclick="window.location.href='/result'">
+                <i data-lucide="bar-chart-2" class="w-5 h-5"></i> Prediction
+            </div>
+            <div class="sidebar-item active">
+                <i data-lucide="file-text" class="w-5 h-5"></i> Reports
+            </div>
+            <div class="sidebar-item">
+                <i data-lucide="help-circle" class="w-5 h-5"></i> Help & Support
+            </div>
+        </div>
+
+        <div class="p-4 border-t border-surfaceBorder">
+            <div class="flex items-center gap-3 p-3 bg-background/50 rounded-xl border border-surfaceBorder/50">
+                <div class="w-10 h-10 bg-blue-600/20 rounded-full flex items-center justify-center border border-blue-500/30">
+                    <i data-lucide="user" class="w-6 h-6 text-blue-400"></i>
+                </div>
+                <div>
+                    <p class="text-sm font-bold text-white">Admin User</p>
+                    <p class="text-[10px] text-textSecondary uppercase tracking-widest">ID: HDP001</p>
+                    <div class="flex items-center gap-1.5 mt-1">
+                        <div class="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
+                        <span class="text-[9px] text-green-500 font-bold uppercase tracking-tighter">Online</span>
+                    </div>
+                </div>
+            </div>
+            <p class="text-[9px] text-textSecondary text-center mt-3 opacity-50 tracking-tighter">v1.0.0</p>
+        </div>
+    </aside>
+
+    <div class="main flex-1 overflow-y-auto">
+        <h1>📊 Prediction History</h1>
+        <div class="section">
+            {% if history %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date & Time</th>
+                        <th>Age</th>
+                        <th>Result</th>
+                        <th>Risk Score</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for report in history %}
+                    <tr>
+                        <td>{{ report.timestamp }}</td>
+                        <td>{{ report.input_data.age }}</td>
+                        <td class="{{ 'high' if report.prediction == 1 else 'normal' }}">
+                            {{ 'HIGH RISK' if report.prediction == 1 else 'LOW RISK' }}
+                        </td>
+                        <td>{{ (report.probability * 100)|round(0) }}%</td>
+                        <td>
+                            <button data-index="{{ loop.index0 }}" onclick="downloadSpecificReport(this.dataset.index)" class="bg-blue-600/20 hover:bg-blue-600 text-blue-400 hover:text-white border border-blue-500/30 px-4 py-2 rounded-lg text-xs flex items-center gap-2 transition-all">
+                                <i data-lucide="download" class="w-4 h-4"></i> PDF
+                            </button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p>No reports found. Go to Dashboard to make a prediction.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <script id="history-data" type="application/json">
+        {{ history | tojson | safe }}
+    </script>
+
+    <script>
+        lucide.createIcons();
+        const historyData = JSON.parse(document.getElementById('history-data').textContent);
+
+        async function downloadSpecificReport(index) {
+            const report = historyData[index];
+            const response = await fetch('/download', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    prediction: report.prediction === 1 ? 'High Risk' : 'Low Risk',
+                    accuracy: report.accuracy + "%",
+                    score: Math.round(report.probability * 100) + "%",
+                    suggestion: report.prediction === 1 ? 'Consult doctor immediately.' : 'Maintain healthy habits.'
+                })
+            });
+
+            if (response.ok) {
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `Heart_Report_${report.timestamp.replace(/[: ]/g, '_')}.pdf`;
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                document.body.removeChild(a);
+            } else {
+                alert('Failed to generate report.');
+            }
+        }
+    </script>
+</body>
+</html>
