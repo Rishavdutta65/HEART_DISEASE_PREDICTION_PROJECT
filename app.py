@@ -25,42 +25,55 @@ def home():
 
 @app.route('/predict', methods=['POST'])
 def predict_heart():
-    data = request.json
+    try:
+        data = request.json
+        print("Received prediction request:", data)
 
-    input_data = [
-        float(data['age']), float(data['sex']), float(data['cp']),
-        float(data['trestbps']), float(data['chol']), float(data['fbs']),
-        float(data['restecg']), float(data['thalach']), float(data['exang']),
-        float(data['oldpeak']), float(data['slope']), float(data['ca']),
-        float(data['thal'])
-    ]
+        input_data = [
+            float(data['age']), float(data['sex']), float(data['cp']),
+            float(data['trestbps']), float(data['chol']), float(data['fbs']),
+            float(data['restecg']), float(data['thalach']), float(data['exang']),
+            float(data['oldpeak']), float(data['slope']), float(data['ca']),
+            float(data['thal'])
+        ]
 
-    result, acc, prob, importances = predict(input_data)
+        result, acc, prob, importances = predict(input_data)
+        print("Prediction successful:", result)
 
-    prediction_data = {
-        "prediction": int(result),
-        "accuracy": round(acc * 100, 2),
-        "probability": round(prob, 4),
-        "feature_importances": importances,
-        "input_data": data
-    }
+        prediction_data = {
+            "prediction": int(result),
+            "accuracy": round(acc * 100, 2),
+            "probability": round(prob, 4),
+            "feature_importances": importances,
+            "input_data": data
+        }
 
-    session['prediction_data'] = prediction_data
-    
-    # Store in history
-    if 'history' not in session:
-        session['history'] = []
-    
-    # Add timestamp to the data
-    from datetime import datetime
-    history_item = prediction_data.copy()
-    history_item['timestamp'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    
-    # Keep only last 10 reports to avoid session size limits
-    session['history'] = ([history_item] + session['history'])[:10]
-    session.modified = True
+        session['prediction_data'] = prediction_data
+        
+        # Store in history
+        if 'history' not in session:
+            session['history'] = []
+        
+        # Add timestamp to the data
+        from datetime import datetime
+        history_item = prediction_data.copy()
+        history_item['timestamp'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        
+        # Keep only last 10 reports to avoid session size limits
+        session['history'] = ([history_item] + session['history'])[:10]
+        session.modified = True
 
-    return jsonify({"redirect": "/result"})
+        return jsonify({"redirect": "/result"})
+    except KeyError as e:
+        print("Missing key in request:", e)
+        return jsonify({"error": f"Missing required field: {str(e)}"}), 400
+    except ValueError as e:
+        print("Invalid value in request:", e)
+        return jsonify({"error": "Invalid value provided. Please ensure all inputs are numbers."}), 400
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return jsonify({"error": "An internal error occurred during prediction."}), 500
 
 @app.route('/reports')
 def reports_page():

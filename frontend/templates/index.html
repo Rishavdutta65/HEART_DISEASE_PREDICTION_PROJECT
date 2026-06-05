@@ -78,7 +78,7 @@
             <div class="sidebar-item" onclick="window.location.href='/reports'">
                 <i data-lucide="file-text" class="w-5 h-5"></i> Reports
             </div>
-            <div class="sidebar-item">
+            <div class="sidebar-item" onclick="openHelpModal()">
                 <i data-lucide="help-circle" class="w-5 h-5"></i> Help & Support
             </div>
         </div>
@@ -459,24 +459,80 @@
 
                 <!-- Right Section -->
                 <div class="col-span-1 space-y-6">
-                    <!-- About Attributes Card -->
+                    <!-- HEART DISEASE PREDICTION INPUT GUIDE -->
                     <div class="panel">
-                        <h3 class="font-bold mb-2">About the Attributes</h3>
-                        <p class="text-sm text-textSecondary mb-4">These are the medical attributes used for heart disease prediction.</p>
-                        <div class="text-xs text-textSecondary space-y-2">
-                            <p>1. Age - Age of the patient (Min: 29.0, Max: 77.0)</p>
-                            <p>2. Sex - Male (1) / Female (0)</p>
-                            <p>3. cp - Chest pain type (0-3)</p>
-                            <p>4. trestbps - Resting blood pressure (Min: 94.0, Max: 200.0)</p>
-                            <p>5. chol - Serum cholesterol in mg/dl (Min: 126.0, Max: 564.0)</p>
-                            <p>6. fbs - Fasting blood sugar &gt; 120 mg/dl (1=True; 0=False)</p>
-                            <p>7. restecg - Resting ECG results (0-2)</p>
-                            <p>8. thalach - Maximum heart rate achieved (Min: 71.0, Max: 202.0)</p>
-                            <p>9. exang - Exercise induced angina (1=Yes; 0=No)</p>
-                            <p>10. oldpeak - ST depression induced by exercise (Min: 0.0, Max: 6.2)</p>
-                            <p>11. slope - Slope of peak exercise ST segment (0-2)</p>
-                            <p>12. ca - Number of major vessels colored by fluoroscopy (0-3)</p>
-                            <p>13. thal - Thalassemia (1=Fixed; 2=Normal; 3=Reversible)</p>
+                        <h3 class="font-bold mb-2 text-blue-400 text-sm uppercase tracking-wider">HEART DISEASE PREDICTION INPUT GUIDE</h3>
+                        <p class="text-xs text-textSecondary mb-4 italic">Please enter values within the recommended ranges.</p>
+                        <div class="text-xs text-textSecondary space-y-4 max-h-[450px] overflow-y-auto pr-1">
+                            <div>
+                                <strong class="text-white block">1. Age</strong>
+                                <p>Your age in years.</p>
+                                <p class="text-[11px] text-cyan-400">Range: 29 – 77 | Example: 45</p>
+                            </div>
+                            <div>
+                                <strong class="text-white block">2. Gender</strong>
+                                <p>Male = 1<br>Female = 0</p>
+                            </div>
+                            <div>
+                                <strong class="text-white block">3. Chest Pain Type (cp)</strong>
+                                <p>0 = Typical chest pain<br>1 = Atypical chest pain<br>2 = Non-cardiac chest pain<br>3 = No chest pain symptoms</p>
+                            </div>
+                            <div>
+                                <strong class="text-white block">4. Resting Blood Pressure (trestbps)</strong>
+                                <p>Blood pressure while resting.</p>
+                                <p class="text-[11px] text-cyan-400">Range: 94 – 200 mmHg | Example: 120</p>
+                            </div>
+                            <div>
+                                <strong class="text-white block">5. Cholesterol (chol)</strong>
+                                <p>Cholesterol level in blood.</p>
+                                <p class="text-[11px] text-cyan-400">Range: 126 – 564 mg/dL | Example: 200</p>
+                            </div>
+                            <div>
+                                <strong class="text-white block">6. Fasting Blood Sugar (fbs)</strong>
+                                <p>Blood sugar after fasting.</p>
+                                <p>0 = 120 mg/dL or below<br>1 = Above 120 mg/dL</p>
+                            </div>
+                            <div>
+                                <strong class="text-white block">7. Resting ECG (restecg)</strong>
+                                <p>Heart electrical activity result.</p>
+                                <p>0 = Normal<br>1 = Minor abnormality<br>2 = Major abnormality</p>
+                            </div>
+                            <div>
+                                <strong class="text-white block">8. Maximum Heart Rate (thalach)</strong>
+                                <p>Highest heart rate during exercise.</p>
+                                <p class="text-[11px] text-cyan-400">Range: 71 – 202 bpm | Example: 150</p>
+                            </div>
+                            <div>
+                                <strong class="text-white block">9. Exercise Angina (exang)</strong>
+                                <p>Chest pain during exercise.</p>
+                                <p>0 = No<br>1 = Yes</p>
+                            </div>
+                            <div>
+                                <strong class="text-white block">10. ST Depression (oldpeak)</strong>
+                                <p>Heart stress measurement.</p>
+                                <p class="text-[11px] text-cyan-400">Range: 0.0 – 6.2 | Example: 1.5</p>
+                            </div>
+                            <div>
+                                <strong class="text-white block">11. ST Segment Slope (slope)</strong>
+                                <p>ECG pattern during exercise.</p>
+                                <p>0 = Upsloping<br>1 = Flat<br>2 = Downsloping</p>
+                            </div>
+                            <div>
+                                <strong class="text-white block">12. Number of Major Vessels (ca)</strong>
+                                <p>Number of visible blood vessels.</p>
+                                <p class="text-[11px] text-cyan-400">Range: 0 – 3</p>
+                            </div>
+                            <div>
+                                <strong class="text-white block">13. Thalassemia (thal)</strong>
+                                <p>Blood disorder test result.</p>
+                                <p>1 = Fixed Defect<br>2 = Normal<br>3 = Reversible Defect</p>
+                            </div>
+                            <div class="pt-2 border-t border-surfaceBorder text-[10px] text-yellow-500/80 space-y-1">
+                                <strong class="text-yellow-500 block uppercase tracking-wider">IMPORTANT:</strong>
+                                <p>• Enter values only within the specified ranges.</p>
+                                <p>• Invalid values may produce inaccurate predictions.</p>
+                                <p>• This tool provides an AI-based risk estimate and is not a substitute for professional medical advice.</p>
+                            </div>
                         </div>
                     </div>
                     
@@ -843,5 +899,770 @@
             document.getElementById('sum-low').textContent = Math.max(0, data.probability - 0.2).toFixed(2);
         }
     </script>
+<!-- Help & Support Modal Self-Contained Block -->
+<style>
+    /* === Medical Card Focus Interaction === */
+    .medical-card {
+        cursor: pointer;
+        transform: scale(1);
+        transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+                    box-shadow 0.35s ease,
+                    opacity 0.35s ease,
+                    border-color 0.35s ease;
+        position: relative;
+        z-index: 1;
+    }
+    .medical-card.active-card {
+        transform: scale(1.08) !important;
+        z-index: 20 !important;
+        box-shadow: 0 0 0 2px rgba(99, 202, 255, 0.50),
+                    0 8px 45px rgba(99, 202, 255, 0.22),
+                    0 0 70px rgba(99, 202, 255, 0.10) !important;
+    }
+    .medical-cards-container.has-active .medical-card:not(.active-card) {
+        opacity: 0.35;
+        transform: scale(0.97);
+    }
+    @media (max-width: 768px) {
+        .medical-card.active-card {
+            transform: scale(1.04) !important;
+        }
+    }
+</style>
+
+<div id="helpModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 h-screen w-screen overflow-y-auto">
+    <div class="bg-surface border border-surfaceBorder rounded-2xl w-full max-w-4xl min-h-[50vh] max-h-[90vh] flex flex-col shadow-2xl overflow-hidden relative text-slate-300">
+        
+        <!-- Modal Header -->
+        <div class="flex items-center justify-between p-6 border-b border-surfaceBorder bg-surface/90 sticky top-0 z-10 shrink-0">
+            <div class="flex items-center gap-3">
+                <div class="p-2 bg-blue-500/10 rounded-lg">
+                    <i data-lucide="help-circle" class="w-6 h-6 text-blue-500"></i>
+                </div>
+                <div>
+                    <h2 class="text-xl font-bold text-white">Help & Support</h2>
+                    <p class="text-xs text-textSecondary uppercase tracking-widest mt-1">System Guide & Documentation</p>
+                </div>
+            </div>
+            <button onclick="closeHelpModal()" class="p-2 hover:bg-surfaceBorder rounded-lg transition-colors text-textSecondary hover:text-white">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+        </div>
+
+        <!-- Modal Content (Scrollable) -->
+        <div class="p-6 md:p-8 space-y-10 overflow-y-auto w-full">
+            
+            <!-- What this system does -->
+            <section>
+                <h3 class="text-lg font-bold text-white mb-3 flex items-center gap-2">
+                    <i data-lucide="info" class="w-5 h-5 text-indigo-400"></i> What This System Does
+                </h3>
+                <p class="leading-relaxed bg-surfaceBorder/30 p-4 rounded-xl border border-surfaceBorder text-sm">
+                    The Heart Disease Prediction System leverages advanced machine learning models to predict a patient's likelihood of detecting heart disease. By inputting 13 key medical attributes, the engine instantly computes a risk score and provides intelligent insights, allowing for quicker and more precise health analysis.
+                </p>
+            </section>
+
+            <!-- How to use -->
+            <section>
+                <h3 class="text-lg font-bold text-white mb-3 flex items-center gap-2">
+                    <i data-lucide="play-circle" class="w-5 h-5 text-green-400"></i> How To Use The Predictor
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="flex gap-3 bg-surfaceBorder/20 p-4 rounded-xl">
+                        <span class="font-bold text-lg text-blue-500">1</span>
+                        <div>
+                            <h4 class="font-bold text-white mb-1">Enter Details</h4>
+                            <p class="text-sm">Navigate to the <strong>Patient Input</strong> tab and fill all the medical attributes accurately.</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-3 bg-surfaceBorder/20 p-4 rounded-xl">
+                        <span class="font-bold text-lg text-blue-500">2</span>
+                        <div>
+                            <h4 class="font-bold text-white mb-1">Click Predict</h4>
+                            <p class="text-sm">Hit the <strong>Predict Now</strong> button to send data securely to our AI model.</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-3 bg-surfaceBorder/20 p-4 rounded-xl">
+                        <span class="font-bold text-lg text-blue-500">3</span>
+                        <div>
+                            <h4 class="font-bold text-white mb-1">Review Results</h4>
+                            <p class="text-sm">Examine the risk score, feature importance charts, and medical recommendations.</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-3 bg-surfaceBorder/20 p-4 rounded-xl">
+                        <span class="font-bold text-lg text-blue-500">4</span>
+                        <div>
+                            <h4 class="font-bold text-white mb-1">Generate Report</h4>
+                            <p class="text-sm">Download a detailed PDF report containing the prediction results and insights.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Explanation of fields -->
+            <section>
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+                    <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                        <i data-lucide="list" class="w-5 h-5 text-orange-400"></i> Explanation of Medical Fields
+                    </h3>
+                    <!-- Search Bar -->
+                    <div class="relative w-full md:w-80 shadow-md">
+                        <input id="medicalSearch" type="text" oninput="filterMedicalFields()" placeholder="Search fields (e.g. ECG, Age, cp)..." class="w-full bg-surfaceBorder/45 border border-surfaceBorder rounded-xl pl-10 pr-4 py-2 text-xs text-white focus:outline-none focus:border-blue-500 placeholder-slate-500 transition-colors">
+                        <i data-lucide="search" class="w-4 h-4 text-textSecondary absolute left-3 top-1/2 -translate-y-1/2"></i>
+                    </div>
+                </div>
+
+                <!-- Hint Text -->
+                <p class="text-slate-500 text-[10px] flex items-center gap-1.5 mb-4 select-none">
+                    <i data-lucide="mouse-pointer-2" class="w-3 h-3 text-slate-600"></i>
+                    Click a card to focus and read details
+                </p>
+
+                <div class="medical-cards-container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    
+                    <!-- 1. Age (Teal Accent - Demographics) -->
+                    <div onclick="focusMedicalCard(this)" class="medical-card p-5 bg-teal-500/[0.03] border border-teal-500/20 hover:border-teal-400 hover:shadow-[0_0_20px_rgba(20,184,166,0.15)] rounded-2xl space-y-4 transition-all duration-300" data-keywords="age demographics years old">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <div class="p-2 bg-teal-500/10 rounded-lg text-teal-400">
+                                    <i data-lucide="user" class="w-5 h-5"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-white text-sm">Age</h4>
+                                    <span class="text-[10px] text-teal-400 font-semibold">Age in Years</span>
+                                </div>
+                            </div>
+                            <span class="text-teal-400 bg-teal-500/10 text-[9px] uppercase tracking-wider px-2 py-0.5 rounded-full font-bold">Demographics</span>
+                        </div>
+                        <div class="text-xs space-y-3">
+                            <div>
+                                <span class="text-slate-500 block text-[9px] uppercase font-bold tracking-wider">Simple Meaning</span>
+                                <p class="text-slate-300 font-medium leading-relaxed">Your age in years.</p>
+                            </div>
+                            <div class="grid grid-cols-2 gap-2 bg-teal-950/20 border border-teal-500/10 p-2.5 rounded-xl">
+                                <div>
+                                    <span class="text-slate-500 block text-[8px] uppercase font-bold tracking-wider">Valid Range</span>
+                                    <span class="text-teal-300 font-semibold text-[10px]">29–77 years</span>
+                                </div>
+                                <div>
+                                    <span class="text-slate-500 block text-[8px] uppercase font-bold tracking-wider">Example</span>
+                                    <span class="text-purple-400 font-semibold text-[10px]">45</span>
+                                </div>
+                            </div>
+                            <div class="p-2.5 bg-teal-500/5 border border-teal-500/10 rounded-xl">
+                                <span class="text-teal-400 block text-[9px] font-bold uppercase tracking-wider mb-1 flex items-center gap-1">
+                                    <i data-lucide="heart-pulse" class="w-3 h-3 fill-teal-400/20"></i> Why it Matters
+                                </span>
+                                <p class="text-slate-300 text-[10.5px] leading-relaxed">Heart disease risk generally increases with age as blood vessels naturally stiffen and plaque builds up.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2. Sex (Teal Accent - Demographics) -->
+                    <div onclick="focusMedicalCard(this)" class="medical-card p-5 bg-teal-500/[0.03] border border-teal-500/20 hover:border-teal-400 hover:shadow-[0_0_20px_rgba(20,184,166,0.15)] rounded-2xl space-y-4 transition-all duration-300" data-keywords="sex gender male female">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <div class="p-2 bg-teal-500/10 rounded-lg text-teal-400">
+                                    <i data-lucide="users" class="w-5 h-5"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-white text-sm">Sex</h4>
+                                    <span class="text-[10px] text-teal-400 font-semibold">Biological Sex</span>
+                                </div>
+                            </div>
+                            <span class="text-teal-400 bg-teal-500/10 text-[9px] uppercase tracking-wider px-2 py-0.5 rounded-full font-bold">Demographics</span>
+                        </div>
+                        <div class="text-xs space-y-3">
+                            <div>
+                                <span class="text-slate-500 block text-[9px] uppercase font-bold tracking-wider">Options</span>
+                                <p class="text-slate-300 font-medium leading-relaxed">Male = 1, Female = 0.</p>
+                            </div>
+                            <div class="grid grid-cols-2 gap-2 bg-teal-950/20 border border-teal-500/10 p-2.5 rounded-xl">
+                                <div>
+                                    <span class="text-slate-500 block text-[8px] uppercase font-bold tracking-wider">Valid Range</span>
+                                    <span class="text-teal-300 font-semibold text-[10px]">0 or 1</span>
+                                </div>
+                                <div>
+                                    <span class="text-slate-500 block text-[8px] uppercase font-bold tracking-wider">Example</span>
+                                    <span class="text-purple-400 font-semibold text-[10px]">1 (Male)</span>
+                                </div>
+                            </div>
+                            <div class="p-2.5 bg-teal-500/5 border border-teal-500/10 rounded-xl">
+                                <span class="text-teal-400 block text-[9px] font-bold uppercase tracking-wider mb-1 flex items-center gap-1">
+                                    <i data-lucide="heart-pulse" class="w-3 h-3 fill-teal-400/20"></i> Why it Matters
+                                </span>
+                                <p class="text-slate-300 text-[10.5px] leading-relaxed">Men generally show higher incidence of cardiovascular events at an earlier age, while women's risk escalates post-menopause.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3. Chest Pain Type (Rose Accent - Symptoms) -->
+                    <div onclick="focusMedicalCard(this)" class="medical-card p-5 bg-rose-500/[0.03] border border-rose-500/20 hover:border-rose-400 hover:shadow-[0_0_20px_rgba(244,63,94,0.15)] rounded-2xl space-y-4 transition-all duration-300" data-keywords="cp chest pain angina typical atypical asymptomatic">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <div class="p-2 bg-rose-500/10 rounded-lg text-rose-400">
+                                    <i data-lucide="heart-crack" class="w-5 h-5"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-white text-sm">Chest Pain Type</h4>
+                                    <span class="text-[10px] text-rose-400 font-semibold">cp</span>
+                                </div>
+                            </div>
+                            <span class="text-rose-400 bg-rose-500/10 text-[9px] uppercase tracking-wider px-2 py-0.5 rounded-full font-bold">Symptoms</span>
+                        </div>
+                        <div class="text-xs space-y-3">
+                            <div>
+                                <span class="text-slate-500 block text-[9px] uppercase font-bold tracking-wider">Options</span>
+                                <div class="grid grid-cols-2 gap-1 text-[10px] text-slate-300">
+                                    <span>0: Typical Angina</span>
+                                    <span>1: Atypical Angina</span>
+                                    <span>2: Non-anginal Pain</span>
+                                    <span>3: Asymptomatic</span>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-2 bg-rose-950/20 border border-rose-500/10 p-2.5 rounded-xl">
+                                <div>
+                                    <span class="text-slate-500 block text-[8px] uppercase font-bold tracking-wider">Valid Range</span>
+                                    <span class="text-rose-300 font-semibold text-[10px]">0 to 3</span>
+                                </div>
+                                <div>
+                                    <span class="text-slate-500 block text-[8px] uppercase font-bold tracking-wider">Example</span>
+                                    <span class="text-purple-400 font-semibold text-[10px]">0</span>
+                                </div>
+                            </div>
+                            <div class="p-2.5 bg-rose-500/5 border border-rose-500/10 rounded-xl">
+                                <span class="text-rose-400 block text-[9px] font-bold uppercase tracking-wider mb-1 flex items-center gap-1">
+                                    <i data-lucide="heart-pulse" class="w-3 h-3 fill-rose-400/20"></i> Why it Matters
+                                </span>
+                                <p class="text-slate-300 text-[10.5px] leading-relaxed">Angina is key warning sign of blocked arteries. Typical angina (0) strongly suggests heart artery obstruction.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 4. Resting Blood Pressure (Amber Accent - Vitals) -->
+                    <div onclick="focusMedicalCard(this)" class="medical-card p-5 bg-amber-500/[0.03] border border-amber-500/20 hover:border-amber-400 hover:shadow-[0_0_20px_rgba(245,158,11,0.15)] rounded-2xl space-y-4 transition-all duration-300" data-keywords="trestbps blood pressure bp resting hypertension">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <div class="p-2 bg-amber-500/10 rounded-lg text-amber-400">
+                                    <i data-lucide="gauge" class="w-5 h-5"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-white text-sm">Resting BP</h4>
+                                    <span class="text-[10px] text-amber-400 font-semibold">trestbps</span>
+                                </div>
+                            </div>
+                            <span class="text-amber-400 bg-amber-500/10 text-[9px] uppercase tracking-wider px-2 py-0.5 rounded-full font-bold">Vitals</span>
+                        </div>
+                        <div class="text-xs space-y-3">
+                            <div>
+                                <span class="text-slate-500 block text-[9px] uppercase font-bold tracking-wider">Simple Meaning</span>
+                                <p class="text-slate-300 font-medium leading-relaxed">Blood pressure while resting.</p>
+                            </div>
+                            <div class="grid grid-cols-2 gap-2 bg-amber-950/20 border border-amber-500/10 p-2.5 rounded-xl">
+                                <div>
+                                    <span class="text-slate-500 block text-[8px] uppercase font-bold tracking-wider">Valid Range</span>
+                                    <span class="text-amber-300 font-semibold text-[10px]">94–200 mmHg</span>
+                                </div>
+                                <div>
+                                    <span class="text-slate-500 block text-[8px] uppercase font-bold tracking-wider">Example</span>
+                                    <span class="text-purple-400 font-semibold text-[10px]">120</span>
+                                </div>
+                            </div>
+                            <div class="p-2.5 bg-amber-500/5 border border-amber-500/10 rounded-xl">
+                                <span class="text-amber-400 block text-[9px] font-bold uppercase tracking-wider mb-1 flex items-center gap-1">
+                                    <i data-lucide="heart-pulse" class="w-3 h-3 fill-amber-400/20"></i> Why it Matters
+                                </span>
+                                <p class="text-slate-300 text-[10.5px] leading-relaxed">Chronic high blood pressure forces the heart to work harder, causing the heart muscle to thicken and weaken over time.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 5. Cholesterol (Amber Accent - Vitals) -->
+                    <div onclick="focusMedicalCard(this)" class="medical-card p-5 bg-amber-500/[0.03] border border-amber-500/20 hover:border-amber-400 hover:shadow-[0_0_20px_rgba(245,158,11,0.15)] rounded-2xl space-y-4 transition-all duration-300" data-keywords="chol cholesterol serum lipids fat plaque">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <div class="p-2 bg-amber-500/10 rounded-lg text-amber-400">
+                                    <i data-lucide="droplet" class="w-5 h-5"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-white text-sm">Cholesterol</h4>
+                                    <span class="text-[10px] text-amber-400 font-semibold">chol</span>
+                                </div>
+                            </div>
+                            <span class="text-amber-400 bg-amber-500/10 text-[9px] uppercase tracking-wider px-2 py-0.5 rounded-full font-bold">Vitals</span>
+                        </div>
+                        <div class="text-xs space-y-3">
+                            <div>
+                                <span class="text-slate-500 block text-[9px] uppercase font-bold tracking-wider">Simple Meaning</span>
+                                <p class="text-slate-300 font-medium leading-relaxed">Serum cholesterol level.</p>
+                            </div>
+                            <div class="grid grid-cols-2 gap-2 bg-amber-950/20 border border-amber-500/10 p-2.5 rounded-xl">
+                                <div>
+                                    <span class="text-slate-500 block text-[8px] uppercase font-bold tracking-wider">Valid Range</span>
+                                    <span class="text-amber-300 font-semibold text-[10px]">126–564 mg/dL</span>
+                                </div>
+                                <div>
+                                    <span class="text-slate-500 block text-[8px] uppercase font-bold tracking-wider">Example</span>
+                                    <span class="text-purple-400 font-semibold text-[10px]">200</span>
+                                </div>
+                            </div>
+                            <div class="p-2.5 bg-amber-500/5 border border-amber-500/10 rounded-xl">
+                                <span class="text-amber-400 block text-[9px] font-bold uppercase tracking-wider mb-1 flex items-center gap-1">
+                                    <i data-lucide="heart-pulse" class="w-3 h-3 fill-amber-400/20"></i> Why it Matters
+                                </span>
+                                <p class="text-slate-300 text-[10.5px] leading-relaxed">High levels of serum cholesterol contribute directly to atherosclerosis (hardening of the arteries) by forming fatty plaques.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 6. Fasting Blood Sugar (Amber Accent - Vitals) -->
+                    <div onclick="focusMedicalCard(this)" class="medical-card p-5 bg-amber-500/[0.03] border border-amber-500/20 hover:border-amber-400 hover:shadow-[0_0_20px_rgba(245,158,11,0.15)] rounded-2xl space-y-4 transition-all duration-300" data-keywords="fbs fasting blood sugar glucose diabetes">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <div class="p-2 bg-amber-500/10 rounded-lg text-amber-400">
+                                    <i data-lucide="cookie" class="w-5 h-5"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-white text-sm">Fasting Sugar</h4>
+                                    <span class="text-[10px] text-amber-400 font-semibold">fbs</span>
+                                </div>
+                            </div>
+                            <span class="text-amber-400 bg-amber-500/10 text-[9px] uppercase tracking-wider px-2 py-0.5 rounded-full font-bold">Vitals</span>
+                        </div>
+                        <div class="text-xs space-y-3">
+                            <div>
+                                <span class="text-slate-500 block text-[9px] uppercase font-bold tracking-wider">Options</span>
+                                <p class="text-slate-300 font-medium leading-relaxed">1: Sugar &gt; 120 mg/dL (True)<br>0: Sugar &le; 120 mg/dL (False)</p>
+                            </div>
+                            <div class="grid grid-cols-2 gap-2 bg-amber-950/20 border border-amber-500/10 p-2.5 rounded-xl">
+                                <div>
+                                    <span class="text-slate-500 block text-[8px] uppercase font-bold tracking-wider">Valid Range</span>
+                                    <span class="text-amber-300 font-semibold text-[10px]">0 or 1</span>
+                                </div>
+                                <div>
+                                    <span class="text-slate-500 block text-[8px] uppercase font-bold tracking-wider">Example</span>
+                                    <span class="text-purple-400 font-semibold text-[10px]">0</span>
+                                </div>
+                            </div>
+                            <div class="p-2.5 bg-amber-500/5 border border-amber-500/10 rounded-xl">
+                                <span class="text-amber-400 block text-[9px] font-bold uppercase tracking-wider mb-1 flex items-center gap-1">
+                                    <i data-lucide="heart-pulse" class="w-3 h-3 fill-amber-400/20"></i> Why it Matters
+                                </span>
+                                <p class="text-slate-300 text-[10.5px] leading-relaxed">Elevated fasting blood sugar is associated with diabetes, which accelerates artery damage and double/triples heart disease risk.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 7. Resting ECG (Indigo Accent - ECG/Stress) -->
+                    <div onclick="focusMedicalCard(this)" class="medical-card p-5 bg-indigo-500/[0.03] border border-indigo-500/20 hover:border-indigo-400 hover:shadow-[0_0_20px_rgba(99,102,241,0.15)] rounded-2xl space-y-4 transition-all duration-300" data-keywords="restecg resting ecg electrocardiogram abnormality lvh hypertrophy">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <div class="p-2 bg-indigo-500/10 rounded-lg text-indigo-400">
+                                    <i data-lucide="activity" class="w-5 h-5"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-white text-sm">Resting ECG</h4>
+                                    <span class="text-[10px] text-indigo-400 font-semibold">restecg</span>
+                                </div>
+                            </div>
+                            <span class="text-indigo-400 bg-indigo-500/10 text-[9px] uppercase tracking-wider px-2 py-0.5 rounded-full font-bold">ECG/Stress</span>
+                        </div>
+                        <div class="text-xs space-y-3">
+                            <div>
+                                <span class="text-slate-500 block text-[9px] uppercase font-bold tracking-wider">Options</span>
+                                <div class="grid grid-cols-1 gap-1 text-[10.5px] text-slate-300">
+                                    <span>0: Normal</span>
+                                    <span>1: ST-T wave abnormality</span>
+                                    <span>2: Left ventricular hypertrophy</span>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-2 bg-indigo-950/20 border border-indigo-500/10 p-2.5 rounded-xl">
+                                <div>
+                                    <span class="text-slate-500 block text-[8px] uppercase font-bold tracking-wider">Valid Range</span>
+                                    <span class="text-indigo-300 font-semibold text-[10px]">0 to 2</span>
+                                </div>
+                                <div>
+                                    <span class="text-slate-500 block text-[8px] uppercase font-bold tracking-wider">Example</span>
+                                    <span class="text-purple-400 font-semibold text-[10px]">0</span>
+                                </div>
+                            </div>
+                            <div class="p-2.5 bg-indigo-500/5 border border-indigo-500/10 rounded-xl">
+                                <span class="text-indigo-400 block text-[9px] font-bold uppercase tracking-wider mb-1 flex items-center gap-1">
+                                    <i data-lucide="heart-pulse" class="w-3 h-3 fill-indigo-400/20"></i> Why it Matters
+                                </span>
+                                <p class="text-slate-300 text-[10.5px] leading-relaxed">ECG details reveal underlying cardiac abnormalities like ventricular strain or history of silent myocardial infarction.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 8. Max Heart Rate (Indigo Accent - ECG/Stress) -->
+                    <div onclick="focusMedicalCard(this)" class="medical-card p-5 bg-indigo-500/[0.03] border border-indigo-500/20 hover:border-indigo-400 hover:shadow-[0_0_20px_rgba(99,102,241,0.15)] rounded-2xl space-y-4 transition-all duration-300" data-keywords="thalach max heart rate pulse exercise stress test">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <div class="p-2 bg-indigo-500/10 rounded-lg text-indigo-400">
+                                    <i data-lucide="trending-up" class="w-5 h-5"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-white text-sm">Max Heart Rate</h4>
+                                    <span class="text-[10px] text-indigo-400 font-semibold">thalach</span>
+                                </div>
+                            </div>
+                            <span class="text-indigo-400 bg-indigo-500/10 text-[9px] uppercase tracking-wider px-2 py-0.5 rounded-full font-bold">ECG/Stress</span>
+                        </div>
+                        <div class="text-xs space-y-3">
+                            <div>
+                                <span class="text-slate-500 block text-[9px] uppercase font-bold tracking-wider">Simple Meaning</span>
+                                <p class="text-slate-300 font-medium leading-relaxed">Highest heart rate during stress test.</p>
+                            </div>
+                            <div class="grid grid-cols-2 gap-2 bg-indigo-950/20 border border-indigo-500/10 p-2.5 rounded-xl">
+                                <div>
+                                    <span class="text-slate-500 block text-[8px] uppercase font-bold tracking-wider">Valid Range</span>
+                                    <span class="text-indigo-300 font-semibold text-[10px]">71–202 bpm</span>
+                                </div>
+                                <div>
+                                    <span class="text-slate-500 block text-[8px] uppercase font-bold tracking-wider">Example</span>
+                                    <span class="text-purple-400 font-semibold text-[10px]">150</span>
+                                </div>
+                            </div>
+                            <div class="p-2.5 bg-indigo-500/5 border border-indigo-500/10 rounded-xl">
+                                <span class="text-indigo-400 block text-[9px] font-bold uppercase tracking-wider mb-1 flex items-center gap-1">
+                                    <i data-lucide="heart-pulse" class="w-3 h-3 fill-indigo-400/20"></i> Why it Matters
+                                </span>
+                                <p class="text-slate-300 text-[10.5px] leading-relaxed">Abnormal maximum heart rate response during exercise can indicate weakness or cardiovascular limitation.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 9. Exercise Induced Angina (Rose Accent - Symptoms) -->
+                    <div onclick="focusMedicalCard(this)" class="medical-card p-5 bg-rose-500/[0.03] border border-rose-500/20 hover:border-rose-400 hover:shadow-[0_0_20px_rgba(244,63,94,0.15)] rounded-2xl space-y-4 transition-all duration-300" data-keywords="exang exercise induced angina chest pain exertion">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <div class="p-2 bg-rose-500/10 rounded-lg text-rose-400">
+                                    <i data-lucide="alert-circle" class="w-5 h-5"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-white text-sm">Exercise Angina</h4>
+                                    <span class="text-[10px] text-rose-400 font-semibold">exang</span>
+                                </div>
+                            </div>
+                            <span class="text-rose-400 bg-rose-500/10 text-[9px] uppercase tracking-wider px-2 py-0.5 rounded-full font-bold">Symptoms</span>
+                        </div>
+                        <div class="text-xs space-y-3">
+                            <div>
+                                <span class="text-slate-500 block text-[9px] uppercase font-bold tracking-wider">Options</span>
+                                <p class="text-slate-300 font-medium leading-relaxed">1: Angina triggered by exercise (Yes)<br>0: No angina triggered (No)</p>
+                            </div>
+                            <div class="grid grid-cols-2 gap-2 bg-rose-950/20 border border-rose-500/10 p-2.5 rounded-xl">
+                                <div>
+                                    <span class="text-slate-500 block text-[8px] uppercase font-bold tracking-wider">Valid Range</span>
+                                    <span class="text-rose-300 font-semibold text-[10px]">0 or 1</span>
+                                </div>
+                                <div>
+                                    <span class="text-slate-500 block text-[8px] uppercase font-bold tracking-wider">Example</span>
+                                    <span class="text-purple-400 font-semibold text-[10px]">0</span>
+                                </div>
+                            </div>
+                            <div class="p-2.5 bg-rose-500/5 border border-rose-500/10 rounded-xl">
+                                <span class="text-rose-400 block text-[9px] font-bold uppercase tracking-wider mb-1 flex items-center gap-1">
+                                    <i data-lucide="heart-pulse" class="w-3 h-3 fill-rose-400/20"></i> Why it Matters
+                                </span>
+                                <p class="text-slate-300 text-[10.5px] leading-relaxed">Chest pain triggered specifically by physical exertion indicates that coronary arteries cannot supply enough blood under stress.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 10. ST Depression (Indigo Accent - ECG/Stress) -->
+                    <div onclick="focusMedicalCard(this)" class="medical-card p-5 bg-indigo-500/[0.03] border border-indigo-500/20 hover:border-indigo-400 hover:shadow-[0_0_20px_rgba(99,102,241,0.15)] rounded-2xl space-y-4 transition-all duration-300" data-keywords="oldpeak st depression ecg stress electrocardiogram ischemia">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <div class="p-2 bg-indigo-500/10 rounded-lg text-indigo-400">
+                                    <i data-lucide="trending-down" class="w-5 h-5"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-white text-sm">ST Depression</h4>
+                                    <span class="text-[10px] text-indigo-400 font-semibold">oldpeak</span>
+                                </div>
+                            </div>
+                            <span class="text-indigo-400 bg-indigo-500/10 text-[9px] uppercase tracking-wider px-2 py-0.5 rounded-full font-bold">ECG/Stress</span>
+                        </div>
+                        <div class="text-xs space-y-3">
+                            <div>
+                                <span class="text-slate-500 block text-[9px] uppercase font-bold tracking-wider">Simple Meaning</span>
+                                <p class="text-slate-300 font-medium leading-relaxed">Heart stress measurement during exercise.</p>
+                            </div>
+                            <div class="grid grid-cols-2 gap-2 bg-indigo-950/20 border border-indigo-500/10 p-2.5 rounded-xl">
+                                <div>
+                                    <span class="text-slate-500 block text-[8px] uppercase font-bold tracking-wider">Valid Range</span>
+                                    <span class="text-indigo-300 font-semibold text-[10px]">0.0–6.2</span>
+                                </div>
+                                <div>
+                                    <span class="text-slate-500 block text-[8px] uppercase font-bold tracking-wider">Example</span>
+                                    <span class="text-purple-400 font-semibold text-[10px]">1.5</span>
+                                </div>
+                            </div>
+                            <div class="p-2.5 bg-indigo-500/5 border border-indigo-500/10 rounded-xl">
+                                <span class="text-indigo-400 block text-[9px] font-bold uppercase tracking-wider mb-1 flex items-center gap-1">
+                                    <i data-lucide="heart-pulse" class="w-3 h-3 fill-indigo-400/20"></i> Why it Matters
+                                </span>
+                                <p class="text-slate-300 text-[10.5px] leading-relaxed">Depression of ST segment on ECG during stress indicates ischemia (insufficient blood flow to the heart muscle).</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 11. ST Segment Slope (Indigo Accent - ECG/Stress) -->
+                    <div onclick="focusMedicalCard(this)" class="medical-card p-5 bg-indigo-500/[0.03] border border-indigo-500/20 hover:border-indigo-400 hover:shadow-[0_0_20px_rgba(99,102,241,0.15)] rounded-2xl space-y-4 transition-all duration-300" data-keywords="slope st segment slope peak exercise upsloping flat downsloping">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <div class="p-2 bg-indigo-500/10 rounded-lg text-indigo-400">
+                                    <i data-lucide="activity" class="w-5 h-5"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-white text-sm">ST Segment Slope</h4>
+                                    <span class="text-[10px] text-indigo-400 font-semibold">slope</span>
+                                </div>
+                            </div>
+                            <span class="text-indigo-400 bg-indigo-500/10 text-[9px] uppercase tracking-wider px-2 py-0.5 rounded-full font-bold">ECG/Stress</span>
+                        </div>
+                        <div class="text-xs space-y-3">
+                            <div>
+                                <span class="text-slate-500 block text-[9px] uppercase font-bold tracking-wider">Options</span>
+                                <p class="text-slate-300 font-medium leading-relaxed">0: Upsloping, 1: Flat, 2: Downsloping.</p>
+                            </div>
+                            <div class="grid grid-cols-2 gap-2 bg-indigo-950/20 border border-indigo-500/10 p-2.5 rounded-xl">
+                                <div>
+                                    <span class="text-slate-500 block text-[8px] uppercase font-bold tracking-wider">Valid Range</span>
+                                    <span class="text-indigo-300 font-semibold text-[10px]">0 to 2</span>
+                                </div>
+                                <div>
+                                    <span class="text-slate-500 block text-[8px] uppercase font-bold tracking-wider">Example</span>
+                                    <span class="text-purple-400 font-semibold text-[10px]">1</span>
+                                </div>
+                            </div>
+                            <div class="p-2.5 bg-indigo-500/5 border border-indigo-500/10 rounded-xl">
+                                <span class="text-indigo-400 block text-[9px] font-bold uppercase tracking-wider mb-1 flex items-center gap-1">
+                                    <i data-lucide="heart-pulse" class="w-3 h-3 fill-indigo-400/20"></i> Why it Matters
+                                </span>
+                                <p class="text-slate-300 text-[10.5px] leading-relaxed">Flat or downsloping ST segments are strong indicators of ischemia or severe coronary artery disease.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 12. Major Vessels (Emerald Accent - Diagnostics) -->
+                    <div onclick="focusMedicalCard(this)" class="medical-card p-5 bg-emerald-500/[0.03] border border-emerald-500/20 hover:border-emerald-400 hover:shadow-[0_0_20px_rgba(16,185,129,0.15)] rounded-2xl space-y-4 transition-all duration-300" data-keywords="ca major vessels colored fluoroscopy blockage">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <div class="p-2 bg-emerald-500/10 rounded-lg text-emerald-400">
+                                    <i data-lucide="binary" class="w-5 h-5"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-white text-sm">Major Vessels</h4>
+                                    <span class="text-[10px] text-emerald-400 font-semibold">ca</span>
+                                </div>
+                            </div>
+                            <span class="text-emerald-400 bg-emerald-500/10 text-[9px] uppercase tracking-wider px-2 py-0.5 rounded-full font-bold">Diagnostics</span>
+                        </div>
+                        <div class="text-xs space-y-3">
+                            <div>
+                                <span class="text-slate-500 block text-[9px] uppercase font-bold tracking-wider">Simple Meaning</span>
+                                <p class="text-slate-300 font-medium leading-relaxed">Number of major blood vessels colored by fluoroscopy.</p>
+                            </div>
+                            <div class="grid grid-cols-2 gap-2 bg-emerald-950/20 border border-emerald-500/10 p-2.5 rounded-xl">
+                                <div>
+                                    <span class="text-slate-500 block text-[8px] uppercase font-bold tracking-wider">Valid Range</span>
+                                    <span class="text-emerald-300 font-semibold text-[10px]">0 to 3 vessels</span>
+                                </div>
+                                <div>
+                                    <span class="text-slate-500 block text-[8px] uppercase font-bold tracking-wider">Example</span>
+                                    <span class="text-purple-400 font-semibold text-[10px]">0</span>
+                                </div>
+                            </div>
+                            <div class="p-2.5 bg-emerald-500/5 border border-emerald-500/10 rounded-xl">
+                                <span class="text-emerald-400 block text-[9px] font-bold uppercase tracking-wider mb-1 flex items-center gap-1">
+                                    <i data-lucide="heart-pulse" class="w-3 h-3 fill-emerald-400/20"></i> Why it Matters
+                                </span>
+                                <p class="text-slate-300 text-[10.5px] leading-relaxed">Fluoroscopy highlights blood flow. A higher number of uncolored vessels (0 to 3) suggests more blood flow blockage.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 13. Thalassemia Defect (Emerald Accent - Diagnostics) -->
+                    <div onclick="focusMedicalCard(this)" class="medical-card p-5 bg-emerald-500/[0.03] border border-emerald-500/20 hover:border-emerald-400 hover:shadow-[0_0_20px_rgba(16,185,129,0.15)] rounded-2xl space-y-4 transition-all duration-300" data-keywords="thal thalassemia defect blood test fixed normal reversible">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <div class="p-2 bg-emerald-500/10 rounded-lg text-emerald-400">
+                                    <i data-lucide="heart-pulse" class="w-5 h-5"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-white text-sm">Thalassemia</h4>
+                                    <span class="text-[10px] text-emerald-400 font-semibold">thal</span>
+                                </div>
+                            </div>
+                            <span class="text-emerald-400 bg-emerald-500/10 text-[9px] uppercase tracking-wider px-2 py-0.5 rounded-full font-bold">Diagnostics</span>
+                        </div>
+                        <div class="text-xs space-y-3">
+                            <div>
+                                <span class="text-slate-500 block text-[9px] uppercase font-bold tracking-wider">Options</span>
+                                <p class="text-slate-300 font-medium leading-relaxed">1 = Fixed Defect, 2 = Normal, 3 = Reversible Defect.</p>
+                            </div>
+                            <div class="grid grid-cols-2 gap-2 bg-emerald-950/20 border border-emerald-500/10 p-2.5 rounded-xl">
+                                <div>
+                                    <span class="text-slate-500 block text-[8px] uppercase font-bold tracking-wider">Valid Range</span>
+                                    <span class="text-emerald-300 font-semibold text-[10px]">1 to 3</span>
+                                </div>
+                                <div>
+                                    <span class="text-slate-500 block text-[8px] uppercase font-bold tracking-wider">Example</span>
+                                    <span class="text-purple-400 font-semibold text-[10px]">2 (Normal)</span>
+                                </div>
+                            </div>
+                            <div class="p-2.5 bg-emerald-500/5 border border-emerald-500/10 rounded-xl">
+                                <span class="text-emerald-400 block text-[9px] font-bold uppercase tracking-wider mb-1 flex items-center gap-1">
+                                    <i data-lucide="heart-pulse" class="w-3 h-3 fill-emerald-400/20"></i> Why it Matters
+                                </span>
+                                <p class="text-slate-300 text-[10.5px] leading-relaxed">A reversible defect means blood flow is reduced during stress but normal at rest, showing temporary ischemia.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <hr class="border-surfaceBorder border-dashed">
+
+            <!-- FAQ -->
+            <section>
+                <h3 class="text-lg font-bold text-white mb-3 flex items-center gap-2">
+                    <i data-lucide="help-circle" class="w-5 h-5 text-purple-400"></i> Frequently Asked Questions
+                </h3>
+                <div class="space-y-3">
+                    <div class="bg-surfaceBorder/20 p-4 rounded-xl">
+                        <h4 class="font-bold text-white text-sm mb-1">Is this tool a replacement for a doctor?</h4>
+                        <p class="text-sm">No. This tool provides predictive insights based on machine learning, but should <strong>never</strong> replace professional medical diagnosis.</p>
+                    </div>
+                    <div class="bg-surfaceBorder/20 p-4 rounded-xl">
+                        <h4 class="font-bold text-white text-sm mb-1">Is my medical data stored?</h4>
+                        <p class="text-sm">Predictions are processed instantly. If you use the chat or report features, minimal session data is temporarily kept to generate your PDFs but is cleared systematically.</p>
+                    </div>
+                </div>
+            </section>
+
+            <hr class="border-surfaceBorder border-dashed">
+
+            <!-- Contact & Report Issue Form -->
+            <section class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="text-lg font-bold text-white mb-3 flex items-center gap-2">
+                        <i data-lucide="mail" class="w-5 h-5 text-yellow-400"></i> Contact Information
+                    </h3>
+                    <p class="text-sm mb-4">If you need immediate assistance or would like to request a new feature for the Heart Disease Prediction System:</p>
+                    <div class="space-y-3 text-sm">
+                        <div class="flex items-center gap-3 bg-surfaceBorder/20 p-3 rounded-lg">
+                            <i data-lucide="mail" class="w-4 h-4 text-textSecondary"></i>
+                            <span>saptarshasaha6@gmail.com</span>
+                        </div>
+                        <div class="flex items-center gap-3 bg-surfaceBorder/20 p-3 rounded-lg">
+                            <i data-lucide="phone" class="w-4 h-4 text-textSecondary"></i>
+                            <span>+1 (800) 555-0199</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-lg font-bold text-white mb-3 flex items-center gap-2">
+                        <i data-lucide="alert-triangle" class="w-5 h-5 text-red-500"></i> Report an Issue
+                    </h3>
+                    <form class="space-y-3" onsubmit="submitIssueForm(event)">
+                        <input type="text" placeholder="Your Name" required class="w-full bg-surfaceBorder/20 border border-surfaceBorder rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-blue-500">
+                        <input type="email" placeholder="Email Address" required class="w-full bg-surfaceBorder/20 border border-surfaceBorder rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-blue-500">
+                        <textarea placeholder="Describe the issue you're facing..." rows="3" required class="w-full bg-surfaceBorder/20 border border-surfaceBorder rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-blue-500"></textarea>
+                        <button type="submit" class="w-full custom-btn justify-center text-sm py-2"><i data-lucide="send" class="w-4 h-4 shadow-[0_0_10px_rgba(37,99,235,0.4)]"></i> Submit Report</button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Bottom Spacer to ensure full scrolling -->
+            <div class="h-6"></div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    function openHelpModal() {
+        var modal = document.getElementById('helpModal');
+        if (modal) {
+            modal.classList.remove('hidden');
+            lucide.createIcons();
+        }
+    }
+
+    // Direct binding for any DOM loaded icons
+    document.addEventListener("DOMContentLoaded", function() {
+        var helpBtn = document.querySelector('[onclick="openHelpModal()"]');
+        if (helpBtn) {
+            helpBtn.addEventListener("click", openHelpModal);
+        }
+    });
+
+    function closeHelpModal() {
+        var modal = document.getElementById('helpModal');
+        if (modal) {
+            modal.classList.add('hidden');
+        }
+    }
+
+    function focusMedicalCard(card) {
+        var container = document.querySelector('.medical-cards-container');
+        if (!container) return;
+        var isActive = card.classList.contains('active-card');
+        
+        document.querySelectorAll('.medical-card').forEach(function(c) {
+            c.classList.remove('active-card');
+        });
+        container.classList.remove('has-active');
+        
+        if (!isActive) {
+            card.classList.add('active-card');
+            container.classList.add('has-active');
+            // Smooth scroll card into view on mobile
+            if (window.innerWidth < 768) {
+                card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        }
+    }
+
+    function filterMedicalFields() {
+        const query = document.getElementById('medicalSearch').value.toLowerCase().trim();
+        const cards = document.querySelectorAll('.medical-card');
+        cards.forEach(card => {
+            const text = card.textContent.toLowerCase();
+            const keywords = card.getAttribute('data-keywords') || '';
+            if (text.includes(query) || keywords.toLowerCase().includes(query)) {
+                card.classList.remove('hidden');
+            } else {
+                card.classList.add('hidden');
+            }
+        });
+    }
+
+    function submitIssueForm(event) {
+        event.preventDefault();
+        var form = event.target;
+        var name = form.querySelector('input[placeholder="Your Name"]').value;
+        var email = form.querySelector('input[placeholder="Email Address"]').value;
+        var desc = form.querySelector('textarea').value;
+        
+        var subject = "Heart AI Scout - Issue Report";
+        var body = "Name: " + name + "\nEmail: " + email + "\n\nDescription of the issue:\n" + desc;
+        
+        var mailtoUrl = "mailto:saptarshasaha6@gmail.com" +
+                        "?subject=" + encodeURIComponent(subject) +
+                        "&body=" + encodeURIComponent(body);
+        
+        window.location.href = mailtoUrl;
+        
+        // Reset form to initial state
+        form.reset();
+    }
+</script>
 </body>
 </html>
