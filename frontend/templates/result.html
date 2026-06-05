@@ -60,15 +60,34 @@
             transform: scale(1.05);
         }
 
-        .high {
-            color: #ff4d4d;
-        }
+        .high   { color: #f87171; }
+        .normal { color: #4ade80; }
 
-        .normal {
-            color: #00ff9d;
+        /* ===== Risk Badge ===== */
+        .risk-badge-result {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 6px 16px; border-radius: 999px;
+            font-size: 13px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase;
         }
+        .risk-badge-result.low  { background:rgba(34,197,94,0.12);  color:#4ade80; border:1px solid rgba(34,197,94,0.30); }
+        .risk-badge-result.mid  { background:rgba(245,158,11,0.12); color:#fbbf24; border:1px solid rgba(245,158,11,0.30); }
+        .risk-badge-result.high { background:rgba(239,68,68,0.12);  color:#f87171; border:1px solid rgba(239,68,68,0.30); }
 
-        /* Sections */
+        /* ===== Animated Progress Bar ===== */
+        .risk-progress-track {
+            height: 10px; background: rgba(255,255,255,0.07);
+            border-radius: 999px; overflow: hidden; margin-top: 12px;
+        }
+        .risk-progress-fill {
+            height: 100%; border-radius: 999px; width: 0%;
+            transition: width 1.2s cubic-bezier(.4,0,.2,1);
+        }
+        .risk-progress-fill.low  { background: linear-gradient(90deg,#16a34a,#4ade80); box-shadow: 0 0 8px rgba(74,222,128,0.4); }
+        .risk-progress-fill.mid  { background: linear-gradient(90deg,#d97706,#fbbf24); box-shadow: 0 0 8px rgba(251,191,36,0.4); }
+        .risk-progress-fill.high { background: linear-gradient(90deg,#dc2626,#f87171); box-shadow: 0 0 8px rgba(248,113,113,0.4); }
+
+        .risk-zone-labels { display:flex; justify-content:space-between; margin-top:4px; }
+        .risk-zone-labels span { font-size:8.5px; font-weight:600; text-transform:uppercase; letter-spacing:.05em; }
         .section {
             margin-top: 20px;
             padding: 20px;
@@ -101,19 +120,7 @@
             cursor: pointer;
         }
 
-        /* Progress Bar */
-        .progress {
-            height: 10px;
-            background: #222;
-            border-radius: 5px;
-            overflow: hidden;
-            margin-top: 10px;
-        }
-
-        .progress div {
-            height: 100%;
-            background: linear-gradient(to right, green, yellow, red);
-        }
+        /* Sections */
     </style>
 
 </head>
@@ -173,16 +180,47 @@
 
         <!-- Top Cards -->
         <div class="cards">
-            <div class="card">
-                <h3>Prediction</h3>
-                <p class="{% if prediction == 1 %}high{% else %}normal{% endif %}">{{ 'HIGH RISK' if prediction == 1 else 'LOW RISK' }}</p>
+            <div class="card" style="border:1px solid rgba(255,255,255,0.07)">
+                <h3 style="font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:#64748b;font-weight:600;margin-bottom:10px">Prediction</h3>
+                {% set pct = (probability * 100)|round(0)|int %}
+                {% if pct >= 70 %}
+                <span class="risk-badge-result high">
+                    <svg width="9" height="9" viewBox="0 0 8 8"><circle cx="4" cy="4" r="4" fill="currentColor"/></svg>
+                    HIGH RISK
+                </span>
+                {% elif pct >= 40 %}
+                <span class="risk-badge-result mid">
+                    <svg width="9" height="9" viewBox="0 0 8 8"><circle cx="4" cy="4" r="4" fill="currentColor"/></svg>
+                    MEDIUM RISK
+                </span>
+                {% else %}
+                <span class="risk-badge-result low">
+                    <svg width="9" height="9" viewBox="0 0 8 8"><circle cx="4" cy="4" r="4" fill="currentColor"/></svg>
+                    LOW RISK
+                </span>
+                {% endif %}
             </div>
 
-            <div class="card">
-                <h3>Risk Score</h3>
-                <p>{{ (probability * 100)|round(0) }}%</p>
-                <div class="progress">
-                    <div id="risk-progress-bar"></div>
+            <div class="card" style="border:1px solid rgba(255,255,255,0.07)">
+                <h3 style="font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:#64748b;font-weight:600;margin-bottom:6px">Risk Score</h3>
+                {% set pct = (probability * 100)|round(0)|int %}
+                {% if pct >= 70 %}
+                {% set zone = 'high' %}
+                {% elif pct >= 40 %}
+                {% set zone = 'mid' %}
+                {% else %}
+                {% set zone = 'low' %}
+                {% endif %}
+                <p style="font-size:26px;font-weight:800;margin:0 0 4px;
+                    color:{% if pct >= 70 %}#f87171{% elif pct >= 40 %}#fbbf24{% else %}#4ade80{% endif %}"
+                >{{ pct }}%</p>
+                <div class="risk-progress-track">
+                    <div class="risk-progress-fill {{ zone }}" id="result-risk-bar" data-pct="{{ pct }}"></div>
+                </div>
+                <div class="risk-zone-labels">
+                    <span style="color:#4ade80">Low</span>
+                    <span style="color:#fbbf24">Med</span>
+                    <span style="color:#f87171">High</span>
                 </div>
             </div>
 
@@ -275,8 +313,14 @@
         const accuracy = heartData.accuracy;
         const inputData = heartData.input_data;
 
-        // Set progress bar width
-        document.getElementById("risk-progress-bar").style.width = Math.round(probability * 100) + "%";
+        // Animate risk score progress bar
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                var bar = document.getElementById('result-risk-bar');
+                if (bar) bar.style.width = bar.dataset.pct + '%';
+            }, 200);
+        });
+
 
         async function downloadReport() {
             const response = await fetch('/download', {

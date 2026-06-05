@@ -36,42 +36,94 @@
             padding: 20px;
         }
 
-        /* Table */
-        .section {
-            margin-top: 20px;
-            padding: 20px;
-            border-radius: 15px;
-            background: rgba(255, 255, 255, 0.05);
+        /* ===== SUMMARY CARDS ===== */
+        .stat-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin: 24px 0;
         }
+        @media(max-width:900px){ .stat-cards-grid { grid-template-columns: repeat(2,1fr); } }
+        @media(max-width:500px){ .stat-cards-grid { grid-template-columns: 1fr; } }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
+        .stat-card {
+            border-radius: 18px;
+            padding: 20px 22px;
+            border: 1px solid rgba(255,255,255,0.07);
+            backdrop-filter: blur(12px);
+            background: rgba(15,23,42,0.75);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            cursor: default;
+            position: relative;
+            overflow: hidden;
         }
-
-        th, td {
-            padding: 15px;
-            text-align: left;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 18px;
+            opacity: 0;
+            transition: opacity 0.3s;
         }
+        .stat-card:hover { transform: translateY(-4px); }
+        .stat-card.blue::before  { background: radial-gradient(circle at top left, rgba(59,130,246,0.12), transparent 65%); }
+        .stat-card.red::before   { background: radial-gradient(circle at top left, rgba(239,68,68,0.12), transparent 65%); }
+        .stat-card.green::before { background: radial-gradient(circle at top left, rgba(34,197,94,0.12), transparent 65%); }
+        .stat-card.amber::before { background: radial-gradient(circle at top left, rgba(245,158,11,0.12), transparent 65%); }
+        .stat-card:hover::before { opacity: 1; }
+        .stat-card:hover.blue  { box-shadow: 0 8px 32px rgba(59,130,246,0.18); border-color: rgba(59,130,246,0.3); }
+        .stat-card:hover.red   { box-shadow: 0 8px 32px rgba(239,68,68,0.18);  border-color: rgba(239,68,68,0.3); }
+        .stat-card:hover.green { box-shadow: 0 8px 32px rgba(34,197,94,0.18);  border-color: rgba(34,197,94,0.3); }
+        .stat-card:hover.amber { box-shadow: 0 8px 32px rgba(245,158,11,0.18); border-color: rgba(245,158,11,0.3); }
 
-        th { color: #00d4ff; }
+        .stat-icon { width:42px; height:42px; border-radius:12px; display:flex; align-items:center; justify-content:center; }
+        .stat-label { font-size:10.5px; text-transform:uppercase; letter-spacing:.1em; color:#64748b; font-weight:600; }
+        .stat-value { font-size:30px; font-weight:800; line-height:1; }
+        .stat-sub   { font-size:10px; color:#64748b; margin-top:2px; }
 
-        .high { color: #ff4d4d; font-weight: bold; }
-        .normal { color: #00ff9d; font-weight: bold; }
-
-        button {
-            padding: 8px 15px;
-            background: linear-gradient(45deg, #00d4ff, #007bff);
-            border: none;
-            border-radius: 5px;
-            color: white;
-            cursor: pointer;
-            font-size: 12px;
+        /* ===== RISK BADGE ===== */
+        .risk-badge {
+            display: inline-flex; align-items:center; gap:5px;
+            padding: 4px 10px; border-radius: 999px;
+            font-size: 10.5px; font-weight:700; letter-spacing:.05em; text-transform:uppercase;
         }
+        .risk-badge.low    { background:rgba(34,197,94,0.12);  color:#4ade80; border:1px solid rgba(34,197,94,0.25); }
+        .risk-badge.mid    { background:rgba(245,158,11,0.12); color:#fbbf24; border:1px solid rgba(245,158,11,0.25); }
+        .risk-badge.high   { background:rgba(239,68,68,0.12);  color:#f87171; border:1px solid rgba(239,68,68,0.25); }
 
-        button:hover { opacity: 0.8; }
+        /* ===== PROGRESS BAR ===== */
+        .risk-bar-wrap { width:100%; background:rgba(255,255,255,0.06); border-radius:999px; height:5px; overflow:hidden; }
+        .risk-bar-fill  { height:100%; border-radius:999px; width:0%; transition: width 1s cubic-bezier(.4,0,.2,1); }
+        .risk-bar-fill.low  { background: linear-gradient(90deg,#16a34a,#4ade80); }
+        .risk-bar-fill.mid  { background: linear-gradient(90deg,#d97706,#fbbf24); }
+        .risk-bar-fill.high { background: linear-gradient(90deg,#dc2626,#f87171); }
+
+        /* ===== TABLE ===== */
+        .reports-table-wrap { border-radius:18px; overflow:hidden; border:1px solid rgba(255,255,255,0.07); margin-top:8px; }
+        .reports-table { width:100%; border-collapse:collapse; }
+        .reports-table thead tr { background: rgba(30,41,59,0.9); }
+        .reports-table th { padding:13px 18px; text-align:left; font-size:10.5px; font-weight:700; text-transform:uppercase; letter-spacing:.1em; color:#475569; border-bottom:1px solid rgba(255,255,255,0.07); }
+        .reports-table tbody tr { border-bottom:1px solid rgba(255,255,255,0.05); transition: background 0.2s; }
+        .reports-table tbody tr:last-child { border-bottom:none; }
+        .reports-table tbody tr:hover { background:rgba(255,255,255,0.025); }
+        .reports-table td { padding:14px 18px; font-size:13px; color:#cbd5e1; vertical-align:middle; }
+        .reports-table td.ts { font-size:11px; color:#64748b; }
+        .reports-table td.age-cell { font-weight:700; color:white; }
+
+        .dl-btn {
+            display:inline-flex; align-items:center; gap:6px;
+            padding:6px 14px; border-radius:8px; font-size:11px; font-weight:600;
+            background:rgba(59,130,246,0.1); color:#60a5fa;
+            border:1px solid rgba(59,130,246,0.25);
+            cursor:pointer; transition:all 0.2s;
+        }
+        .dl-btn:hover { background:rgba(59,130,246,0.22); border-color:rgba(59,130,246,0.5); color:#93c5fd; }
+
+        .empty-state { text-align:center; padding:60px 20px; color:#475569; }
+        .empty-state svg { margin: 0 auto 16px; display:block; opacity:.3; }
     </style>
 </head>
 <body class="flex h-screen overflow-hidden">
@@ -124,41 +176,143 @@
     </aside>
 
     <div class="main flex-1 overflow-y-auto">
-        <h1>📊 Prediction History</h1>
-        <div class="section">
+
+        <!-- Page Header -->
+        <div style="padding:28px 28px 0" class="flex items-center justify-between">
+            <div>
+                <h2 class="text-2xl font-bold text-white flex items-center gap-3">
+                    <span style="background:linear-gradient(135deg,#3b82f6,#8b5cf6);-webkit-background-clip:text;-webkit-text-fill-color:transparent">Prediction History</span>
+                </h2>
+                <p class="text-sm mt-1" style="color:#64748b">Analytics &amp; report archive from your AI prediction sessions</p>
+            </div>
+            <div class="text-xs px-3 py-1.5 rounded-full font-semibold" style="background:rgba(59,130,246,0.1);color:#60a5fa;border:1px solid rgba(59,130,246,0.2)">
+                <i data-lucide="bar-chart-2" class="w-3.5 h-3.5 inline mr-1"></i> Live Stats
+            </div>
+        </div>
+
+        <!-- Summary Cards -->
+        <div style="padding:0 28px" class="stat-cards-grid">
+
+            <!-- Total Predictions -->
+            <div class="stat-card blue">
+                <div class="stat-icon" style="background:rgba(59,130,246,0.12);border:1px solid rgba(59,130,246,0.2)">
+                    <svg width="20" height="20" fill="none" stroke="#60a5fa" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+                </div>
+                <div>
+                    <p class="stat-label">Total Predictions</p>
+                    <p class="stat-value" style="color:#60a5fa" id="s-total">0</p>
+                    <p class="stat-sub">All time sessions</p>
+                </div>
+            </div>
+
+            <!-- High Risk -->
+            <div class="stat-card red">
+                <div class="stat-icon" style="background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.2)">
+                    <svg width="20" height="20" fill="none" stroke="#f87171" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>
+                </div>
+                <div>
+                    <p class="stat-label">High Risk Cases</p>
+                    <p class="stat-value" style="color:#f87171" id="s-high">0</p>
+                    <p class="stat-sub">Prediction = 1</p>
+                </div>
+            </div>
+
+            <!-- Low Risk -->
+            <div class="stat-card green">
+                <div class="stat-icon" style="background:rgba(34,197,94,0.12);border:1px solid rgba(34,197,94,0.2)">
+                    <svg width="20" height="20" fill="none" stroke="#4ade80" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                </div>
+                <div>
+                    <p class="stat-label">Low Risk Cases</p>
+                    <p class="stat-value" style="color:#4ade80" id="s-low">0</p>
+                    <p class="stat-sub">Prediction = 0</p>
+                </div>
+            </div>
+
+            <!-- Average Risk Score -->
+            <div class="stat-card amber">
+                <div class="stat-icon" style="background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.2)">
+                    <svg width="20" height="20" fill="none" stroke="#fbbf24" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6l4 2"/></svg>
+                </div>
+                <div>
+                    <p class="stat-label">Avg Risk Score</p>
+                    <p class="stat-value" style="color:#fbbf24" id="s-avg">0%</p>
+                    <p class="stat-sub">Mean probability</p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Table Section -->
+        <div style="padding:0 28px 28px">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+                <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                    <i data-lucide="list" class="w-4 h-4" style="color:#60a5fa"></i> Prediction Records
+                </h3>
+                <span class="text-xs" style="color:#475569">Sorted by most recent</span>
+            </div>
+
             {% if history %}
-            <table>
-                <thead>
-                    <tr>
-                        <th>Date & Time</th>
-                        <th>Age</th>
-                        <th>Result</th>
-                        <th>Risk Score</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for report in history %}
-                    <tr>
-                        <td>{{ report.timestamp }}</td>
-                        <td>{{ report.input_data.age }}</td>
-                        <td class="{{ 'high' if report.prediction == 1 else 'normal' }}">
-                            {{ 'HIGH RISK' if report.prediction == 1 else 'LOW RISK' }}
-                        </td>
-                        <td>{{ (report.probability * 100)|round(0) }}%</td>
-                        <td>
-                            <button data-index="{{ loop.index0 }}" onclick="downloadSpecificReport(this.dataset.index)" class="bg-blue-600/20 hover:bg-blue-600 text-blue-400 hover:text-white border border-blue-500/30 px-4 py-2 rounded-lg text-xs flex items-center gap-2 transition-all">
-                                <i data-lucide="download" class="w-4 h-4"></i> PDF
-                            </button>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+            <div class="reports-table-wrap">
+                <table class="reports-table">
+                    <thead>
+                        <tr>
+                            <th>Date &amp; Time</th>
+                            <th>Age</th>
+                            <th>Risk Level</th>
+                            <th>Risk Score</th>
+                            <th>Accuracy</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for report in history %}
+                        {% set pct = (report.probability * 100)|round(0)|int %}
+                        {% set risk_class = 'high' if pct >= 70 else ('mid' if pct >= 40 else 'low') %}
+                        {% set risk_label = 'HIGH RISK' if pct >= 70 else ('MEDIUM RISK' if pct >= 40 else 'LOW RISK') %}
+                        <tr>
+                            <td class="ts">{{ report.timestamp }}</td>
+                            <td class="age-cell">{{ report.input_data.age }} yrs</td>
+                            <td>
+                                <span class="risk-badge {{ risk_class }}">
+                                    <svg width="7" height="7" viewBox="0 0 8 8"><circle cx="4" cy="4" r="4" fill="currentColor"/></svg>
+                                    {{ risk_label }}
+                                </span>
+                            </td>
+                            <td style="min-width:130px">
+                                <div style="display:flex;align-items:center;gap:8px">
+                                    <div class="risk-bar-wrap" style="flex:1">
+                                        <div class="risk-bar-fill {{ risk_class }}" data-pct="{{ pct }}"></div>
+                                    </div>
+                                    <span style="font-size:11px;font-weight:700;min-width:32px;text-align:right;
+                                        color:{% if risk_class=='high' %}#f87171{% elif risk_class=='mid' %}#fbbf24{% else %}#4ade80{% endif %}"
+                                    >{{ pct }}%</span>
+                                </div>
+                            </td>
+                            <td style="color:#94a3b8;font-size:12px">{{ report.accuracy }}%</td>
+                            <td>
+                                <button data-index="{{ loop.index0 }}" onclick="downloadSpecificReport(this.dataset.index)" class="dl-btn">
+                                    <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                                    PDF
+                                </button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
             {% else %}
-            <p>No reports found. Go to Dashboard to make a prediction.</p>
+            <div class="reports-table-wrap empty-state">
+                <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                <p class="font-bold text-white mb-1">No Predictions Yet</p>
+                <p class="text-sm">Go to the Dashboard and run a prediction to see records here.</p>
+                <button onclick="window.location.href='/dashboard'" class="dl-btn" style="margin:16px auto 0;display:inline-flex">
+                    Go to Dashboard
+                </button>
+            </div>
             {% endif %}
         </div>
+
     </div>
 
     <script id="history-data" type="application/json">
@@ -169,6 +323,30 @@
         lucide.createIcons();
         const historyData = JSON.parse(document.getElementById('history-data').textContent);
 
+        // ── Compute summary stats ──────────────────────────────────────────
+        (function computeStats() {
+            const total = historyData.length;
+            if (total === 0) return;
+            const high  = historyData.filter(r => r.prediction === 1).length;
+            const low   = total - high;
+            const avgPct = Math.round(historyData.reduce((s,r) => s + r.probability * 100, 0) / total);
+
+            document.getElementById('s-total').textContent = total;
+            document.getElementById('s-high').textContent  = high;
+            document.getElementById('s-low').textContent   = low;
+            document.getElementById('s-avg').textContent   = avgPct + '%';
+        })();
+
+        // ── Animate progress bars ─────────────────────────────────────────
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.querySelectorAll('.risk-bar-fill').forEach(function(bar) {
+                    bar.style.width = bar.dataset.pct + '%';
+                });
+            }, 150);
+        });
+
+        // ── PDF Download ──────────────────────────────────────────────────
         async function downloadSpecificReport(index) {
             const report = historyData[index];
             const response = await fetch('/download', {
