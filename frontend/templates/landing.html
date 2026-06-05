@@ -3,6 +3,7 @@
 <head>
     <title>Heart AI Scout</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body class="landing-bg text-white min-h-screen flex items-center justify-center">
@@ -67,7 +68,15 @@
             </div>
         </div>
     </div>
+    
+    <!-- Footer outside the main shell to span the bottom -->
+    <div style="position: absolute; bottom: 0; width: 100%; left: 0;">
+        {% include 'footer.html' %}
+    </div>
 
     <script src="{{ url_for('static', filename='landing.js') }}"></script>
+    <script>
+        lucide.createIcons();
+    </script>
 </body>
 </html>

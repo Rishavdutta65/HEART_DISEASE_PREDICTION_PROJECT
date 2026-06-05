@@ -7,6 +7,7 @@ from reportlab.lib.units import inch
 import google.generativeai as genai
 import os
 from backend.pdf_generator import generate_medical_pdf
+from backend.file_extractor import extract_patient_data_with_gemini
 
 
 genai.configure(api_key="AIzaSyAiOoXEXngVmPDLhPp6LtK0gFhdkGlFrJ0")
@@ -125,6 +126,47 @@ def download_report():
         import traceback
         traceback.print_exc()
         return jsonify({"error": str(e)}), 500
+
+@app.route('/upload-extract', methods=['POST'])
+def upload_extract():
+    """Accept a PDF or image file, extract patient data using Gemini Vision."""
+    if 'file' not in request.files:
+        return jsonify({'success': False, 'error': 'No file uploaded'}), 400
+
+    file = request.files['file']
+    if file.filename == '':
+        return jsonify({'success': False, 'error': 'No file selected'}), 400
+
+    allowed_types = {
+        'application/pdf': 'application/pdf',
+        'image/jpeg': 'image/jpeg',
+        'image/jpg': 'image/jpeg',
+        'image/png': 'image/png',
+        'image/webp': 'image/webp',
+        'image/gif': 'image/gif',
+    }
+
+    mime_type = file.content_type or ''
+    # fallback: detect from extension
+    if mime_type not in allowed_types:
+        ext = file.filename.lower().rsplit('.', 1)[-1]
+        ext_map = {'pdf': 'application/pdf', 'jpg': 'image/jpeg', 'jpeg': 'image/jpeg',
+                   'png': 'image/png', 'webp': 'image/webp', 'gif': 'image/gif'}
+        mime_type = ext_map.get(ext, '')
+
+    if mime_type not in allowed_types:
+        return jsonify({'success': False, 'error': 'Unsupported file type. Please upload a PDF or image (JPG, PNG, WEBP).'}), 400
+
+    try:
+        file_bytes = file.read()
+        api_key = 'AIzaSyAiOoXEXngVmPDLhPp6LtK0gFhdkGlFrJ0'
+        result = extract_patient_data_with_gemini(file_bytes, mime_type, api_key)
+        return jsonify(result)
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return jsonify({'success': False, 'error': str(e)}), 500
+
 
 @app.route('/api/chat', methods=['POST'])
 def chat():

@@ -127,10 +127,9 @@
             <div id="dashboard-view" class="space-y-6">
                 <!-- Central Area -->
                 <div class="grid grid-cols-3 gap-6">
-                    <!-- Left Main Section -->
-                    <div class="col-span-2 panel dashed-area relative flex flex-col items-center justify-center py-12 px-6 border-2 border-dashed border-blue-500/30 bg-blue-500/5 rounded-2xl">
+                    <!-- Upload / No Data Card (col-span-2) -->
+                    <div class="col-span-2 panel dashed-area relative flex flex-col items-center justify-center py-16 px-6 border-2 border-dashed border-blue-500/30 bg-blue-500/5 rounded-2xl">
                         <div class="folder-glow mb-6 text-blue-500 relative">
-                            <!-- Folder with Cloud Icon -->
                             <div class="relative w-32 h-32 flex items-center justify-center">
                                 <i data-lucide="folder" class="w-24 h-24 text-blue-600 fill-blue-600/20"></i>
                                 <div class="absolute inset-0 flex items-center justify-center pt-4">
@@ -140,16 +139,19 @@
                         </div>
 
                         <h2 class="text-2xl font-bold mb-2 text-white">No Data Uploaded Yet</h2>
-                        <p class="text-textSecondary mb-8 text-center max-w-md">Please upload patient data to get started with heart disease prediction.</p>
-                        
-                        <div class="flex flex-col gap-6 items-center w-full max-w-xs">
-                            <button class="custom-btn w-full justify-center bg-blue-600 hover:bg-blue-700 text-white border-none py-3 shadow-[0_0_20px_rgba(37,99,235,0.4)]" onclick="switchTab('patient-input')">
+                        <p class="text-textSecondary mb-8 text-center max-w-md">Upload a medical report (PDF/image) or enter patient details manually to get started with heart disease prediction.</p>
+
+                        <div class="flex flex-col gap-3 items-center w-full max-w-xs">
+                            <button class="custom-btn w-full justify-center bg-blue-600 hover:bg-blue-700 text-white border-none py-3 shadow-[0_0_20px_rgba(37,99,235,0.4)]" onclick="openUploadModal()">
                                 <i data-lucide="cloud-upload" class="w-5 h-5"></i> Upload Patient Data
                             </button>
+                            <button class="custom-btn w-full justify-center py-3" style="border:1px solid rgba(59,130,246,0.35);color:#93c5fd;background:rgba(59,130,246,0.06);" onclick="switchTab('patient-input')">
+                                <i data-lucide="edit-3" class="w-5 h-5"></i> Enter Manually
+                            </button>
                         </div>
-                        
-
                     </div>
+
+
 
                     <!-- Right Side Cards -->
                     <div class="col-span-1 space-y-6 flex flex-col">
@@ -279,9 +281,27 @@
             <div id="patient-input-view" class="hidden grid grid-cols-1 xl:grid-cols-3 gap-6">
                 <!-- Left Main Section -->
                 <div class="col-span-1 xl:col-span-2 panel">
-                    <div class="mb-6">
-                        <h2 class="text-2xl font-bold mb-1">Patient Information Input</h2>
-                        <p class="text-textSecondary text-sm">Enter patient medical details to predict heart disease risk</p>
+                    <div class="mb-4 flex items-start justify-between gap-4">
+                        <div>
+                            <h2 class="text-2xl font-bold mb-1">Patient Information Input</h2>
+                            <p class="text-textSecondary text-sm">Enter patient medical details or upload a report to auto-fill with AI</p>
+                        </div>
+                        <button onclick="openUploadModal()" class="flex-shrink-0 flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold text-blue-300 border border-blue-500/30 bg-blue-500/10 hover:bg-blue-500/20 transition-all" style="white-space:nowrap">
+                            <i data-lucide="upload-cloud" class="w-4 h-4"></i>
+                            AI Auto-Fill from PDF / Image
+                        </button>
+                    </div>
+
+                    <!-- AI Fill Banner (shows after successful upload) -->
+                    <div id="ai-fill-banner" class="hidden mb-4 rounded-xl px-4 py-3 flex items-center gap-3" style="background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3);">
+                        <i data-lucide="check-circle" class="w-5 h-5 flex-shrink-0" style="color:#10b981"></i>
+                        <div class="flex-1">
+                            <p class="text-sm font-semibold" style="color:#34d399">AI Extraction Complete</p>
+                            <p id="ai-fill-note" class="text-xs mt-0.5" style="color:#94a3b8">Fields pre-filled from your document. Review and adjust if needed.</p>
+                        </div>
+                        <button onclick="this.closest('#ai-fill-banner').classList.add('hidden')" class="text-slate-500 hover:text-slate-300">
+                            <i data-lucide="x" class="w-4 h-4"></i>
+                        </button>
                     </div>
                     
                     <form class="space-y-6">
@@ -1091,6 +1111,317 @@
             document.getElementById('sum-low').textContent = Math.max(0, data.probability - 0.2).toFixed(2);
         }
     </script>
+
+    <!-- ============================================================
+         UPLOAD MODAL
+    ============================================================ -->
+    <div id="upload-modal" class="hidden fixed inset-0 z-[200] flex items-center justify-center p-4"
+         style="background: rgba(0,0,0,0.75); backdrop-filter: blur(6px);">
+        <div class="relative w-full max-w-lg rounded-2xl overflow-hidden shadow-2xl"
+             style="background: linear-gradient(160deg,#0d1528,#0a0f1e); border: 1px solid rgba(59,130,246,0.25);">
+
+            <!-- Header -->
+            <div class="px-6 pt-6 pb-4 flex items-center justify-between"
+                 style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+                <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-xl flex items-center justify-center"
+                         style="background: rgba(59,130,246,0.15); border: 1px solid rgba(59,130,246,0.25);">
+                        <i data-lucide="upload-cloud" class="w-5 h-5 text-blue-400"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-base font-bold text-white">AI Document Upload</h3>
+                        <p class="text-xs text-slate-400">Auto-fill form from medical report or lab PDF/image</p>
+                    </div>
+                </div>
+                <button onclick="closeUploadModal()" class="text-slate-500 hover:text-white transition-colors">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <!-- Drop Zone -->
+            <div class="px-6 py-6">
+                <div id="upload-dropzone"
+                     class="relative rounded-xl flex flex-col items-center justify-center gap-4 py-10 px-6 cursor-pointer transition-all duration-300"
+                     style="border: 2px dashed rgba(59,130,246,0.35); background: rgba(59,130,246,0.04);"
+                     onclick="document.getElementById('upload-file-input').click()"
+                     ondragover="handleDragOver(event)"
+                     ondragleave="handleDragLeave(event)"
+                     ondrop="handleDrop(event)">
+
+                    <div id="upload-icon-area" class="flex flex-col items-center gap-3 pointer-events-none">
+                        <div class="w-16 h-16 rounded-2xl flex items-center justify-center"
+                             style="background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.2);">
+                            <i data-lucide="file-up" class="w-8 h-8 text-blue-400"></i>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-sm font-semibold text-white">Drop your file here or <span class="text-blue-400 underline">browse</span></p>
+                            <p class="text-xs text-slate-500 mt-1">Supports PDF, JPG, PNG, WEBP — Max 10 MB</p>
+                        </div>
+                        <div class="flex items-center gap-3 mt-1">
+                            <span class="px-2.5 py-1 rounded-lg text-xs font-bold" style="background:rgba(239,68,68,0.12);color:#f87171;border:1px solid rgba(239,68,68,0.2)">PDF</span>
+                            <span class="px-2.5 py-1 rounded-lg text-xs font-bold" style="background:rgba(99,102,241,0.12);color:#a78bfa;border:1px solid rgba(99,102,241,0.2)">JPG</span>
+                            <span class="px-2.5 py-1 rounded-lg text-xs font-bold" style="background:rgba(99,102,241,0.12);color:#a78bfa;border:1px solid rgba(99,102,241,0.2)">PNG</span>
+                            <span class="px-2.5 py-1 rounded-lg text-xs font-bold" style="background:rgba(99,102,241,0.12);color:#a78bfa;border:1px solid rgba(99,102,241,0.2)">WEBP</span>
+                        </div>
+                    </div>
+
+                    <!-- Selected file preview -->
+                    <div id="upload-file-preview" class="hidden flex-col items-center gap-2 pointer-events-none w-full">
+                        <div class="w-12 h-12 rounded-xl flex items-center justify-center"
+                             style="background: rgba(16,185,129,0.12); border:1px solid rgba(16,185,129,0.25);">
+                            <i data-lucide="file-check" class="w-6 h-6" style="color:#34d399"></i>
+                        </div>
+                        <p id="upload-filename" class="text-sm font-semibold text-white text-center max-w-xs truncate"></p>
+                        <p id="upload-filesize" class="text-xs text-slate-500"></p>
+                        <p class="text-xs text-blue-400 mt-1">Click to change file</p>
+                    </div>
+                </div>
+                <input id="upload-file-input" type="file" accept=".pdf,.jpg,.jpeg,.png,.webp" class="hidden"
+                       onchange="handleFileSelect(this)">
+
+                <!-- Processing State -->
+                <div id="upload-processing" class="hidden mt-4 rounded-xl px-4 py-4 flex flex-col items-center gap-3"
+                     style="background: rgba(59,130,246,0.06); border:1px solid rgba(59,130,246,0.15);">
+                    <div class="flex items-center gap-3">
+                        <svg class="animate-spin w-5 h-5 text-blue-400" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/>
+                        </svg>
+                        <p class="text-sm font-semibold text-blue-300">Gemini AI is reading your document…</p>
+                    </div>
+                    <p class="text-xs text-slate-500 text-center">Extracting age, vitals, ECG, cholesterol and other parameters automatically</p>
+                    <div class="w-full rounded-full overflow-hidden h-1.5" style="background:rgba(255,255,255,0.05)">
+                        <div id="upload-progress-bar" class="h-full rounded-full" style="background: linear-gradient(90deg,#3b82f6,#8b5cf6); animation: uploadBar 2.5s ease-in-out infinite;"></div>
+                    </div>
+                </div>
+
+                <!-- Error State -->
+                <div id="upload-error" class="hidden mt-4 rounded-xl px-4 py-3 flex items-center gap-3"
+                     style="background: rgba(239,68,68,0.06); border:1px solid rgba(239,68,68,0.25);">
+                    <i data-lucide="alert-circle" class="w-5 h-5 flex-shrink-0" style="color:#f87171"></i>
+                    <div>
+                        <p class="text-sm font-semibold" style="color:#fca5a5">Extraction Failed</p>
+                        <p id="upload-error-msg" class="text-xs mt-0.5 text-slate-400"></p>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex gap-3 mt-5">
+                    <button onclick="closeUploadModal()"
+                            class="flex-1 py-2.5 rounded-xl text-sm font-semibold text-slate-400 border border-slate-700 hover:bg-slate-800 transition-colors">
+                        Cancel
+                    </button>
+                    <button id="upload-submit-btn" onclick="submitUpload()"
+                            class="flex-1 py-2.5 rounded-xl text-sm font-bold text-white transition-all"
+                            style="background: linear-gradient(135deg,#2563eb,#7c3aed); box-shadow: 0 0 20px rgba(37,99,235,0.3);">
+                        <i data-lucide="wand-2" class="w-4 h-4 inline mr-1"></i> Extract & Auto-Fill
+                    </button>
+                </div>
+
+                <p class="text-[10px] text-slate-600 text-center mt-3">
+                    Powered by Gemini Vision AI · Your file is processed securely and not stored
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        @keyframes uploadBar {
+            0%   { width: 0%; }
+            50%  { width: 75%; }
+            100% { width: 95%; }
+        }
+        #upload-dropzone.drag-over {
+            border-color: rgba(59,130,246,0.8) !important;
+            background: rgba(59,130,246,0.12) !important;
+        }
+    </style>
+
+    <script>
+    // ============================================================
+    // UPLOAD MODAL LOGIC
+    // ============================================================
+    let selectedUploadFile = null;
+
+    function openUploadModal() {
+        selectedUploadFile = null;
+        resetUploadUI();
+        document.getElementById('upload-modal').classList.remove('hidden');
+        lucide.createIcons();
+    }
+
+    function closeUploadModal() {
+        document.getElementById('upload-modal').classList.add('hidden');
+        resetUploadUI();
+    }
+
+    function resetUploadUI() {
+        document.getElementById('upload-icon-area').classList.remove('hidden');
+        document.getElementById('upload-file-preview').classList.add('hidden');
+        document.getElementById('upload-processing').classList.add('hidden');
+        document.getElementById('upload-error').classList.add('hidden');
+        document.getElementById('upload-file-input').value = '';
+        selectedUploadFile = null;
+    }
+
+    function handleDragOver(e) {
+        e.preventDefault();
+        document.getElementById('upload-dropzone').classList.add('drag-over');
+    }
+    function handleDragLeave(e) {
+        document.getElementById('upload-dropzone').classList.remove('drag-over');
+    }
+    function handleDrop(e) {
+        e.preventDefault();
+        document.getElementById('upload-dropzone').classList.remove('drag-over');
+        const file = e.dataTransfer.files[0];
+        if (file) applySelectedFile(file);
+    }
+
+    function handleFileSelect(input) {
+        const file = input.files[0];
+        if (file) applySelectedFile(file);
+    }
+
+    function applySelectedFile(file) {
+        const maxSize = 10 * 1024 * 1024; // 10MB
+        if (file.size > maxSize) {
+            showUploadError('File is too large. Maximum allowed size is 10 MB.');
+            return;
+        }
+        const allowed = ['application/pdf','image/jpeg','image/png','image/webp','image/gif'];
+        const ext = file.name.toLowerCase().split('.').pop();
+        const extOk = ['pdf','jpg','jpeg','png','webp','gif'].includes(ext);
+        if (!allowed.includes(file.type) && !extOk) {
+            showUploadError('Unsupported file type. Please upload a PDF, JPG, PNG, or WEBP file.');
+            return;
+        }
+        selectedUploadFile = file;
+
+        // Show preview
+        document.getElementById('upload-icon-area').classList.add('hidden');
+        document.getElementById('upload-file-preview').classList.remove('hidden');
+        document.getElementById('upload-file-preview').classList.add('flex');
+        document.getElementById('upload-filename').textContent = file.name;
+        const sizeKB = (file.size / 1024).toFixed(1);
+        document.getElementById('upload-filesize').textContent = sizeKB > 1024
+            ? (sizeKB / 1024).toFixed(1) + ' MB'
+            : sizeKB + ' KB';
+        document.getElementById('upload-error').classList.add('hidden');
+        lucide.createIcons();
+    }
+
+    function showUploadError(msg) {
+        document.getElementById('upload-error-msg').textContent = msg;
+        document.getElementById('upload-error').classList.remove('hidden');
+        document.getElementById('upload-processing').classList.add('hidden');
+        lucide.createIcons();
+    }
+
+    async function submitUpload() {
+        if (!selectedUploadFile) {
+            showUploadError('Please select a file first.');
+            return;
+        }
+
+        // Show processing state
+        document.getElementById('upload-processing').classList.remove('hidden');
+        document.getElementById('upload-error').classList.add('hidden');
+        document.getElementById('upload-submit-btn').disabled = true;
+        document.getElementById('upload-submit-btn').style.opacity = '0.5';
+
+        try {
+            const formData = new FormData();
+            formData.append('file', selectedUploadFile);
+
+            const response = await fetch('/upload-extract', {
+                method: 'POST',
+                body: formData
+            });
+            const result = await response.json();
+
+            if (result.success && result.data) {
+                applyExtractedData(result.data);
+            } else {
+                showUploadError(result.error || 'AI could not extract data from this document.');
+            }
+        } catch (err) {
+            showUploadError('Upload failed. Please check your connection and try again.');
+        } finally {
+            document.getElementById('upload-submit-btn').disabled = false;
+            document.getElementById('upload-submit-btn').style.opacity = '1';
+            document.getElementById('upload-processing').classList.add('hidden');
+        }
+    }
+
+    function applyExtractedData(data) {
+        // Switch to patient input tab first
+        switchTab('patient-input');
+        closeUploadModal();
+
+        // Helper: set numeric input
+        const setInput = (id, val) => {
+            if (val === null || val === undefined) return;
+            const el = document.getElementById(id);
+            if (el) el.value = val;
+        };
+
+        // Helper: set select by value prefix
+        const setSelect = (id, val) => {
+            if (val === null || val === undefined) return;
+            const el = document.getElementById(id);
+            if (!el) return;
+            const strVal = String(val);
+            for (let opt of el.options) {
+                if (opt.value === strVal || opt.text.startsWith(strVal)) {
+                    el.value = opt.value;
+                    break;
+                }
+            }
+        };
+
+        // Apply all extracted fields
+        setInput('age', data.age);
+        setInput('trestbps', data.trestbps);
+        setInput('chol', data.chol);
+        setInput('thalach', data.thalach);
+        setInput('oldpeak', data.oldpeak);
+
+        // Sex select: Male=1, Female=0
+        if (data.sex !== null && data.sex !== undefined) {
+            const sexEl = document.getElementById('sex');
+            if (sexEl) sexEl.value = data.sex == 1 ? 'Male' : 'Female';
+        }
+
+        // Selects that start with numeric code
+        setSelect('cp', data.cp);
+        setSelect('fbs', data.fbs);
+        setSelect('restecg', data.restecg);
+        setSelect('exang', data.exang);
+        setSelect('slope', data.slope);
+        setSelect('ca', data.ca);
+        setSelect('thal', data.thal);
+
+        // Show success banner
+        const filled = data.extracted_fields || Object.values(data).filter(v => v !== null && typeof v !== 'string').length;
+        const note = data.notes
+            ? `${filled} fields detected. Notes: ${data.notes}`
+            : `${filled} of 13 fields were auto-filled. Please review and complete any missing fields.`;
+        document.getElementById('ai-fill-note').textContent = note;
+        document.getElementById('ai-fill-banner').classList.remove('hidden');
+        lucide.createIcons();
+
+        // Scroll to top of form
+        document.getElementById('patient-input-view').scrollIntoView({behavior: 'smooth', block: 'start'});
+    }
+
+    // Close modal on backdrop click
+    document.getElementById('upload-modal').addEventListener('click', function(e) {
+        if (e.target === this) closeUploadModal();
+    });
+    </script>
+
+    {% include 'footer.html' %}
 <!-- Help & Support Modal Self-Contained Block -->
 <style>
     /* === Medical Card Focus Interaction === */

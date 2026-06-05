@@ -1,0 +1,107 @@
+<!-- FIXED BOTTOM FOOTER -->
+<style>
+    .fixed-project-footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 48px;
+        background: rgba(15, 23, 42, 0.85);
+        border-top: 1px solid rgba(59, 130, 246, 0.2);
+        backdrop-filter: blur(16px);
+        z-index: 100;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 24px;
+        box-shadow: 0 -4px 24px rgba(59, 130, 246, 0.15);
+        transition: box-shadow 0.3s ease;
+    }
+    .fixed-project-footer:hover {
+        box-shadow: 0 -4px 32px rgba(59, 130, 246, 0.25);
+    }
+    .footer-left {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+    .footer-title-compact {
+        font-size: 13px;
+        font-weight: 800;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: white;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .footer-subtitle-compact {
+        font-size: 11px;
+        color: #94a3b8;
+        letter-spacing: 0.02em;
+        border-left: 1px solid rgba(255, 255, 255, 0.1);
+        padding-left: 12px;
+    }
+    .footer-center {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 11px;
+        color: #cbd5e1;
+    }
+    .footer-devs-label {
+        color: #64748b;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        font-size: 10px;
+        margin-right: 4px;
+    }
+    .footer-dev {
+        color: #cbd5e1;
+        font-weight: 600;
+    }
+    .footer-dev-dot {
+        color: rgba(255, 255, 255, 0.2);
+    }
+    .footer-right {
+        font-size: 11px;
+        color: #60a5fa;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        background: rgba(59, 130, 246, 0.1);
+        padding: 4px 10px;
+        border-radius: 99px;
+        border: 1px solid rgba(59, 130, 246, 0.2);
+    }
+    /* Add bottom padding to main content to prevent overlap */
+    body {
+        padding-bottom: 48px;
+    }
+</style>
+
+<div class="fixed-project-footer">
+    <div class="footer-left">
+        <div class="footer-title-compact">
+            <i data-lucide="activity" class="w-4 h-4 text-blue-400"></i>
+            Heart Disease Prediction System
+        </div>
+        <div class="footer-subtitle-compact hidden md:block">
+            AI-Powered Healthcare Risk Analysis Platform
+        </div>
+    </div>
+    
+    <div class="footer-center hidden lg:flex">
+        <span class="footer-devs-label">Developed By:</span>
+        <span class="footer-dev">Rishav</span> <span class="footer-dev-dot">•</span>
+        <span class="footer-dev">Saptarsha</span> <span class="footer-dev-dot">•</span>
+        <span class="footer-dev">Ranojit</span> <span class="footer-dev-dot">•</span>
+        <span class="footer-dev">Anirban</span> <span class="footer-dev-dot">•</span>
+        <span class="footer-dev">Saheli</span> <span class="footer-dev-dot">•</span>
+        <span class="footer-dev">Riyasa</span>
+    </div>
+    
+    <div class="footer-right">
+        v1.0.0
+    </div>
+</div>
