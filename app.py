@@ -6,6 +6,8 @@ from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib.units import inch
 import google.generativeai as genai
 import os
+from backend.pdf_generator import generate_medical_pdf
+
 
 genai.configure(api_key="AIzaSyAiOoXEXngVmPDLhPp6LtK0gFhdkGlFrJ0")
 chat_model = genai.GenerativeModel('gemini-2.5-flash')
@@ -86,39 +88,37 @@ def result_page():
     if not prediction_data:
         return redirect(url_for('home'))
     return render_template('result.html', **prediction_data)
+
+@app.route('/view_history/<int:index>')
+def view_history(index):
+    history = session.get('history', [])
+    if 0 <= index < len(history):
+        session['prediction_data'] = history[index]
+        return redirect(url_for('result_page'))
+    return redirect(url_for('reports_page'))
+
+@app.route('/api/history/<int:index>', methods=['DELETE'])
+def delete_history(index):
+    history = session.get('history', [])
+    if 0 <= index < len(history):
+        del history[index]
+        session['history'] = history
+        session.modified = True
+        return jsonify({"success": True})
+    return jsonify({"error": "Report not found"}), 404
+
 @app.route('/download', methods=['POST'])
 def download_report():
     try:
         data = request.json
-        buffer = io.BytesIO()
-        doc = SimpleDocTemplate(buffer)
-        styles = getSampleStyleSheet()
-
-        content = []
-        content.append(Paragraph("Heart Disease Prediction Report", styles['Title']))
-        content.append(Spacer(1, 0.2 * inch))
-        
-        # Ensure all values are strings and handle potential missing keys
-        prediction = str(data.get('prediction', 'N/A'))
-        accuracy = str(data.get('accuracy', 'N/A'))
-        score = str(data.get('score', 'N/A'))
-        suggestion = str(data.get('suggestion', 'N/A'))
-
-        content.append(Paragraph(f"<b>Prediction:</b> {prediction}", styles['Normal']))
-        content.append(Spacer(1, 0.1 * inch))
-        content.append(Paragraph(f"<b>Accuracy:</b> {accuracy}", styles['Normal']))
-        content.append(Spacer(1, 0.1 * inch))
-        content.append(Paragraph(f"<b>Risk Score:</b> {score}", styles['Normal']))
-        content.append(Spacer(1, 0.1 * inch))
-        content.append(Paragraph(f"<b>Suggestion:</b> {suggestion}", styles['Normal']))
-
-        doc.build(content)
-        buffer.seek(0)
+        # Generate the advanced PDF
+        static_dir = os.path.join(app.root_path, 'frontend', 'static')
+        pdf_buffer = generate_medical_pdf(data, static_dir)
 
         return send_file(
-            buffer,
+            pdf_buffer,
             as_attachment=True,
-            download_name="Heart_Report.pdf",
+            download_name=f"Heart_Report_{datetime.now().strftime('%Y%m%d')}.pdf" if 'datetime' in globals() else "Heart_Report.pdf",
             mimetype='application/pdf'
         )
     except Exception as e:

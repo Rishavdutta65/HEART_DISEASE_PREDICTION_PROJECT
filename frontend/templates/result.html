@@ -3,6 +3,7 @@
 
 <head>
     <title>Heart Disease Prediction System</title>
+    <link rel="icon" type="image/svg+xml" href="/static/favicon.svg">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -129,9 +130,7 @@
     <!-- Sidebar -->
     <aside class="w-64 border-r border-surfaceBorder bg-surface flex flex-col shrink-0">
         <div class="h-20 flex items-center px-6 border-b border-surfaceBorder">
-            <div class="w-10 h-10 bg-red-600 rounded-lg flex items-center justify-center mr-3 text-white shadow-[0_0_15px_rgba(220,38,38,0.4)]">
-                <i data-lucide="heart-pulse" class="w-7 h-7 fill-white"></i>
-            </div>
+            <img src="/static/logo.svg" alt="Heart AI Logo" class="w-10 h-10 mr-3 filter drop-shadow-[0_0_8px_rgba(34,211,238,0.5)]">
             <div>
                 <h1 class="text-sm font-bold leading-tight">Heart Disease <br> Prediction System</h1>
                 <p class="text-[9px] text-textSecondary uppercase tracking-tighter">AI-Powered Health Analysis</p>
@@ -326,12 +325,7 @@
             const response = await fetch('/download', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    prediction: prediction === 1 ? 'High Risk' : 'Low Risk',
-                    accuracy: accuracy + "%",
-                    score: Math.round(probability * 100) + "%",
-                    suggestion: prediction === 1 ? 'Consult doctor immediately, improve diet, and exercise.' : 'Maintain a healthy diet and regular exercise.'
-                })
+                body: JSON.stringify(heartData)
             });
 
             if (response.ok) {

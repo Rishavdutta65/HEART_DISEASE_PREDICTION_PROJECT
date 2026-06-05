@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>Prediction History - Heart AI</title>
+    <link rel="icon" type="image/svg+xml" href="/static/favicon.svg">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <script>
@@ -130,9 +131,7 @@
     <!-- Sidebar -->
     <aside class="w-64 border-r border-surfaceBorder bg-surface flex flex-col shrink-0">
         <div class="h-20 flex items-center px-6 border-b border-surfaceBorder">
-            <div class="w-10 h-10 bg-red-600 rounded-lg flex items-center justify-center mr-3 text-white shadow-[0_0_15px_rgba(220,38,38,0.4)]">
-                <i data-lucide="heart-pulse" class="w-7 h-7 fill-white"></i>
-            </div>
+            <img src="/static/logo.svg" alt="Heart AI Logo" class="w-10 h-10 mr-3 filter drop-shadow-[0_0_8px_rgba(34,211,238,0.5)]">
             <div>
                 <h1 class="text-sm font-bold leading-tight">Heart Disease <br> Prediction System</h1>
                 <p class="text-[9px] text-textSecondary uppercase tracking-tighter">AI-Powered Health Analysis</p>
@@ -245,11 +244,26 @@
 
         <!-- Table Section -->
         <div style="padding:0 28px 28px">
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:15px">
                 <h3 class="text-sm font-bold text-white flex items-center gap-2">
                     <i data-lucide="list" class="w-4 h-4" style="color:#60a5fa"></i> Prediction Records
                 </h3>
-                <span class="text-xs" style="color:#475569">Sorted by most recent</span>
+                <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+                    <input type="text" id="searchInput" placeholder="Search by Age or Date..." 
+                           class="bg-surface/50 border border-surfaceBorder rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-blue-500 w-48">
+                    
+                    <select id="riskFilter" class="bg-surface/50 border border-surfaceBorder rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-blue-500">
+                        <option value="all">All Risks</option>
+                        <option value="high">High Risk</option>
+                        <option value="mid">Medium Risk</option>
+                        <option value="low">Low Risk</option>
+                    </select>
+
+                    <select id="sortDate" class="bg-surface/50 border border-surfaceBorder rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-blue-500">
+                        <option value="desc">Newest First</option>
+                        <option value="asc">Oldest First</option>
+                    </select>
+                </div>
             </div>
 
             {% if history %}
@@ -270,7 +284,7 @@
                         {% set pct = (report.probability * 100)|round(0)|int %}
                         {% set risk_class = 'high' if pct >= 70 else ('mid' if pct >= 40 else 'low') %}
                         {% set risk_label = 'HIGH RISK' if pct >= 70 else ('MEDIUM RISK' if pct >= 40 else 'LOW RISK') %}
-                        <tr>
+                        <tr class="report-row" data-risk="{{ risk_class }}" data-ts="{{ report.timestamp }}" data-age="{{ report.input_data.age }}">
                             <td class="ts">{{ report.timestamp }}</td>
                             <td class="age-cell">{{ report.input_data.age }} yrs</td>
                             <td>
@@ -291,10 +305,17 @@
                             </td>
                             <td style="color:#94a3b8;font-size:12px">{{ report.accuracy }}%</td>
                             <td>
-                                <button data-index="{{ loop.index0 }}" onclick="downloadSpecificReport(this.dataset.index)" class="dl-btn">
-                                    <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-                                    PDF
-                                </button>
+                                <div style="display:flex;gap:6px">
+                                    <button onclick="window.location.href='/view_history/{{ loop.index0 }}'" class="dl-btn" style="color:#34d399;background:rgba(52,211,153,0.1);border-color:rgba(52,211,153,0.25)" title="View">
+                                        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                                    </button>
+                                    <button data-index="{{ loop.index0 }}" onclick="downloadSpecificReport(this.dataset.index)" class="dl-btn" title="Download PDF">
+                                        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                                    </button>
+                                    <button onclick="deleteReport({{ loop.index0 }})" class="dl-btn" style="color:#f87171;background:rgba(239,68,68,0.1);border-color:rgba(239,68,68,0.25)" title="Delete">
+                                        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                                    </button>
+                                </div>
                             </td>
                         </tr>
                         {% endfor %}
@@ -324,18 +345,63 @@
         const historyData = JSON.parse(document.getElementById('history-data').textContent);
 
         // ── Compute summary stats ──────────────────────────────────────────
-        (function computeStats() {
+        function computeStats() {
             const total = historyData.length;
             if (total === 0) return;
             const high  = historyData.filter(r => r.prediction === 1).length;
-            const low   = total - high;
+            const mid   = historyData.filter(r => r.prediction === 0 && r.probability >= 0.4 && r.probability < 0.7).length;
+            const low   = total - high - mid;
             const avgPct = Math.round(historyData.reduce((s,r) => s + r.probability * 100, 0) / total);
 
             document.getElementById('s-total').textContent = total;
             document.getElementById('s-high').textContent  = high;
             document.getElementById('s-low').textContent   = low;
-            document.getElementById('s-avg').textContent   = avgPct + '%';
-        })();
+            const sAvg = document.getElementById('s-avg');
+            if(sAvg) sAvg.textContent = avgPct + '%';
+        }
+        computeStats();
+
+        // ── Search, Filter & Sort ─────────────────────────────────────────
+        const searchInput = document.getElementById('searchInput');
+        const riskFilter = document.getElementById('riskFilter');
+        const sortDate = document.getElementById('sortDate');
+        
+        function applyFilters() {
+            const term = searchInput ? searchInput.value.toLowerCase() : '';
+            const risk = riskFilter ? riskFilter.value : 'all';
+            
+            const rows = Array.from(document.querySelectorAll('.report-row'));
+            
+            rows.forEach(row => {
+                const ts = row.dataset.ts.toLowerCase();
+                const age = row.dataset.age;
+                const rClass = row.dataset.risk;
+                
+                const matchesSearch = ts.includes(term) || age.includes(term);
+                const matchesRisk = risk === 'all' || rClass === risk;
+                
+                row.style.display = (matchesSearch && matchesRisk) ? '' : 'none';
+            });
+        }
+        
+        function applySort() {
+            const sortVal = sortDate ? sortDate.value : 'desc';
+            const tbody = document.querySelector('.reports-table tbody');
+            if(!tbody) return;
+            const rows = Array.from(tbody.querySelectorAll('.report-row'));
+            
+            rows.sort((a, b) => {
+                const tsA = new Date(a.dataset.ts).getTime();
+                const tsB = new Date(b.dataset.ts).getTime();
+                return sortVal === 'desc' ? tsB - tsA : tsA - tsB;
+            });
+            
+            rows.forEach(row => tbody.appendChild(row));
+        }
+
+        if(searchInput) searchInput.addEventListener('input', applyFilters);
+        if(riskFilter) riskFilter.addEventListener('change', applyFilters);
+        if(sortDate) sortDate.addEventListener('change', applySort);
 
         // ── Animate progress bars ─────────────────────────────────────────
         window.addEventListener('load', function() {
@@ -352,12 +418,7 @@
             const response = await fetch('/download', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    prediction: report.prediction === 1 ? 'High Risk' : 'Low Risk',
-                    accuracy: report.accuracy + "%",
-                    score: Math.round(report.probability * 100) + "%",
-                    suggestion: report.prediction === 1 ? 'Consult doctor immediately.' : 'Maintain healthy habits.'
-                })
+                body: JSON.stringify(report)
             });
 
             if (response.ok) {
@@ -372,6 +433,17 @@
                 document.body.removeChild(a);
             } else {
                 alert('Failed to generate report.');
+            }
+        }
+        
+        // ── Delete Report ─────────────────────────────────────────────────
+        async function deleteReport(index) {
+            if(!confirm("Are you sure you want to delete this prediction record?")) return;
+            const response = await fetch(`/api/history/${index}`, { method: 'DELETE' });
+            if(response.ok) {
+                window.location.reload();
+            } else {
+                alert("Failed to delete record.");
             }
         }
     </script>
