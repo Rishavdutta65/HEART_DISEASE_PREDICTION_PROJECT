@@ -111,10 +111,7 @@
                     <span class="text-textSecondary">SYSTEM STATUS:</span>
                     <span class="text-green-500">ACTIVE</span>
                 </div>
-                <div class="flex items-center gap-2 border-l border-surfaceBorder pl-6">
-                    <div class="w-1.5 h-1.5 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]"></div>
-                    <span class="text-textSecondary font-medium normal-case">Backend Online</span>
-                </div>
+
             </div>
             
             <div class="flex items-center gap-5 ml-4 border-l border-surfaceBorder pl-8">
@@ -459,80 +456,276 @@
 
                 <!-- Right Section -->
                 <div class="col-span-1 space-y-6">
-                    <!-- HEART DISEASE PREDICTION INPUT GUIDE -->
-                    <div class="panel">
-                        <h3 class="font-bold mb-2 text-blue-400 text-sm uppercase tracking-wider">HEART DISEASE PREDICTION INPUT GUIDE</h3>
-                        <p class="text-xs text-textSecondary mb-4 italic">Please enter values within the recommended ranges.</p>
-                        <div class="text-xs text-textSecondary space-y-4 max-h-[450px] overflow-y-auto pr-1">
-                            <div>
-                                <strong class="text-white block">1. Age</strong>
-                                <p>Your age in years.</p>
-                                <p class="text-[11px] text-cyan-400">Range: 29 – 77 | Example: 45</p>
+                    <!-- HEART DISEASE PREDICTION INPUT GUIDE - Premium Version -->
+                    <div class="rounded-2xl overflow-hidden border border-white/[0.06] shadow-[0_8px_40px_rgba(0,0,0,0.45)]" style="background: linear-gradient(160deg, #0d1528 0%, #0a0f1e 100%)">
+                        
+                        <!-- Gradient Header -->
+                        <div class="relative px-5 pt-5 pb-4 overflow-hidden" style="background: linear-gradient(135deg, rgba(37,99,235,0.18) 0%, rgba(99,102,241,0.12) 100%); border-bottom: 1px solid rgba(99,102,241,0.15)">
+                            <div class="absolute inset-0 opacity-20" style="background: radial-gradient(circle at 80% 0%, rgba(139,92,246,0.4), transparent 60%)"></div>
+                            <div class="relative flex items-start gap-3">
+                                <div class="mt-0.5 p-2 rounded-xl" style="background: rgba(37,99,235,0.15); border: 1px solid rgba(99,102,241,0.25)">
+                                    <svg class="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color:#60a5fa"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                                </div>
+                                <div>
+                                    <h3 class="text-[11px] font-bold uppercase tracking-[0.18em]" style="background: linear-gradient(90deg,#60a5fa,#a78bfa); -webkit-background-clip:text; -webkit-text-fill-color:transparent">Input Guide</h3>
+                                    <p class="text-[10px] mt-0.5" style="color:rgba(148,163,184,0.7)">13 attributes · AI Risk Engine</p>
+                                </div>
                             </div>
-                            <div>
-                                <strong class="text-white block">2. Gender</strong>
-                                <p>Male = 1<br>Female = 0</p>
+                            <p class="relative text-[10.5px] mt-3" style="color:rgba(148,163,184,0.65)">Enter values within recommended ranges for accurate predictions.</p>
+                        </div>
+
+                        <!-- Scrollable Cards -->
+                        <div class="p-3 space-y-2 max-h-[480px] overflow-y-auto" style="scrollbar-width:thin; scrollbar-color:rgba(99,102,241,0.3) transparent">
+
+                            <!-- GROUP: Demographics -->
+                            <div class="mb-1">
+                                <div class="flex items-center gap-2 px-1 mb-1.5">
+                                    <div class="h-px flex-1" style="background:rgba(20,184,166,0.25)"></div>
+                                    <span class="text-[8.5px] font-bold uppercase tracking-widest" style="color:#2dd4bf">Demographics</span>
+                                    <div class="h-px flex-1" style="background:rgba(20,184,166,0.25)"></div>
+                                </div>
+
+                                <!-- Age -->
+                                <div class="group rounded-xl p-3 mb-1.5 cursor-default transition-all duration-300" style="background:rgba(20,184,166,0.04); border:1px solid rgba(20,184,166,0.12); hover:border-color:rgba(20,184,166,0.35)">
+                                    <div class="flex items-center justify-between mb-1.5">
+                                        <div class="flex items-center gap-2">
+                                            <div class="w-6 h-6 rounded-lg flex items-center justify-center text-[10px] font-black" style="background:rgba(20,184,166,0.15); color:#2dd4bf">01</div>
+                                            <span class="text-[11.5px] font-bold text-white">Age</span>
+                                        </div>
+                                        <span class="text-[8px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-full" style="background:rgba(20,184,166,0.12); color:#2dd4bf">yrs</span>
+                                    </div>
+                                    <p class="text-[10px] mb-1.5" style="color:rgba(148,163,184,0.75)">Patient's age in years.</p>
+                                    <div class="flex items-center gap-1.5">
+                                        <span class="text-[9px] px-2 py-0.5 rounded-full font-semibold" style="background:rgba(20,184,166,0.1); color:#5eead4; border:1px solid rgba(20,184,166,0.2)">29 – 77</span>
+                                        <span class="text-[9px]" style="color:rgba(148,163,184,0.4)">·</span>
+                                        <span class="text-[9px]" style="color:rgba(148,163,184,0.5)">e.g. <span style="color:#a78bfa">45</span></span>
+                                    </div>
+                                </div>
+
+                                <!-- Sex -->
+                                <div class="group rounded-xl p-3 cursor-default transition-all duration-300" style="background:rgba(20,184,166,0.04); border:1px solid rgba(20,184,166,0.12)">
+                                    <div class="flex items-center justify-between mb-1.5">
+                                        <div class="flex items-center gap-2">
+                                            <div class="w-6 h-6 rounded-lg flex items-center justify-center text-[10px] font-black" style="background:rgba(20,184,166,0.15); color:#2dd4bf">02</div>
+                                            <span class="text-[11.5px] font-bold text-white">Sex</span>
+                                        </div>
+                                        <span class="text-[8px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-full" style="background:rgba(20,184,166,0.12); color:#2dd4bf">binary</span>
+                                    </div>
+                                    <div class="flex gap-2">
+                                        <span class="text-[9px] px-2 py-0.5 rounded-full" style="background:rgba(99,102,241,0.12); color:#a5b4fc; border:1px solid rgba(99,102,241,0.2)">0 = Female</span>
+                                        <span class="text-[9px] px-2 py-0.5 rounded-full" style="background:rgba(99,102,241,0.12); color:#a5b4fc; border:1px solid rgba(99,102,241,0.2)">1 = Male</span>
+                                    </div>
+                                </div>
                             </div>
-                            <div>
-                                <strong class="text-white block">3. Chest Pain Type (cp)</strong>
-                                <p>0 = Typical chest pain<br>1 = Atypical chest pain<br>2 = Non-cardiac chest pain<br>3 = No chest pain symptoms</p>
+
+                            <!-- GROUP: Symptoms -->
+                            <div class="mb-1">
+                                <div class="flex items-center gap-2 px-1 mb-1.5">
+                                    <div class="h-px flex-1" style="background:rgba(244,63,94,0.25)"></div>
+                                    <span class="text-[8.5px] font-bold uppercase tracking-widest" style="color:#fb7185">Symptoms</span>
+                                    <div class="h-px flex-1" style="background:rgba(244,63,94,0.25)"></div>
+                                </div>
+
+                                <!-- Chest Pain -->
+                                <div class="group rounded-xl p-3 mb-1.5 cursor-default transition-all duration-300" style="background:rgba(244,63,94,0.04); border:1px solid rgba(244,63,94,0.12)">
+                                    <div class="flex items-center justify-between mb-1.5">
+                                        <div class="flex items-center gap-2">
+                                            <div class="w-6 h-6 rounded-lg flex items-center justify-center text-[10px] font-black" style="background:rgba(244,63,94,0.15); color:#fb7185">03</div>
+                                            <span class="text-[11.5px] font-bold text-white">Chest Pain <span style="color:#fb7185" class="text-[9px]">(cp)</span></span>
+                                        </div>
+                                        <span class="text-[8px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-full" style="background:rgba(244,63,94,0.12); color:#fb7185">0–3</span>
+                                    </div>
+                                    <div class="grid grid-cols-2 gap-1">
+                                        <span class="text-[9px] px-1.5 py-0.5 rounded-md" style="background:rgba(244,63,94,0.08); color:rgba(251,113,133,0.8); border:1px solid rgba(244,63,94,0.15)">0 · Typical Angina</span>
+                                        <span class="text-[9px] px-1.5 py-0.5 rounded-md" style="background:rgba(244,63,94,0.08); color:rgba(251,113,133,0.8); border:1px solid rgba(244,63,94,0.15)">1 · Atypical</span>
+                                        <span class="text-[9px] px-1.5 py-0.5 rounded-md" style="background:rgba(244,63,94,0.08); color:rgba(251,113,133,0.8); border:1px solid rgba(244,63,94,0.15)">2 · Non-anginal</span>
+                                        <span class="text-[9px] px-1.5 py-0.5 rounded-md" style="background:rgba(244,63,94,0.08); color:rgba(251,113,133,0.8); border:1px solid rgba(244,63,94,0.15)">3 · Asymptomatic</span>
+                                    </div>
+                                </div>
+
+                                <!-- Exercise Angina -->
+                                <div class="group rounded-xl p-3 cursor-default transition-all duration-300" style="background:rgba(244,63,94,0.04); border:1px solid rgba(244,63,94,0.12)">
+                                    <div class="flex items-center justify-between mb-1.5">
+                                        <div class="flex items-center gap-2">
+                                            <div class="w-6 h-6 rounded-lg flex items-center justify-center text-[10px] font-black" style="background:rgba(244,63,94,0.15); color:#fb7185">09</div>
+                                            <span class="text-[11.5px] font-bold text-white">Exercise Angina <span style="color:#fb7185" class="text-[9px]">(exang)</span></span>
+                                        </div>
+                                    </div>
+                                    <div class="flex gap-2">
+                                        <span class="text-[9px] px-2 py-0.5 rounded-full" style="background:rgba(244,63,94,0.1); color:#fda4af; border:1px solid rgba(244,63,94,0.2)">0 = No</span>
+                                        <span class="text-[9px] px-2 py-0.5 rounded-full" style="background:rgba(244,63,94,0.1); color:#fda4af; border:1px solid rgba(244,63,94,0.2)">1 = Yes</span>
+                                    </div>
+                                </div>
                             </div>
-                            <div>
-                                <strong class="text-white block">4. Resting Blood Pressure (trestbps)</strong>
-                                <p>Blood pressure while resting.</p>
-                                <p class="text-[11px] text-cyan-400">Range: 94 – 200 mmHg | Example: 120</p>
+
+                            <!-- GROUP: Vitals -->
+                            <div class="mb-1">
+                                <div class="flex items-center gap-2 px-1 mb-1.5">
+                                    <div class="h-px flex-1" style="background:rgba(245,158,11,0.25)"></div>
+                                    <span class="text-[8.5px] font-bold uppercase tracking-widest" style="color:#fbbf24">Vitals</span>
+                                    <div class="h-px flex-1" style="background:rgba(245,158,11,0.25)"></div>
+                                </div>
+
+                                <!-- BP -->
+                                <div class="group rounded-xl p-3 mb-1.5 cursor-default" style="background:rgba(245,158,11,0.04); border:1px solid rgba(245,158,11,0.12)">
+                                    <div class="flex items-center justify-between mb-1.5">
+                                        <div class="flex items-center gap-2">
+                                            <div class="w-6 h-6 rounded-lg flex items-center justify-center text-[10px] font-black" style="background:rgba(245,158,11,0.15); color:#fbbf24">04</div>
+                                            <span class="text-[11.5px] font-bold text-white">Resting BP <span style="color:#fbbf24" class="text-[9px]">(trestbps)</span></span>
+                                        </div>
+                                    </div>
+                                    <p class="text-[10px] mb-1.5" style="color:rgba(148,163,184,0.7)">Blood pressure at rest.</p>
+                                    <div class="flex items-center gap-1.5">
+                                        <span class="text-[9px] px-2 py-0.5 rounded-full font-semibold" style="background:rgba(245,158,11,0.1); color:#fde68a; border:1px solid rgba(245,158,11,0.2)">94 – 200 mmHg</span>
+                                        <span class="text-[9px]" style="color:rgba(148,163,184,0.5)">e.g. <span style="color:#a78bfa">120</span></span>
+                                    </div>
+                                </div>
+
+                                <!-- Cholesterol -->
+                                <div class="group rounded-xl p-3 mb-1.5 cursor-default" style="background:rgba(245,158,11,0.04); border:1px solid rgba(245,158,11,0.12)">
+                                    <div class="flex items-center justify-between mb-1.5">
+                                        <div class="flex items-center gap-2">
+                                            <div class="w-6 h-6 rounded-lg flex items-center justify-center text-[10px] font-black" style="background:rgba(245,158,11,0.15); color:#fbbf24">05</div>
+                                            <span class="text-[11.5px] font-bold text-white">Cholesterol <span style="color:#fbbf24" class="text-[9px]">(chol)</span></span>
+                                        </div>
+                                    </div>
+                                    <p class="text-[10px] mb-1.5" style="color:rgba(148,163,184,0.7)">Serum cholesterol in blood.</p>
+                                    <div class="flex items-center gap-1.5">
+                                        <span class="text-[9px] px-2 py-0.5 rounded-full font-semibold" style="background:rgba(245,158,11,0.1); color:#fde68a; border:1px solid rgba(245,158,11,0.2)">126 – 564 mg/dL</span>
+                                        <span class="text-[9px]" style="color:rgba(148,163,184,0.5)">e.g. <span style="color:#a78bfa">200</span></span>
+                                    </div>
+                                </div>
+
+                                <!-- Fasting Sugar -->
+                                <div class="group rounded-xl p-3 cursor-default" style="background:rgba(245,158,11,0.04); border:1px solid rgba(245,158,11,0.12)">
+                                    <div class="flex items-center justify-between mb-1.5">
+                                        <div class="flex items-center gap-2">
+                                            <div class="w-6 h-6 rounded-lg flex items-center justify-center text-[10px] font-black" style="background:rgba(245,158,11,0.15); color:#fbbf24">06</div>
+                                            <span class="text-[11.5px] font-bold text-white">Fasting Sugar <span style="color:#fbbf24" class="text-[9px]">(fbs)</span></span>
+                                        </div>
+                                    </div>
+                                    <div class="flex gap-2 flex-wrap">
+                                        <span class="text-[9px] px-2 py-0.5 rounded-full" style="background:rgba(245,158,11,0.1); color:#fde68a; border:1px solid rgba(245,158,11,0.2)">0 = ≤120 mg/dL</span>
+                                        <span class="text-[9px] px-2 py-0.5 rounded-full" style="background:rgba(245,158,11,0.1); color:#fde68a; border:1px solid rgba(245,158,11,0.2)">1 = &gt;120 mg/dL</span>
+                                    </div>
+                                </div>
                             </div>
-                            <div>
-                                <strong class="text-white block">5. Cholesterol (chol)</strong>
-                                <p>Cholesterol level in blood.</p>
-                                <p class="text-[11px] text-cyan-400">Range: 126 – 564 mg/dL | Example: 200</p>
+
+                            <!-- GROUP: ECG / Stress -->
+                            <div class="mb-1">
+                                <div class="flex items-center gap-2 px-1 mb-1.5">
+                                    <div class="h-px flex-1" style="background:rgba(99,102,241,0.25)"></div>
+                                    <span class="text-[8.5px] font-bold uppercase tracking-widest" style="color:#818cf8">ECG / Stress</span>
+                                    <div class="h-px flex-1" style="background:rgba(99,102,241,0.25)"></div>
+                                </div>
+
+                                <!-- Resting ECG -->
+                                <div class="group rounded-xl p-3 mb-1.5 cursor-default" style="background:rgba(99,102,241,0.04); border:1px solid rgba(99,102,241,0.12)">
+                                    <div class="flex items-center justify-between mb-1.5">
+                                        <div class="flex items-center gap-2">
+                                            <div class="w-6 h-6 rounded-lg flex items-center justify-center text-[10px] font-black" style="background:rgba(99,102,241,0.15); color:#818cf8">07</div>
+                                            <span class="text-[11.5px] font-bold text-white">Resting ECG <span style="color:#818cf8" class="text-[9px]">(restecg)</span></span>
+                                        </div>
+                                    </div>
+                                    <div class="flex gap-1 flex-wrap">
+                                        <span class="text-[9px] px-1.5 py-0.5 rounded-md" style="background:rgba(99,102,241,0.1); color:#c7d2fe; border:1px solid rgba(99,102,241,0.2)">0 · Normal</span>
+                                        <span class="text-[9px] px-1.5 py-0.5 rounded-md" style="background:rgba(99,102,241,0.1); color:#c7d2fe; border:1px solid rgba(99,102,241,0.2)">1 · ST-T Abnorm.</span>
+                                        <span class="text-[9px] px-1.5 py-0.5 rounded-md" style="background:rgba(99,102,241,0.1); color:#c7d2fe; border:1px solid rgba(99,102,241,0.2)">2 · LV Hypertrophy</span>
+                                    </div>
+                                </div>
+
+                                <!-- Max HR -->
+                                <div class="group rounded-xl p-3 mb-1.5 cursor-default" style="background:rgba(99,102,241,0.04); border:1px solid rgba(99,102,241,0.12)">
+                                    <div class="flex items-center justify-between mb-1.5">
+                                        <div class="flex items-center gap-2">
+                                            <div class="w-6 h-6 rounded-lg flex items-center justify-center text-[10px] font-black" style="background:rgba(99,102,241,0.15); color:#818cf8">08</div>
+                                            <span class="text-[11.5px] font-bold text-white">Max Heart Rate <span style="color:#818cf8" class="text-[9px]">(thalach)</span></span>
+                                        </div>
+                                    </div>
+                                    <p class="text-[10px] mb-1.5" style="color:rgba(148,163,184,0.7)">Peak HR during stress test.</p>
+                                    <div class="flex items-center gap-1.5">
+                                        <span class="text-[9px] px-2 py-0.5 rounded-full font-semibold" style="background:rgba(99,102,241,0.1); color:#c7d2fe; border:1px solid rgba(99,102,241,0.2)">71 – 202 bpm</span>
+                                        <span class="text-[9px]" style="color:rgba(148,163,184,0.5)">e.g. <span style="color:#a78bfa">150</span></span>
+                                    </div>
+                                </div>
+
+                                <!-- ST Depression -->
+                                <div class="group rounded-xl p-3 mb-1.5 cursor-default" style="background:rgba(99,102,241,0.04); border:1px solid rgba(99,102,241,0.12)">
+                                    <div class="flex items-center justify-between mb-1.5">
+                                        <div class="flex items-center gap-2">
+                                            <div class="w-6 h-6 rounded-lg flex items-center justify-center text-[10px] font-black" style="background:rgba(99,102,241,0.15); color:#818cf8">10</div>
+                                            <span class="text-[11.5px] font-bold text-white">ST Depression <span style="color:#818cf8" class="text-[9px]">(oldpeak)</span></span>
+                                        </div>
+                                    </div>
+                                    <p class="text-[10px] mb-1.5" style="color:rgba(148,163,184,0.7)">Heart stress during exercise.</p>
+                                    <div class="flex items-center gap-1.5">
+                                        <span class="text-[9px] px-2 py-0.5 rounded-full font-semibold" style="background:rgba(99,102,241,0.1); color:#c7d2fe; border:1px solid rgba(99,102,241,0.2)">0.0 – 6.2</span>
+                                        <span class="text-[9px]" style="color:rgba(148,163,184,0.5)">e.g. <span style="color:#a78bfa">1.5</span></span>
+                                    </div>
+                                </div>
+
+                                <!-- ST Slope -->
+                                <div class="group rounded-xl p-3 cursor-default" style="background:rgba(99,102,241,0.04); border:1px solid rgba(99,102,241,0.12)">
+                                    <div class="flex items-center justify-between mb-1.5">
+                                        <div class="flex items-center gap-2">
+                                            <div class="w-6 h-6 rounded-lg flex items-center justify-center text-[10px] font-black" style="background:rgba(99,102,241,0.15); color:#818cf8">11</div>
+                                            <span class="text-[11.5px] font-bold text-white">ST Slope <span style="color:#818cf8" class="text-[9px]">(slope)</span></span>
+                                        </div>
+                                    </div>
+                                    <div class="flex gap-1 flex-wrap">
+                                        <span class="text-[9px] px-1.5 py-0.5 rounded-md" style="background:rgba(99,102,241,0.1); color:#c7d2fe; border:1px solid rgba(99,102,241,0.2)">0 · Upsloping</span>
+                                        <span class="text-[9px] px-1.5 py-0.5 rounded-md" style="background:rgba(99,102,241,0.1); color:#c7d2fe; border:1px solid rgba(99,102,241,0.2)">1 · Flat</span>
+                                        <span class="text-[9px] px-1.5 py-0.5 rounded-md" style="background:rgba(99,102,241,0.1); color:#c7d2fe; border:1px solid rgba(99,102,241,0.2)">2 · Downsloping</span>
+                                    </div>
+                                </div>
                             </div>
-                            <div>
-                                <strong class="text-white block">6. Fasting Blood Sugar (fbs)</strong>
-                                <p>Blood sugar after fasting.</p>
-                                <p>0 = 120 mg/dL or below<br>1 = Above 120 mg/dL</p>
+
+                            <!-- GROUP: Diagnostics -->
+                            <div class="mb-1">
+                                <div class="flex items-center gap-2 px-1 mb-1.5">
+                                    <div class="h-px flex-1" style="background:rgba(16,185,129,0.25)"></div>
+                                    <span class="text-[8.5px] font-bold uppercase tracking-widest" style="color:#34d399">Diagnostics</span>
+                                    <div class="h-px flex-1" style="background:rgba(16,185,129,0.25)"></div>
+                                </div>
+
+                                <!-- Major Vessels -->
+                                <div class="group rounded-xl p-3 mb-1.5 cursor-default" style="background:rgba(16,185,129,0.04); border:1px solid rgba(16,185,129,0.12)">
+                                    <div class="flex items-center justify-between mb-1.5">
+                                        <div class="flex items-center gap-2">
+                                            <div class="w-6 h-6 rounded-lg flex items-center justify-center text-[10px] font-black" style="background:rgba(16,185,129,0.15); color:#34d399">12</div>
+                                            <span class="text-[11.5px] font-bold text-white">Major Vessels <span style="color:#34d399" class="text-[9px]">(ca)</span></span>
+                                        </div>
+                                        <span class="text-[8px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-full" style="background:rgba(16,185,129,0.12); color:#34d399">0–3</span>
+                                    </div>
+                                    <p class="text-[10px]" style="color:rgba(148,163,184,0.7)">Vessels visible via fluoroscopy.</p>
+                                </div>
+
+                                <!-- Thalassemia -->
+                                <div class="group rounded-xl p-3 cursor-default" style="background:rgba(16,185,129,0.04); border:1px solid rgba(16,185,129,0.12)">
+                                    <div class="flex items-center justify-between mb-1.5">
+                                        <div class="flex items-center gap-2">
+                                            <div class="w-6 h-6 rounded-lg flex items-center justify-center text-[10px] font-black" style="background:rgba(16,185,129,0.15); color:#34d399">13</div>
+                                            <span class="text-[11.5px] font-bold text-white">Thalassemia <span style="color:#34d399" class="text-[9px]">(thal)</span></span>
+                                        </div>
+                                    </div>
+                                    <div class="flex gap-1 flex-wrap">
+                                        <span class="text-[9px] px-1.5 py-0.5 rounded-md" style="background:rgba(16,185,129,0.1); color:#6ee7b7; border:1px solid rgba(16,185,129,0.2)">1 · Fixed Defect</span>
+                                        <span class="text-[9px] px-1.5 py-0.5 rounded-md" style="background:rgba(16,185,129,0.1); color:#6ee7b7; border:1px solid rgba(16,185,129,0.2)">2 · Normal</span>
+                                        <span class="text-[9px] px-1.5 py-0.5 rounded-md" style="background:rgba(16,185,129,0.1); color:#6ee7b7; border:1px solid rgba(16,185,129,0.2)">3 · Reversible</span>
+                                    </div>
+                                </div>
                             </div>
-                            <div>
-                                <strong class="text-white block">7. Resting ECG (restecg)</strong>
-                                <p>Heart electrical activity result.</p>
-                                <p>0 = Normal<br>1 = Minor abnormality<br>2 = Major abnormality</p>
+
+                            <!-- Warning Footer -->
+                            <div class="rounded-xl p-3 mt-1" style="background:rgba(245,158,11,0.06); border:1px solid rgba(245,158,11,0.18)">
+                                <div class="flex items-start gap-2">
+                                    <svg class="w-3.5 h-3.5 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color:#fbbf24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                                    <div class="text-[9.5px] leading-relaxed" style="color:rgba(253,230,138,0.75)">
+                                        Enter values within specified ranges. This tool provides AI-based risk estimates — not a substitute for professional medical advice.
+                                    </div>
+                                </div>
                             </div>
-                            <div>
-                                <strong class="text-white block">8. Maximum Heart Rate (thalach)</strong>
-                                <p>Highest heart rate during exercise.</p>
-                                <p class="text-[11px] text-cyan-400">Range: 71 – 202 bpm | Example: 150</p>
-                            </div>
-                            <div>
-                                <strong class="text-white block">9. Exercise Angina (exang)</strong>
-                                <p>Chest pain during exercise.</p>
-                                <p>0 = No<br>1 = Yes</p>
-                            </div>
-                            <div>
-                                <strong class="text-white block">10. ST Depression (oldpeak)</strong>
-                                <p>Heart stress measurement.</p>
-                                <p class="text-[11px] text-cyan-400">Range: 0.0 – 6.2 | Example: 1.5</p>
-                            </div>
-                            <div>
-                                <strong class="text-white block">11. ST Segment Slope (slope)</strong>
-                                <p>ECG pattern during exercise.</p>
-                                <p>0 = Upsloping<br>1 = Flat<br>2 = Downsloping</p>
-                            </div>
-                            <div>
-                                <strong class="text-white block">12. Number of Major Vessels (ca)</strong>
-                                <p>Number of visible blood vessels.</p>
-                                <p class="text-[11px] text-cyan-400">Range: 0 – 3</p>
-                            </div>
-                            <div>
-                                <strong class="text-white block">13. Thalassemia (thal)</strong>
-                                <p>Blood disorder test result.</p>
-                                <p>1 = Fixed Defect<br>2 = Normal<br>3 = Reversible Defect</p>
-                            </div>
-                            <div class="pt-2 border-t border-surfaceBorder text-[10px] text-yellow-500/80 space-y-1">
-                                <strong class="text-yellow-500 block uppercase tracking-wider">IMPORTANT:</strong>
-                                <p>• Enter values only within the specified ranges.</p>
-                                <p>• Invalid values may produce inaccurate predictions.</p>
-                                <p>• This tool provides an AI-based risk estimate and is not a substitute for professional medical advice.</p>
-                            </div>
+
                         </div>
                     </div>
                     
