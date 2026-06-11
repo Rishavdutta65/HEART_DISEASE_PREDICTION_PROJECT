@@ -78,16 +78,9 @@
             <div class="sidebar-item" onclick="window.location.href='/reports'">
                 <i data-lucide="file-text" class="w-5 h-5"></i> Reports
             </div>
-<<<<<<< HEAD
-            <div class="sidebar-item">
+            <div class="sidebar-item" onclick="window.location.href='/help'">
                 <i data-lucide="help-circle" class="w-5 h-5"></i> Help & Support
             </div>
-=======
-    <div id="nav-help" class="sidebar-item" onclick="switchTab('help')">
-    <i data-lucide="help-circle" class="w-5 h-5"></i>
-    Help & Support
-</div>
->>>>>>> 3b63abb (Added Help & Support section)
         </div>
         
         <!-- User Profile -->
@@ -338,7 +331,7 @@
                             <div>
                                 <label class="block text-sm font-medium mb-1"><span class="bg-surfaceBorder text-white px-2 py-0.5 rounded-full text-xs mr-1">4</span> trestbps - Resting Blood Pressure <span class="text-red-500">*</span></label>
                                 <div class="relative">
-                                    <input id="trestbps" type="number" placeholder="Enter BP" class="w-full bg-surface border border-surfaceBorder rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-blue-500 transition-colors bg-transparent">
+                                    <input id="trestbps" type="text" placeholder="e.g. 120/80 or 120" class="w-full bg-surface border border-surfaceBorder rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-blue-500 transition-colors bg-transparent">
                                     <span class="absolute right-4 top-1/2 -translate-y-1/2 text-xs text-textSecondary">mmHg</span>
                                 </div>
                             </div>
@@ -470,20 +463,76 @@
                     <div class="panel">
                         <h3 class="font-bold mb-2">About the Attributes</h3>
                         <p class="text-sm text-textSecondary mb-4">These are the medical attributes used for heart disease prediction.</p>
-                        <div class="text-xs text-textSecondary space-y-2">
-                            <p>1. Age - Age of the patient (Min: 29.0, Max: 77.0)</p>
-                            <p>2. Sex - Male (1) / Female (0)</p>
-                            <p>3. cp - Chest pain type (0-3)</p>
-                            <p>4. trestbps - Resting blood pressure (Min: 94.0, Max: 200.0)</p>
-                            <p>5. chol - Serum cholesterol in mg/dl (Min: 126.0, Max: 564.0)</p>
-                            <p>6. fbs - Fasting blood sugar &gt; 120 mg/dl (1=True; 0=False)</p>
-                            <p>7. restecg - Resting ECG results (0-2)</p>
-                            <p>8. thalach - Maximum heart rate achieved (Min: 71.0, Max: 202.0)</p>
-                            <p>9. exang - Exercise induced angina (1=Yes; 0=No)</p>
-                            <p>10. oldpeak - ST depression induced by exercise (Min: 0.0, Max: 6.2)</p>
-                            <p>11. slope - Slope of peak exercise ST segment (0-2)</p>
-                            <p>12. ca - Number of major vessels colored by fluoroscopy (0-3)</p>
-                            <p>13. thal - Thalassemia (1=Fixed; 2=Normal; 3=Reversible)</p>
+                        <div class="text-xs text-textSecondary space-y-4 max-h-[380px] overflow-y-auto pr-1">
+                            <div>
+                                <p class="font-semibold text-white">1. Age</p>
+                                <p class="text-slate-400">Age of the patient in years (Min: 29.0, Max: 77.0)</p>
+                            </div>
+                            <div>
+                                <p class="font-semibold text-white">2. Sex</p>
+                                <p class="text-slate-400">Male (1) / Female (0)</p>
+                            </div>
+                            <div>
+                                <p class="font-semibold text-white">3. cp - Chest Pain Type</p>
+                                <ul class="list-disc list-inside pl-1 text-slate-400">
+                                    <li>0: Typical Angina</li>
+                                    <li>1: Atypical Angina</li>
+                                    <li>2: Non-anginal pain</li>
+                                    <li>3: Asymptomatic</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <p class="font-semibold text-white">4. trestbps - Resting BP</p>
+                                <p class="text-slate-400">Resting blood pressure in mmHg (Min: 94.0, Max: 200.0)</p>
+                            </div>
+                            <div>
+                                <p class="font-semibold text-white">5. chol - Cholesterol</p>
+                                <p class="text-slate-400">Serum cholesterol in mg/dl (Min: 126.0, Max: 564.0)</p>
+                            </div>
+                            <div>
+                                <p class="font-semibold text-white">6. fbs - Fasting Blood Sugar</p>
+                                <p class="text-slate-400">Fasting blood sugar &gt; 120 mg/dl (1 = True; 0 = False)</p>
+                            </div>
+                            <div>
+                                <p class="font-semibold text-white">7. restecg - Resting ECG</p>
+                                <ul class="list-disc list-inside pl-1 text-slate-400">
+                                    <li>0: Normal</li>
+                                    <li>1: ST-T wave abnormality</li>
+                                    <li>2: Left ventricular hypertrophy</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <p class="font-semibold text-white">8. thalach - Max Heart Rate</p>
+                                <p class="text-slate-400">Maximum heart rate achieved (Min: 71.0, Max: 202.0)</p>
+                            </div>
+                            <div>
+                                <p class="font-semibold text-white">9. exang - Exercise Angina</p>
+                                <p class="text-slate-400">Exercise induced angina (1 = Yes; 0 = No)</p>
+                            </div>
+                            <div>
+                                <p class="font-semibold text-white">10. oldpeak - ST Depression</p>
+                                <p class="text-slate-400">ST depression induced by exercise relative to rest (Min: 0.0, Max: 6.2)</p>
+                            </div>
+                            <div>
+                                <p class="font-semibold text-white">11. slope - ST Slope</p>
+                                <ul class="list-disc list-inside pl-1 text-slate-400">
+                                    <li>0: Upsloping</li>
+                                    <li>1: Flat</li>
+                                    <li>2: Downsloping</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <p class="font-semibold text-white">12. ca - Major Vessels</p>
+                                <p class="text-slate-400">Number of major vessels (0-3) colored by fluoroscopy</p>
+                            </div>
+                            <div>
+                                <p class="font-semibold text-white">13. thal - Thalassemia Defect</p>
+                                <ul class="list-disc list-inside pl-1 text-slate-400">
+                                    <li>1: Fixed Defect</li>
+                                    <li>2: Normal</li>
+                                    <li>3: Reversible Defect</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                     
@@ -529,41 +578,6 @@
                         </div>
                     </div>
                 </div>
-<<<<<<< HEAD
-=======
-                </div>
-
-<!-- Help View -->
-<div id="help-view" class="hidden panel">
-    <h2 class="text-2xl font-bold mb-4">Help & Support</h2>
-
-    <div class="space-y-4 text-textSecondary">
-        <p>Welcome to the Heart Disease Prediction System.</p>
-
-        <h3 class="text-lg font-semibold text-white">
-            How to Use
-        </h3>
-
-        <ul class="list-disc ml-6">
-            <li>Click Patient Input.</li>
-            <li>Enter patient details.</li>
-            <li>Click Predict Now.</li>
-            <li>View prediction results.</li>
-            <li>Download reports.</li>
-        </ul>
-
-        <h3 class="text-lg font-semibold text-white">
-            Contact Support
-        </h3>
-
-        <p>Email: support@heartpredict.com</p>
-        <p>Phone: +91 9876543210</p>
-    </div>
-</div>
-
-<!-- Result View -->
-<div id="result-view" class="hidden space-y-6">
->>>>>>> 3b63abb (Added Help & Support section)
             <!-- Result View -->
             <div id="result-view" class="hidden space-y-6">
                 <!-- Top Result Stats Row -->
@@ -720,7 +734,6 @@
         let featureChartInst = null;
 
         // Switch between dashboard and patient input views
-<<<<<<< HEAD
         function switchTab(tabId) {
             const dashboardView = document.getElementById('dashboard-view');
             const patientInputView = document.getElementById('patient-input-view');
@@ -744,46 +757,6 @@
                 if(resultView) resultView.classList.remove('hidden');
             }
         }
-=======
-       function switchTab(tabId) {
-    const dashboardView = document.getElementById('dashboard-view');
-    const patientInputView = document.getElementById('patient-input-view');
-    const resultView = document.getElementById('result-view');
-    const helpView = document.getElementById('help-view');
-
-    const navDashboard = document.getElementById('nav-dashboard');
-    const navPatientInput = document.getElementById('nav-patient-input');
-    const navHelp = document.getElementById('nav-help');
-
-    // Hide all views
-    if (dashboardView) dashboardView.classList.add('hidden');
-    if (patientInputView) patientInputView.classList.add('hidden');
-    if (resultView) resultView.classList.add('hidden');
-    if (helpView) helpView.classList.add('hidden');
-
-    // Remove active class
-    if (navDashboard) navDashboard.classList.remove('active');
-    if (navPatientInput) navPatientInput.classList.remove('active');
-    if (navHelp) navHelp.classList.remove('active');
-
-    // Show selected view
-    if (tabId === 'dashboard') {
-        if (dashboardView) dashboardView.classList.remove('hidden');
-        if (navDashboard) navDashboard.classList.add('active');
-    }
-    else if (tabId === 'patient-input') {
-        if (patientInputView) patientInputView.classList.remove('hidden');
-        if (navPatientInput) navPatientInput.classList.add('active');
-    }
-    else if (tabId === 'help') {
-        if (helpView) helpView.classList.remove('hidden');
-        if (navHelp) navHelp.classList.add('active');
-    }
-    else if (tabId === 'result') {
-        if (resultView) resultView.classList.remove('hidden');
-    }
-}
->>>>>>> 3b63abb (Added Help & Support section)
 
         // Initialize Lucide icons
         lucide.createIcons();
@@ -809,7 +782,7 @@
                 age: parseFloat(document.getElementById('age').value),
                 sex: document.getElementById('sex').value === 'Male' ? 1 : 0,
                 cp: parseInt(document.getElementById('cp').value.charAt(0)),
-                trestbps: parseFloat(document.getElementById('trestbps').value),
+                trestbps: parseFloat(document.getElementById('trestbps').value.split('/')[0]),
                 chol: parseFloat(document.getElementById('chol').value),
                 fbs: parseInt(document.getElementById('fbs').value.charAt(0)),
                 restecg: parseInt(document.getElementById('restecg').value.charAt(0)),

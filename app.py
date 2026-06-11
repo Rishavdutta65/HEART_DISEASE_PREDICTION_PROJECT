@@ -6,6 +6,7 @@ from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib.units import inch
 import google.generativeai as genai
 import os
+from backend.pdf_generator import generate_medical_pdf
 
 genai.configure(api_key="AIzaSyAiOoXEXngVmPDLhPp6LtK0gFhdkGlFrJ0")
 chat_model = genai.GenerativeModel('gemini-2.5-flash')
@@ -22,12 +23,10 @@ def landing():
 @app.route('/dashboard')
 def home():
     return render_template('index.html')
-<<<<<<< HEAD
-=======
+
 @app.route('/help')
 def help_page():
     return render_template('help.html')
->>>>>>> 3b63abb (Added Help & Support section)
 
 @app.route('/predict', methods=['POST'])
 def predict_heart():
@@ -73,43 +72,44 @@ def reports_page():
     history = session.get('history', [])
     return render_template('reports.html', history=history)
 
+@app.route('/view_history/<int:index>')
+def view_history(index):
+    history = session.get('history', [])
+    if 0 <= index < len(history):
+        session['prediction_data'] = history[index]
+        return redirect(url_for('result_page'))
+    return redirect(url_for('reports_page'))
+
+@app.route('/api/history/<int:index>', methods=['DELETE'])
+def delete_history(index):
+    history = session.get('history', [])
+    if 0 <= index < len(history):
+        del history[index]
+        session['history'] = history
+        session.modified = True
+        return jsonify({"success": True})
+    return jsonify({"error": "Report not found"}), 404
+
+
 @app.route('/result')
 def result_page():
     prediction_data = session.get('prediction_data')
     if not prediction_data:
         return redirect(url_for('home'))
-    return render_template('result.html', **prediction_data)
+    return render_template(
+        'result.html',
+        **prediction_data,
+        history=session.get('history', [])
+    )
 @app.route('/download', methods=['POST'])
 def download_report():
     try:
         data = request.json
-        buffer = io.BytesIO()
-        doc = SimpleDocTemplate(buffer)
-        styles = getSampleStyleSheet()
-
-        content = []
-        content.append(Paragraph("Heart Disease Prediction Report", styles['Title']))
-        content.append(Spacer(1, 0.2 * inch))
-        
-        # Ensure all values are strings and handle potential missing keys
-        prediction = str(data.get('prediction', 'N/A'))
-        accuracy = str(data.get('accuracy', 'N/A'))
-        score = str(data.get('score', 'N/A'))
-        suggestion = str(data.get('suggestion', 'N/A'))
-
-        content.append(Paragraph(f"<b>Prediction:</b> {prediction}", styles['Normal']))
-        content.append(Spacer(1, 0.1 * inch))
-        content.append(Paragraph(f"<b>Accuracy:</b> {accuracy}", styles['Normal']))
-        content.append(Spacer(1, 0.1 * inch))
-        content.append(Paragraph(f"<b>Risk Score:</b> {score}", styles['Normal']))
-        content.append(Spacer(1, 0.1 * inch))
-        content.append(Paragraph(f"<b>Suggestion:</b> {suggestion}", styles['Normal']))
-
-        doc.build(content)
-        buffer.seek(0)
+        static_dir = os.path.join(app.root_path, 'frontend', 'static')
+        pdf_buffer = generate_medical_pdf(data, static_dir)
 
         return send_file(
-            buffer,
+            pdf_buffer,
             as_attachment=True,
             download_name="Heart_Report.pdf",
             mimetype='application/pdf'
@@ -136,6 +136,34 @@ def chat():
         import traceback
         traceback.print_exc()
         return jsonify({"response": "Sorry, I'm having trouble connecting to my brain right now.", "error": str(e)})
+
+@app.route('/api/report-issue', methods=['POST'])
+def report_issue():
+    try:
+        data = request.json or {}
+        name = data.get('name', '')
+        email = data.get('email', '')
+        category = data.get('category', 'General')
+        description = data.get('description', '')
+        
+        if not name or not email or not description:
+            return jsonify({"success": False, "error": "Missing required fields (name, email, description)"}), 400
+            
+        # Log the issue report
+        from datetime import datetime
+        log_entry = f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] Name: {name} | Email: {email} | Category: {category} | Description: {description}\n"
+        
+        with open("issue_reports.log", "a", encoding="utf-8") as f:
+            f.write(log_entry)
+            
+        # Log email simulation
+        print(f"Simulating email confirmation to {email} for issue: '{description[:30]}...'")
+        
+        return jsonify({"success": True, "message": "Issue logged successfully and confirmation simulated."})
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return jsonify({"success": False, "error": str(e)}), 500
 
 if __name__ == "__main__":
     app.run(debug=True)

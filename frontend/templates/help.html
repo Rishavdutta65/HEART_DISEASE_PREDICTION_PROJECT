@@ -1,34 +1,653 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Help & Support</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help & Support Center - Heart AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        background: '#090e17',
+                        surface: '#0f172a',
+                        surfaceBorder: '#1e293b',
+                        primary: '#3b82f6',
+                        textSecondary: '#94a3b8',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: radial-gradient(circle at top right, #111c3a, #090e17 60%);
+            color: white;
+        }
+        
+        .sidebar-item { 
+            display: flex; 
+            align-items: center; 
+            gap: 12px; 
+            padding: 12px 16px; 
+            border-radius: 8px; 
+            color: #cbd5e1; 
+            cursor: pointer; 
+            transition: all 0.2s ease; 
+        }
+        .sidebar-item:hover { 
+            background-color: rgba(255,255,255,0.05); 
+            color: white; 
+        }
+        .sidebar-item.active { 
+            background-color: #1e3a8a; 
+            color: white; 
+            border-left: 3px solid #3b82f6; 
+        }
+        
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.4);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass-panel:hover {
+            border-color: rgba(59, 130, 246, 0.15);
+            box-shadow: 0 12px 40px -12px rgba(0, 0, 0, 0.7);
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.2);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(59, 130, 246, 0.2);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(59, 130, 246, 0.4);
+        }
+
+        /* FAQ Accordion */
+        .faq-answer {
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 0.3s ease-out;
+        }
+        .faq-item.active .faq-answer {
+            grid-template-rows: 1fr;
+        }
+        .faq-item.active .faq-chevron {
+            transform: rotate(180deg);
+        }
+        .faq-chevron {
+            transition: transform 0.2s ease;
+        }
+        
+        /* Pulsing Glow Animation */
+        .pulse-glow {
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.15);
+            animation: pulse 2s infinite alternate;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 12px rgba(239, 68, 68, 0.1); }
+            100% { box-shadow: 0 0 25px rgba(239, 68, 68, 0.3); }
+        }
+    </style>
 </head>
-<body>
+<body class="flex h-screen overflow-hidden">
+    <!-- Sidebar -->
+    <aside class="w-64 border-r border-surfaceBorder bg-surface flex flex-col shrink-0">
+        <div class="h-20 flex items-center px-6 border-b border-surfaceBorder">
+            <div class="w-10 h-10 bg-red-600 rounded-lg flex items-center justify-center mr-3 text-white shadow-[0_0_15px_rgba(220,38,38,0.4)]">
+                <i data-lucide="heart-pulse" class="w-7 h-7 fill-white"></i>
+            </div>
+            <div>
+                <h1 class="text-sm font-bold leading-tight">Heart Disease <br> Prediction System</h1>
+                <p class="text-[9px] text-textSecondary uppercase tracking-tighter">AI-Powered Health Analysis</p>
+            </div>
+        </div>
+        
+        <div class="flex-1 overflow-y-auto py-6 px-4 space-y-1">
+            <div class="sidebar-item" onclick="window.location.href='/dashboard'">
+                <i data-lucide="layout-dashboard" class="w-5 h-5"></i> Dashboard
+            </div>
+            <div class="sidebar-item" onclick="window.location.href='/dashboard'">
+                <i data-lucide="user-plus" class="w-5 h-5"></i> Patient Input
+            </div>
+            <div class="sidebar-item" onclick="window.location.href='/result'">
+                <i data-lucide="bar-chart-2" class="w-5 h-5"></i> Prediction
+            </div>
+            <div class="sidebar-item" onclick="window.location.href='/reports'">
+                <i data-lucide="file-text" class="w-5 h-5"></i> Reports
+            </div>
+            <div class="sidebar-item active">
+                <i data-lucide="help-circle" class="w-5 h-5"></i> Help & Support
+            </div>
+        </div>
 
-<h1>Help & Support</h1>
+        <div class="p-4 border-t border-surfaceBorder">
+            <div class="flex items-center gap-3 p-3 bg-background/50 rounded-xl border border-surfaceBorder/50">
+                <div class="w-10 h-10 bg-blue-600/20 rounded-full flex items-center justify-center border border-blue-500/30">
+                    <i data-lucide="user" class="w-6 h-6 text-blue-400"></i>
+                </div>
+                <div>
+                    <p class="text-sm font-bold text-white">Admin User</p>
+                    <p class="text-[10px] text-textSecondary uppercase tracking-widest">ID: HDP001</p>
+                    <div class="flex items-center gap-1.5 mt-1">
+                        <div class="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
+                        <span class="text-[9px] text-green-500 font-bold uppercase tracking-tighter">Online</span>
+                    </div>
+                </div>
+            </div>
+            <p class="text-[9px] text-textSecondary text-center mt-3 opacity-50 tracking-tighter">v1.0.0</p>
+        </div>
+    </aside>
 
-<h2>Heart Disease Prediction System</h2>
+    <!-- Main Content Area -->
+    <div class="flex-1 overflow-y-auto p-8 space-y-8">
+        <!-- Header Section -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+                <h1 class="text-3xl font-bold text-white flex items-center gap-3">
+                    <i data-lucide="help-circle" class="w-8 h-8 text-blue-500"></i> Help & Support Center
+                </h1>
+                <p class="text-sm text-textSecondary mt-2">Comprehensive documentation, clinical range guidelines, and issue tracking</p>
+            </div>
+            <button onclick="window.location.href='/dashboard'" class="self-start sm:self-auto px-5 py-2.5 rounded-xl text-sm font-semibold border border-slate-700 bg-slate-800/40 hover:bg-slate-800 text-white transition-all flex items-center gap-2">
+                <i data-lucide="arrow-left" class="w-4 h-4"></i> Back to Dashboard
+            </button>
+        </div>
 
-<p>
-This system predicts heart disease risk using Machine Learning.
-</p>
+        <!-- Search Bar and Quick Navigation -->
+        <div class="glass-panel p-5 flex flex-col md:flex-row gap-5 items-center justify-between">
+            <div class="relative w-full md:w-96">
+                <input id="support-search" type="text" placeholder="Search support topics, attributes or clinical terms..." 
+                       class="w-full bg-background/80 border border-surfaceBorder rounded-xl pl-11 pr-4 py-3 text-sm text-white focus:outline-none focus:border-blue-500 transition-colors"
+                       oninput="filterTopics()">
+                <i data-lucide="search" class="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-textSecondary pointer-events-none"></i>
+            </div>
+            <div class="flex items-center gap-2.5 w-full md:w-auto overflow-x-auto shrink-0 pb-1 md:pb-0">
+                <button onclick="scrollToSection('attributes-ref')" class="text-xs px-4 py-2.5 rounded-lg bg-surface/80 hover:bg-surfaceBorder text-slate-300 font-semibold border border-surfaceBorder shrink-0 transition-colors flex items-center gap-1.5">
+                    <i data-lucide="book-open" class="w-3.5 h-3.5 text-blue-400"></i> Clinical Parameters Guide
+                </button>
+                <button onclick="scrollToSection('faq-sec')" class="text-xs px-4 py-2.5 rounded-lg bg-surface/80 hover:bg-surfaceBorder text-slate-300 font-semibold border border-surfaceBorder shrink-0 transition-colors flex items-center gap-1.5">
+                    <i data-lucide="message-square-text" class="w-3.5 h-3.5 text-emerald-400"></i> FAQ Help
+                </button>
+                <button onclick="scrollToSection('issue-form-section')" class="text-xs px-4 py-2.5 rounded-lg bg-surface/80 hover:bg-surfaceBorder text-slate-300 font-semibold border border-surfaceBorder shrink-0 transition-colors flex items-center gap-1.5">
+                    <i data-lucide="ticket" class="w-3.5 h-3.5 text-purple-400"></i> Submit Ticket
+                </button>
+            </div>
+        </div>
 
-<h3>How to Use</h3>
+        <!-- Grid of Guides & Reference -->
+        <div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
+            <!-- Left 2 Cols: Interactive Attribute Dictionary & Reference -->
+            <div class="xl:col-span-2 space-y-8">
+                
+                <!-- Attributes Interpretation Guide -->
+                <section id="attributes-ref" class="glass-panel p-6 space-y-6">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-surfaceBorder pb-4 gap-3">
+                        <div>
+                            <h2 class="text-lg font-bold text-white flex items-center gap-2.5">
+                                <i data-lucide="heart" class="w-5 h-5 text-red-500 animate-pulse"></i> Patient Parameter Reference Guide
+                            </h2>
+                            <p class="text-xs text-textSecondary mt-1">Detailed documentation of the 13 input parameters used for machine learning inference</p>
+                        </div>
+                        <span class="text-xs font-semibold px-2.5 py-1 bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded-full">13 Key Features</span>
+                    </div>
 
-<ol>
-    <li>Go to Patient Input.</li>
-    <li>Fill all medical details.</li>
-    <li>Click Predict Now.</li>
-    <li>View the result.</li>
-    <li>Download report if needed.</li>
-</ol>
+                    <!-- Category filter pills -->
+                    <div class="flex flex-wrap items-center gap-2" id="category-filter-container">
+                        <button onclick="filterCategory('all')" id="cat-all" class="text-xs px-3.5 py-1.5 rounded-lg font-semibold border bg-blue-600 border-blue-500 text-white transition-all">All Parameters</button>
+                        <button onclick="filterCategory('Demographic')" id="cat-demographic" class="text-xs px-3.5 py-1.5 rounded-lg font-semibold border border-surfaceBorder bg-surface hover:bg-surfaceBorder text-slate-300 transition-all">Demographics</button>
+                        <button onclick="filterCategory('Vital')" id="cat-vital" class="text-xs px-3.5 py-1.5 rounded-lg font-semibold border border-surfaceBorder bg-surface hover:bg-surfaceBorder text-slate-300 transition-all">Vital Indicators</button>
+                        <button onclick="filterCategory('Cardiac Test')" id="cat-cardiac" class="text-xs px-3.5 py-1.5 rounded-lg font-semibold border border-surfaceBorder bg-surface hover:bg-surfaceBorder text-slate-300 transition-all">Cardiac Tests</button>
+                        <button onclick="filterCategory('Symptomatic')" id="cat-symptom" class="text-xs px-3.5 py-1.5 rounded-lg font-semibold border border-surfaceBorder bg-surface hover:bg-surfaceBorder text-slate-300 transition-all">Symptoms & Pain</button>
+                    </div>
 
-<h3>Contact Support</h3>
+                    <!-- Attribute List -->
+                    <div class="space-y-4 max-h-[600px] overflow-y-auto pr-2" id="attribute-list">
+                        
+                        <!-- age -->
+                        <div class="p-4 rounded-xl border border-surfaceBorder bg-surface/30 hover:bg-surface/50 transition-all space-y-2 relative overflow-hidden" data-category="Demographic" data-search-term="age patient demographic years">
+                            <div class="flex justify-between items-center">
+                                <h4 class="font-bold text-blue-400">1. Age (Patient Age)</h4>
+                                <span class="text-[10px] bg-blue-500/10 text-blue-400 px-2.5 py-0.5 rounded font-bold border border-blue-500/20">Demographic</span>
+                            </div>
+                            <p class="text-xs text-slate-300 leading-relaxed">Represents patient age in years. Cardiac workloads, vessel elasticity, and arterial plaque calcification naturally trend higher with age. Acceptable dataset range is between 29.0 and 77.0 years.</p>
+                            <div class="flex gap-4 pt-1 text-[11px]">
+                                <span class="text-emerald-400"><strong>Clinical Range:</strong> 29 - 77 years</span>
+                            </div>
+                        </div>
 
-<p>Email: support@heartpredict.com</p>
-<p>Phone: +91 9876543210</p>
+                        <!-- sex -->
+                        <div class="p-4 rounded-xl border border-surfaceBorder bg-surface/30 hover:bg-surface/50 transition-all space-y-2 relative overflow-hidden" data-category="Demographic" data-search-term="sex gender male female sex">
+                            <div class="flex justify-between items-center">
+                                <h4 class="font-bold text-blue-400">2. Sex (Patient Gender)</h4>
+                                <span class="text-[10px] bg-blue-500/10 text-blue-400 px-2.5 py-0.5 rounded font-bold border border-blue-500/20">Demographic</span>
+                            </div>
+                            <p class="text-xs text-slate-300 leading-relaxed">Binary indicator mapping gender of the patient: Male (1) or Female (0). Estrogen hormone profiles generally offer cardiovascular protection in younger females.</p>
+                            <div class="flex gap-4 pt-1 text-[11px]">
+                                <span class="text-slate-400"><strong>Allowed Values:</strong> 1 = Male, 0 = Female</span>
+                            </div>
+                        </div>
 
-<a href="/dashboard">Back to Dashboard</a>
+                        <!-- cp -->
+                        <div class="p-4 rounded-xl border border-surfaceBorder bg-surface/30 hover:bg-surface/50 transition-all space-y-2 relative overflow-hidden" data-category="Symptomatic" data-search-term="cp chest pain angina asymptomatic典型心绞痛">
+                            <div class="flex justify-between items-center">
+                                <h4 class="font-bold text-indigo-400">3. cp (Chest Pain Type)</h4>
+                                <span class="text-[10px] bg-indigo-500/10 text-indigo-400 px-2.5 py-0.5 rounded font-bold border border-indigo-500/20">Symptomatic</span>
+                            </div>
+                            <p class="text-xs text-slate-300 leading-relaxed">Indicates chest pain characteristics. Value classification maps as follows:</p>
+                            <ul class="list-disc list-inside text-xs text-slate-400 space-y-1 pl-2">
+                                <li><strong class="text-white">0 - Typical Angina:</strong> Severe chest pain resulting from reduced cardiac blood supply.</li>
+                                <li><strong class="text-white">1 - Atypical Angina:</strong> Non-classical chest pain, sometimes presenting in females or diabetic patients.</li>
+                                <li><strong class="text-white">2 - Non-anginal Pain:</strong> Non-cardiac chest discomfort (e.g. esophageal or muscle spasm).</li>
+                                <li><strong class="text-white">3 - Asymptomatic:</strong> Absence of chest pain (note: can mask underlying ischemic conditions).</li>
+                            </ul>
+                        </div>
 
+                        <!-- trestbps -->
+                        <div class="p-4 rounded-xl border border-surfaceBorder bg-surface/30 hover:bg-surface/50 transition-all space-y-2 relative overflow-hidden" data-category="Vital" data-search-term="trestbps blood pressure mmHg systolic bp high resting bp">
+                            <div class="flex justify-between items-center">
+                                <h4 class="font-bold text-emerald-400">4. trestbps (Resting Blood Pressure)</h4>
+                                <span class="text-[10px] bg-emerald-500/10 text-emerald-400 px-2.5 py-0.5 rounded font-bold border border-emerald-500/20">Vital Indicator</span>
+                            </div>
+                            <p class="text-xs text-slate-300 leading-relaxed">Resting systolic blood pressure in mmHg recorded upon hospital admission. Acceptable range is 94 to 200 mmHg. Supports quick-slash inputs such as <b>120/80</b> (automatically extracts systolic pressure).</p>
+                            <div class="grid grid-cols-2 gap-4 pt-1 text-[11px]">
+                                <span class="text-emerald-400"><strong>Normal Range:</strong> &lt; 120 mmHg</span>
+                                <span class="text-red-400"><strong>Hypertension:</strong> &ge; 130 mmHg</span>
+                            </div>
+                        </div>
+
+                        <!-- chol -->
+                        <div class="p-4 rounded-xl border border-surfaceBorder bg-surface/30 hover:bg-surface/50 transition-all space-y-2 relative overflow-hidden" data-category="Vital" data-search-term="chol serum cholesterol lipids fat">
+                            <div class="flex justify-between items-center">
+                                <h4 class="font-bold text-emerald-400">5. chol (Serum Cholesterol)</h4>
+                                <span class="text-[10px] bg-emerald-500/10 text-emerald-400 px-2.5 py-0.5 rounded font-bold border border-emerald-500/20">Vital Indicator</span>
+                            </div>
+                            <p class="text-xs text-slate-300 leading-relaxed">Serum cholesterol levels in mg/dl (Range: 126–564 mg/dl). Desirable range is below 200 mg/dL. Elevated cholesterol correlates with atherosclerotic plaque buildup.</p>
+                            <div class="grid grid-cols-2 gap-4 pt-1 text-[11px]">
+                                <span class="text-emerald-400"><strong>Desirable:</strong> &lt; 200 mg/dL</span>
+                                <span class="text-red-400"><strong>High Risk:</strong> &ge; 240 mg/dL</span>
+                            </div>
+                        </div>
+
+                        <!-- fbs -->
+                        <div class="p-4 rounded-xl border border-surfaceBorder bg-surface/30 hover:bg-surface/50 transition-all space-y-2 relative overflow-hidden" data-category="Vital" data-search-term="fbs fasting blood sugar glucose diabetes">
+                            <div class="flex justify-between items-center">
+                                <h4 class="font-bold text-emerald-400">6. fbs (Fasting Blood Sugar)</h4>
+                                <span class="text-[10px] bg-emerald-500/10 text-emerald-400 px-2.5 py-0.5 rounded font-bold border border-emerald-500/20">Vital Indicator</span>
+                            </div>
+                            <p class="text-xs text-slate-300 leading-relaxed">Fasting blood sugar indicator: 1 = True (&gt; 120 mg/dl); 0 = False. Blood sugar elevations raise risk of diabetic microvascular complications.</p>
+                            <div class="flex gap-4 pt-1 text-[11px]">
+                                <span class="text-slate-400"><strong>Allowed Values:</strong> 1 = Elevated (&gt;120 mg/dL), 0 = Normal</span>
+                            </div>
+                        </div>
+
+                        <!-- restecg -->
+                        <div class="p-4 rounded-xl border border-surfaceBorder bg-surface/30 hover:bg-surface/50 transition-all space-y-2 relative overflow-hidden" data-category="Cardiac Test" data-search-term="restecg resting electrocardiogram ecg hypertrophy abnormal">
+                            <div class="flex justify-between items-center">
+                                <h4 class="font-bold text-purple-400">7. restecg (Resting ECG Results)</h4>
+                                <span class="text-[10px] bg-purple-500/10 text-purple-400 px-2.5 py-0.5 rounded font-bold border border-purple-500/20">Cardiac Test</span>
+                            </div>
+                            <p class="text-xs text-slate-300 leading-relaxed">Resting electrocardiographic results:</p>
+                            <ul class="list-disc list-inside text-xs text-slate-400 space-y-1 pl-2">
+                                <li><strong class="text-white">0 - Normal:</strong> Waveforms and rhythm are physiologically normal.</li>
+                                <li><strong class="text-white">1 - ST-T Wave Abnormality:</strong> Minor variations suggesting ischemic stress or electrolyte imbalances.</li>
+                                <li><strong class="text-white">2 - Left Ventricular Hypertrophy:</strong> Thickening of the left ventricle wall (common in chronic hypertension).</li>
+                            </ul>
+                        </div>
+
+                        <!-- thalach -->
+                        <div class="p-4 rounded-xl border border-surfaceBorder bg-surface/30 hover:bg-surface/50 transition-all space-y-2 relative overflow-hidden" data-category="Vital" data-search-term="thalach max heart rate bpm pulse stress">
+                            <div class="flex justify-between items-center">
+                                <h4 class="font-bold text-emerald-400">8. thalach (Max Heart Rate Achieved)</h4>
+                                <span class="text-[10px] bg-emerald-500/10 text-emerald-400 px-2.5 py-0.5 rounded font-bold border border-emerald-500/20">Vital Indicator</span>
+                            </div>
+                            <p class="text-xs text-slate-300 leading-relaxed">Maximum heart rate in bpm achieved during a clinical stress test. Range: 71 to 202 bpm. Lower maximums often suggest impaired cardiovascular output.</p>
+                            <div class="flex gap-4 pt-1 text-[11px]">
+                                <span class="text-emerald-400"><strong>Common Range:</strong> 71 - 202 bpm</span>
+                            </div>
+                        </div>
+
+                        <!-- exang -->
+                        <div class="p-4 rounded-xl border border-surfaceBorder bg-surface/30 hover:bg-surface/50 transition-all space-y-2 relative overflow-hidden" data-category="Symptomatic" data-search-term="exang exercise induced angina chest pain exang">
+                            <div class="flex justify-between items-center">
+                                <h4 class="font-bold text-indigo-400">9. exang (Exercise Angina)</h4>
+                                <span class="text-[10px] bg-indigo-500/10 text-indigo-400 px-2.5 py-0.5 rounded font-bold border border-indigo-500/20">Symptomatic</span>
+                            </div>
+                            <p class="text-xs text-slate-300 leading-relaxed">Exercise induced angina indicator: 1 = Yes; 0 = No. A positive reading indicates arterial restriction under heavy cardiovascular load.</p>
+                            <div class="flex gap-4 pt-1 text-[11px]">
+                                <span class="text-slate-400"><strong>Allowed Values:</strong> 1 = Present, 0 = Absent</span>
+                            </div>
+                        </div>
+
+                        <!-- oldpeak -->
+                        <div class="p-4 rounded-xl border border-surfaceBorder bg-surface/30 hover:bg-surface/50 transition-all space-y-2 relative overflow-hidden" data-category="Cardiac Test" data-search-term="oldpeak st depression exercise rest fatigue oldpeak">
+                            <div class="flex justify-between items-center">
+                                <h4 class="font-bold text-purple-400">10. oldpeak (ST Depression)</h4>
+                                <span class="text-[10px] bg-purple-500/10 text-purple-400 px-2.5 py-0.5 rounded font-bold border border-purple-500/20">Cardiac Test</span>
+                            </div>
+                            <p class="text-xs text-slate-300 leading-relaxed">ST segment depression induced by physical exercise relative to rest (Min: 0.0, Max: 6.2). Values greater than 1.0 are clinically significant, suggesting ischemic myocardium.</p>
+                            <div class="flex gap-4 pt-1 text-[11px]">
+                                <span class="text-emerald-400"><strong>Normal Range:</strong> 0.0 - 1.0</span>
+                                <span class="text-red-400"><strong>Ischemic Danger:</strong> &gt; 1.0</span>
+                            </div>
+                        </div>
+
+                        <!-- slope -->
+                        <div class="p-4 rounded-xl border border-surfaceBorder bg-surface/30 hover:bg-surface/50 transition-all space-y-2 relative overflow-hidden" data-category="Cardiac Test" data-search-term="slope st segment peak exercise flat up down slope">
+                            <div class="flex justify-between items-center">
+                                <h4 class="font-bold text-purple-400">11. slope (ST Segment Slope)</h4>
+                                <span class="text-[10px] bg-purple-500/10 text-purple-400 px-2.5 py-0.5 rounded font-bold border border-purple-500/20">Cardiac Test</span>
+                            </div>
+                            <p class="text-xs text-slate-300 leading-relaxed">Slope of the peak exercise ST segment:</p>
+                            <ul class="list-disc list-inside text-xs text-slate-400 space-y-1 pl-2">
+                                <li><strong class="text-white">0 - Upsloping:</strong> Common in normal exercise physiology.</li>
+                                <li><strong class="text-white">1 - Flat:</strong> Indication of possible border-line cardiac strain.</li>
+                                <li><strong class="text-white">2 - Downsloping:</strong> Frequently correlates with coronary artery lesions.</li>
+                            </ul>
+                        </div>
+
+                        <!-- ca -->
+                        <div class="p-4 rounded-xl border border-surfaceBorder bg-surface/30 hover:bg-surface/50 transition-all space-y-2 relative overflow-hidden" data-category="Cardiac Test" data-search-term="ca major vessels colored fluoroscopy obstruction blockage ca">
+                            <div class="flex justify-between items-center">
+                                <h4 class="font-bold text-purple-400">12. ca (Number of Major Vessels)</h4>
+                                <span class="text-[10px] bg-purple-500/10 text-purple-400 px-2.5 py-0.5 rounded font-bold border border-purple-500/20">Cardiac Test</span>
+                            </div>
+                            <p class="text-xs text-slate-300 leading-relaxed">Number of major vessels (0-3) colored during fluoroscopy scan. High values represent calcification, indicating blood flow blockage.</p>
+                            <div class="flex gap-4 pt-1 text-[11px]">
+                                <span class="text-emerald-400"><strong>Desirable:</strong> 0 vessels colored</span>
+                                <span class="text-red-400"><strong>Occlusion Indicators:</strong> 1 - 3 vessels colored</span>
+                            </div>
+                        </div>
+
+                        <!-- thal -->
+                        <div class="p-4 rounded-xl border border-surfaceBorder bg-surface/30 hover:bg-surface/50 transition-all space-y-2 relative overflow-hidden" data-category="Cardiac Test" data-search-term="thal thalassemia defect fixed normal reversible flow blood thal">
+                            <div class="flex justify-between items-center">
+                                <h4 class="font-bold text-purple-400">13. thal (Thalassemia Defect)</h4>
+                                <span class="text-[10px] bg-purple-500/10 text-purple-400 px-2.5 py-0.5 rounded font-bold border border-purple-500/20">Cardiac Test</span>
+                            </div>
+                            <p class="text-xs text-slate-300 leading-relaxed">Reflects blood flow perfusion scan findings:</p>
+                            <ul class="list-disc list-inside text-xs text-slate-400 space-y-1 pl-2">
+                                <li><strong class="text-white">1 - Fixed Defect:</strong> Irreversible coronary tissue damage (often post-infarct).</li>
+                                <li><strong class="text-white">2 - Normal:</strong> Blood flow is normal and uninterrupted.</li>
+                                <li><strong class="text-white">3 - Reversible Defect:</strong> Blood flow restriction only visible under physical load.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Frequently Asked Questions -->
+                <section id="faq-sec" class="glass-panel p-6 space-y-6">
+                    <h2 class="text-lg font-bold text-white flex items-center gap-2.5 border-b border-surfaceBorder pb-4">
+                        <i data-lucide="message-square-more" class="w-5 h-5 text-emerald-400"></i> Frequently Asked Questions (FAQ)
+                    </h2>
+
+                    <div class="space-y-3">
+                        <div class="faq-item border border-surfaceBorder rounded-xl bg-surface/20 hover:bg-surface/30 transition-colors cursor-pointer" onclick="toggleFaq(this)">
+                            <div class="p-4 flex items-center justify-between">
+                                <h4 class="text-sm font-semibold text-white">How does the heart disease prediction model work?</h4>
+                                <i data-lucide="chevron-down" class="faq-chevron w-4 h-4 text-slate-400"></i>
+                            </div>
+                            <div class="faq-answer grid">
+                                <div class="overflow-hidden text-xs text-slate-300 leading-relaxed px-4 pb-4">
+                                    Our platform utilizes a machine learning classifier (Random Forest/Logistic Regression) trained on clinical observations (including the Cleveland Heart Disease Dataset). It evaluates the non-linear relationship between 13 patient indicators simultaneously to calculate an aggregate risk percentage and class indicator.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="faq-item border border-surfaceBorder rounded-xl bg-surface/20 hover:bg-surface/30 transition-colors cursor-pointer" onclick="toggleFaq(this)">
+                            <div class="p-4 flex items-center justify-between">
+                                <h4 class="text-sm font-semibold text-white">What do the predicted risk scores represent?</h4>
+                                <i data-lucide="chevron-down" class="faq-chevron w-4 h-4 text-slate-400"></i>
+                            </div>
+                            <div class="faq-answer grid">
+                                <div class="overflow-hidden text-xs text-slate-300 leading-relaxed px-4 pb-4">
+                                    <ul class="list-disc list-inside space-y-2">
+                                        <li><strong>LOW RISK (&lt; 40% Probability):</strong> Key biomarkers align with healthy zones. Standard preventative checkups are recommended.</li>
+                                        <li><strong>MEDIUM RISK (40% - 69% Probability):</strong> Multiple indicators lie outside optimal bounds. Schedule a doctor consultation.</li>
+                                        <li><strong>HIGH RISK (&ge; 70% Probability):</strong> Heavy correlation with ischemic history and blockages. Immediate clinical attention is highly advised.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="faq-item border border-surfaceBorder rounded-xl bg-surface/20 hover:bg-surface/30 transition-colors cursor-pointer" onclick="toggleFaq(this)">
+                            <div class="p-4 flex items-center justify-between">
+                                <h4 class="text-sm font-semibold text-white">Can the system automatically parse clinical reports?</h4>
+                                <i data-lucide="chevron-down" class="faq-chevron w-4 h-4 text-slate-400"></i>
+                            </div>
+                            <div class="faq-answer grid">
+                                <div class="overflow-hidden text-xs text-slate-300 leading-relaxed px-4 pb-4">
+                                    Yes! The Dashboard supports drag-and-drop file upload for PDF reports or medical laboratory sheets. The system uses a local regex parsing fallback alongside advanced Gemini Vision to extract age, cholesterol, BP, ECG findings, and more, automatically prepopulating the patient submission form.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="faq-item border border-surfaceBorder rounded-xl bg-surface/20 hover:bg-surface/30 transition-colors cursor-pointer" onclick="toggleFaq(this)">
+                            <div class="p-4 flex items-center justify-between">
+                                <h4 class="text-sm font-semibold text-white">How do I access and manage PDF health report records?</h4>
+                                <i data-lucide="chevron-down" class="faq-chevron w-4 h-4 text-slate-400"></i>
+                            </div>
+                            <div class="faq-answer grid">
+                                <div class="overflow-hidden text-xs text-slate-300 leading-relaxed px-4 pb-4">
+                                    Go to the "Reports" page in the sidebar. You can review past predictions, download comprehensive PDF diagnostic sheets (comprising charts, interpretations, and user parameters), or delete specific reports from history.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Right 1 Col: Support Widget, Issue Submission, & Disclaimer -->
+            <div class="space-y-8 col-span-1">
+                
+                <!-- Support Contact card -->
+                <div class="glass-panel p-6 space-y-4">
+                    <h3 class="text-sm font-bold text-blue-400 uppercase tracking-wider flex items-center gap-2">
+                        <i data-lucide="phone-call" class="w-4 h-4"></i> Contact System Support
+                    </h3>
+                    <p class="text-xs text-slate-300">If you experience errors during document upload, require custom settings, or need general help:</p>
+                    <div class="space-y-3 pt-2">
+                        <div class="flex items-center gap-3 p-3 bg-surface border border-surfaceBorder rounded-xl text-xs">
+                            <i data-lucide="mail" class="w-4.5 h-4.5 text-yellow-400 shrink-0"></i>
+                            <a href="mailto:support@heartpredict.com" class="hover:text-blue-400 transition-colors break-all">support@heartpredict.com</a>
+                        </div>
+                        <div class="flex items-center gap-3 p-3 bg-surface border border-surfaceBorder rounded-xl text-xs">
+                            <i data-lucide="phone" class="w-4.5 h-4.5 text-emerald-400 shrink-0"></i>
+                            <span>+91 98765 43210</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Submit Support Ticket Form -->
+                <section id="issue-form-section" class="glass-panel p-6 space-y-4">
+                    <h3 class="text-sm font-bold text-purple-400 uppercase tracking-wider flex items-center gap-2">
+                        <i data-lucide="ticket-plus" class="w-4 h-4"></i> Submit Support Ticket
+                    </h3>
+                    <p class="text-xs text-slate-300">Have an issue or feedback? Send us a ticket and you will receive an automated email confirmation.</p>
+                    
+                    <form id="support-ticket-form" onsubmit="submitTicket(event)" class="space-y-3 pt-2">
+                        <div>
+                            <label class="block text-[10px] text-textSecondary uppercase font-bold mb-1">Your Name</label>
+                            <input type="text" id="ticket-name" required placeholder="John Doe" 
+                                   class="w-full bg-background border border-surfaceBorder rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] text-textSecondary uppercase font-bold mb-1">Email Address</label>
+                            <input type="email" id="ticket-email" required placeholder="johndoe@example.com" 
+                                   class="w-full bg-background border border-surfaceBorder rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] text-textSecondary uppercase font-bold mb-1">Category</label>
+                            <select id="ticket-category" class="w-full bg-background border border-surfaceBorder rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500">
+                                <option value="General Support">General Support</option>
+                                <option value="Prediction Accuracy">Prediction Accuracy</option>
+                                <option value="Report Download / PDF">Report Download / PDF</option>
+                                <option value="Document Extract Error">Document Extract Error</option>
+                                <option value="Feature Suggestion">Feature Suggestion</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-[10px] text-textSecondary uppercase font-bold mb-1">Description</label>
+                            <textarea id="ticket-description" required rows="3" placeholder="Describe the issue you're experiencing..." 
+                                      class="w-full bg-background border border-surfaceBorder rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500 resize-none"></textarea>
+                        </div>
+                        
+                        <button type="submit" id="ticket-submit-btn" 
+                                class="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs rounded-lg transition-colors flex items-center justify-center gap-1.5 shadow-[0_4px_12px_rgba(59,130,246,0.2)]">
+                            <i data-lucide="send" class="w-3.5 h-3.5"></i> Submit Ticket
+                        </button>
+                    </form>
+
+                    <!-- Success Alert (hidden by default) -->
+                    <div id="ticket-success" class="hidden p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-xl space-y-2">
+                        <div class="flex items-center gap-2 text-emerald-400 font-semibold text-xs">
+                            <i data-lucide="check-circle-2" class="w-4 h-4"></i> Ticket Logged Successfully
+                        </div>
+                        <p class="text-[10px] text-slate-300 leading-relaxed">
+                            Your issue has been logged. An automated verification confirmation has been sent to your email.
+                        </p>
+                    </div>
+                </section>
+
+                <!-- Medical Disclaimer -->
+                <section id="medical-disclaimer" class="glass-panel p-6 border-red-500/20 bg-red-950/10 space-y-4 pulse-glow">
+                    <h3 class="text-sm font-bold text-red-500 flex items-center gap-2">
+                        <i data-lucide="alert-triangle" class="w-4.5 h-4.5"></i> Critical Medical Disclaimer
+                    </h3>
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        This prediction model is designed strictly for <strong>preliminary screening and educational purposes</strong>. 
+                        It is NOT a medical diagnosis tool, nor does it substitute professional advice, evaluation, or treatments.
+                    </p>
+                    <p class="text-xs text-slate-400 leading-relaxed border-t border-surfaceBorder pt-3">
+                        Always consult a qualified cardiologist or healthcare provider if you experience symptoms like chest discomfort, heart palpitations, or shortness of breath.
+                    </p>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Current category filter state
+        let currentCategory = 'all';
+
+        // FAQ Toggle Logic
+        function toggleFaq(el) {
+            el.classList.toggle('active');
+        }
+
+        // Category Filter Logic
+        function filterCategory(cat) {
+            currentCategory = cat;
+            
+            // Highlight active button
+            const buttons = document.querySelectorAll('#category-filter-container button');
+            buttons.forEach(btn => {
+                btn.className = "text-xs px-3.5 py-1.5 rounded-lg font-semibold border border-surfaceBorder bg-surface hover:bg-surfaceBorder text-slate-300 transition-all";
+            });
+            
+            let activeId = 'cat-all';
+            if (cat === 'Demographic') activeId = 'cat-demographic';
+            else if (cat === 'Vital') activeId = 'cat-vital';
+            else if (cat === 'Cardiac Test') activeId = 'cat-cardiac';
+            else if (cat === 'Symptomatic') activeId = 'cat-symptom';
+            
+            document.getElementById(activeId).className = "text-xs px-3.5 py-1.5 rounded-lg font-semibold border bg-blue-600 border-blue-500 text-white transition-all";
+            
+            filterTopics();
+        }
+
+        // Search & Category Filter combined function
+        function filterTopics() {
+            const query = document.getElementById('support-search').value.toLowerCase().trim();
+            const items = document.querySelectorAll('#attribute-list > div');
+            
+            items.forEach(item => {
+                const text = item.textContent.toLowerCase();
+                const terms = item.getAttribute('data-search-term') || '';
+                const category = item.getAttribute('data-category');
+                
+                const matchesSearch = text.includes(query) || terms.toLowerCase().includes(query);
+                const matchesCategory = (currentCategory === 'all' || category === currentCategory);
+                
+                if (matchesSearch && matchesCategory) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        // Smooth scroll to element
+        function scrollToSection(id) {
+            const el = document.getElementById(id);
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        // Async Ticket Submission to /api/report-issue
+        async function submitTicket(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('ticket-name').value.trim();
+            const email = document.getElementById('ticket-email').value.trim();
+            const category = document.getElementById('ticket-category').value;
+            const description = document.getElementById('ticket-description').value.trim();
+            
+            const submitBtn = document.getElementById('ticket-submit-btn');
+            const originalBtnText = submitBtn.innerHTML;
+            
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i data-lucide="loader" class="w-3.5 h-3.5 animate-spin"></i> Submitting...';
+            lucide.createIcons();
+            
+            try {
+                const response = await fetch('/api/report-issue', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, email, category, description })
+                });
+                
+                const data = await response.json();
+                if (response.ok && data.success) {
+                    // Show success block and hide form
+                    document.getElementById('support-ticket-form').classList.add('hidden');
+                    const successDiv = document.getElementById('ticket-success');
+                    successDiv.classList.remove('hidden');
+                    
+                    // Show confirmation email notification
+                    const successText = successDiv.querySelector('p');
+                    successText.innerHTML = `Your issue has been logged. An automated verification confirmation has been sent/logged to your email: <strong>${email}</strong>.`;
+                } else {
+                    alert('Submission failed: ' + (data.error || 'Server error'));
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Connection error. Please check if your server is running.');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalBtnText;
+                lucide.createIcons();
+            }
+        }
+    </script>
 </body>
 </html>
