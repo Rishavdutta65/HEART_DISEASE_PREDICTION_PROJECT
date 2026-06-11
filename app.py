@@ -22,6 +22,12 @@ def landing():
 @app.route('/dashboard')
 def home():
     return render_template('index.html')
+<<<<<<< HEAD
+=======
+@app.route('/help')
+def help_page():
+    return render_template('help.html')
+>>>>>>> 3b63abb (Added Help & Support section)
 
 @app.route('/predict', methods=['POST'])
 def predict_heart():

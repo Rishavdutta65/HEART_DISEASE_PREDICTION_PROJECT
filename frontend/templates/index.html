@@ -78,9 +78,16 @@
             <div class="sidebar-item" onclick="window.location.href='/reports'">
                 <i data-lucide="file-text" class="w-5 h-5"></i> Reports
             </div>
+<<<<<<< HEAD
             <div class="sidebar-item">
                 <i data-lucide="help-circle" class="w-5 h-5"></i> Help & Support
             </div>
+=======
+    <div id="nav-help" class="sidebar-item" onclick="switchTab('help')">
+    <i data-lucide="help-circle" class="w-5 h-5"></i>
+    Help & Support
+</div>
+>>>>>>> 3b63abb (Added Help & Support section)
         </div>
         
         <!-- User Profile -->
@@ -522,6 +529,41 @@
                         </div>
                     </div>
                 </div>
+<<<<<<< HEAD
+=======
+                </div>
+
+<!-- Help View -->
+<div id="help-view" class="hidden panel">
+    <h2 class="text-2xl font-bold mb-4">Help & Support</h2>
+
+    <div class="space-y-4 text-textSecondary">
+        <p>Welcome to the Heart Disease Prediction System.</p>
+
+        <h3 class="text-lg font-semibold text-white">
+            How to Use
+        </h3>
+
+        <ul class="list-disc ml-6">
+            <li>Click Patient Input.</li>
+            <li>Enter patient details.</li>
+            <li>Click Predict Now.</li>
+            <li>View prediction results.</li>
+            <li>Download reports.</li>
+        </ul>
+
+        <h3 class="text-lg font-semibold text-white">
+            Contact Support
+        </h3>
+
+        <p>Email: support@heartpredict.com</p>
+        <p>Phone: +91 9876543210</p>
+    </div>
+</div>
+
+<!-- Result View -->
+<div id="result-view" class="hidden space-y-6">
+>>>>>>> 3b63abb (Added Help & Support section)
             <!-- Result View -->
             <div id="result-view" class="hidden space-y-6">
                 <!-- Top Result Stats Row -->
@@ -678,6 +720,7 @@
         let featureChartInst = null;
 
         // Switch between dashboard and patient input views
+<<<<<<< HEAD
         function switchTab(tabId) {
             const dashboardView = document.getElementById('dashboard-view');
             const patientInputView = document.getElementById('patient-input-view');
@@ -701,6 +744,46 @@
                 if(resultView) resultView.classList.remove('hidden');
             }
         }
+=======
+       function switchTab(tabId) {
+    const dashboardView = document.getElementById('dashboard-view');
+    const patientInputView = document.getElementById('patient-input-view');
+    const resultView = document.getElementById('result-view');
+    const helpView = document.getElementById('help-view');
+
+    const navDashboard = document.getElementById('nav-dashboard');
+    const navPatientInput = document.getElementById('nav-patient-input');
+    const navHelp = document.getElementById('nav-help');
+
+    // Hide all views
+    if (dashboardView) dashboardView.classList.add('hidden');
+    if (patientInputView) patientInputView.classList.add('hidden');
+    if (resultView) resultView.classList.add('hidden');
+    if (helpView) helpView.classList.add('hidden');
+
+    // Remove active class
+    if (navDashboard) navDashboard.classList.remove('active');
+    if (navPatientInput) navPatientInput.classList.remove('active');
+    if (navHelp) navHelp.classList.remove('active');
+
+    // Show selected view
+    if (tabId === 'dashboard') {
+        if (dashboardView) dashboardView.classList.remove('hidden');
+        if (navDashboard) navDashboard.classList.add('active');
+    }
+    else if (tabId === 'patient-input') {
+        if (patientInputView) patientInputView.classList.remove('hidden');
+        if (navPatientInput) navPatientInput.classList.add('active');
+    }
+    else if (tabId === 'help') {
+        if (helpView) helpView.classList.remove('hidden');
+        if (navHelp) navHelp.classList.add('active');
+    }
+    else if (tabId === 'result') {
+        if (resultView) resultView.classList.remove('hidden');
+    }
+}
+>>>>>>> 3b63abb (Added Help & Support section)
 
         // Initialize Lucide icons
         lucide.createIcons();
