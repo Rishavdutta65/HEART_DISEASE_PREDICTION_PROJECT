@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Heart AI Scout</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="landing-bg text-white min-h-screen flex items-center justify-center">
+    <div id="landingShell" class="landing-shell p-8 rounded-[32px] shadow-2xl backdrop-blur-xl border border-white/10 max-w-6xl mx-auto">
+        <div class="grid lg:grid-cols-2 gap-8 items-center">
+            <div>
+                <p class="text-sm uppercase tracking-[0.4em] text-cyan-300">Advanced heart health insight</p>
+                <h1 class="text-5xl lg:text-6xl font-extrabold leading-tight mt-6">
+                    Heart Disease Prediction System
+                </h1>
+                <p class="mt-6 text-lg text-slate-200 max-w-xl">
+                    A digital system that turns medical inputs into predictive insights, live risk visuals, and instant PDF reports.
+                    Launch the main dashboard and start testing with one click.
+                </p>
+                <div class="mt-10 flex justify-center">
+                    <button type="button" onclick="showTransition()" class="cta-btn inline-flex items-center justify-center px-8 py-4 font-semibold rounded-full text-black bg-cyan-300 hover:bg-cyan-200 transition">
+                        Get Started
+                    </button>
+                </div>
+            </div>
+
+            <div class="relative overflow-hidden rounded-[28px] border border-white/10 shadow-[0_40px_120px_rgba(14,165,233,0.15)] bg-slate-950/40 p-6">
+                <div class="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(6,182,212,0.25),_transparent_35%)]"></div>
+                <div class="relative pt-6">
+                    <div class="digital-card p-6 rounded-3xl border border-cyan-300/10 bg-slate-900/70">
+                        <p class="text-xs uppercase tracking-[0.45em] text-cyan-300">Live scan UI</p>
+                        <h2 class="mt-4 text-xl font-bold">System metrics</h2>
+                        <div class="mt-6 space-y-5">
+                            <div class="panel-row">
+                                <span>Prediction</span><strong>Real-time</strong>
+                            </div>
+                            <div class="panel-row">
+                                <span>Accuracy</span><strong>86.41%</strong>
+                            </div>
+                            <div class="panel-row">
+                                <span>Report</span><strong>Instant PDF</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-8 grid grid-cols-2 gap-4 text-sm text-slate-300">
+                    <div class="feature-chip">AI engine</div>
+                    <div class="feature-chip">Real-time insights</div>
+                    <div class="feature-chip">Secure flow</div>
+                    <div class="feature-chip">Rapid prototyping</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="features" class="mt-14 grid md:grid-cols-3 gap-6">
+            <div class="feature-card">
+                <h3>Predict</h3>
+                <p>Enter vital metrics and get a fast, data-driven risk assessment.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Visualize</h3>
+                <p>Track BP, cholesterol, heart rate and risk trends with interactive charts.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Report</h3>
+                <p>Download clean PDF summaries for your project showcase or clinical demo.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='landing.js') }}"></script>
+</body>
+</html>
